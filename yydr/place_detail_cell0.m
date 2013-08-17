@@ -102,9 +102,8 @@
                         color:[UIColor blackColor] tag:0];
     
     n.center=CGPointMake(n.center.x, 15);
+    
 
-    
-    
     //星星
     star=[self addImageView:bg
                       image:@"star_0.png"
@@ -116,7 +115,6 @@
                            text:@"0人体验"
                           color:[UIColor grayColor]
                             tag:1003];
-   
     
 }
 

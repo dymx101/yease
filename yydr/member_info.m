@@ -46,7 +46,7 @@
         
         
         tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height-44)
-                                        style:UITableViewStyleGrouped];
+                                        style:UITableViewStylePlain];
         
         tb.delegate=self;
         tb.dataSource=self;
@@ -60,7 +60,7 @@
                                           position:CGPointMake(0, 0)];
         
         [self.view addSubview:tb];
-
+        
         isOpen=NO;
         
     }
@@ -74,18 +74,20 @@
     
     MemberInfo=info;
     NSLog(@"info==========%@",info);
-
+    
     UserId=[[MemberInfo objectForKey:@"UserId"] integerValue];
     
     AlbumPassword=0;
     
     //访问密码
     id ap=[MemberInfo objectForKey:@"AlbumPassword"];
-
+    
     if( ap && ![ap isKindOfClass:[NSNull class]] )
     {
         AlbumPassword=[[MemberInfo objectForKey:@"AlbumPassword"] integerValue];
     }
+    
+    
     
     //签名
     signature=[MemberInfo objectForKey:@"Signature"];
@@ -93,7 +95,9 @@
     {
         signature=@"没有个性签名";
     }
-
+    
+    
+    
     
     //个人简介
     intro=@"[汽车之家 试驾体验]  本田最近在国内动作不小，前不久广汽本田刚刚推出了一款叫凌派的紧凑型车，现在东风本田又拿出了一款重量级的全球产品，名字叫JADE，中文名称为杰德，听起来很像动画片里面劫富济贫的江洋大盗。当然吸引人的并不是它的名字，而是它在第九代思域的基础上进行开发，并且加入了第三排座椅，日本人真是把空间这件事玩的很出彩。以厂商的宣传来看，这是一款针对80后年轻家庭用户而设计的新车型，如果要说车型分类，我们姑且把它叫做迷你MPV吧，那么这样一款定位明确的产品，是否能打动目标用户的心呢？";
@@ -104,7 +108,7 @@
     
     orgHeight=titleSize.height+50;
     
- 
+    
     [self loadAblum:UserId];
 }
 
@@ -112,7 +116,7 @@
 -(void)messageReceived:(NSDictionary *)msg
 {
     //播放声音
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"sms_7" ofType:@"mp3"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"sms_8" ofType:@"mp3"];
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSURL *url = [NSURL fileURLWithPath:path];
         SystemSoundID sound;
@@ -174,14 +178,14 @@
             UserPhotoList=[NSMutableArray array];
             
             [UserPhotoList addObjectsFromArray:items];
-
+            
             items=nil;
         }
             break;
     }
     
-//    [tb reloadRowsAtIndexPaths:
-//              withRowAnimation:UITableViewRowAnimationFade];
+    //    [tb reloadRowsAtIndexPaths:
+    //              withRowAnimation:UITableViewRowAnimationFade];
     
     [tb reloadData];
     r=nil;
@@ -220,60 +224,83 @@
     UITableViewCell *cell;
     
     switch (indexPath.row) {
-          
-            /*
+            
         case 0:
         {
-            static NSString *CellIdentifier = @"cell";
-            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             
+            cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
             
-            if(cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                              reuseIdentifier:@"place_detail_cell_0"];
-            }
-            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell0"];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             
-            cell.textLabel.numberOfLines = 0;
-            cell.textLabel.textAlignment=UITextAlignmentLeft;
+            cell.clipsToBounds=YES;
             
-            cell.textLabel.text=signature;
-            cell.textLabel.font=[UIFont systemFontOfSize:14];
+            UIImageView *im=[self.view addImageView:cell.contentView
+                                              image:@"user_row_content.png"
+                                           position:CGPointMake(0, 0)];
+            
+            im.center=CGPointMake(160, im.center.y);
+            
+            
+           UIButton *bt0= [self.view addButton:cell.contentView
+                           image:@"manager_chat_bt.png"
+                        position:CGPointMake(0, 0)
+                             tag:1100
+                          target:self
+                          action:@selector(onDown:)];
+            
+            
+            UILabel *n=[self.view addLabel:bt0
+                                     frame:CGRectMake(10, 0, 100, 25)
+                                      font:[UIFont boldSystemFontOfSize:16]
+                                      text:@"聊天"
+                                     color:[UIColor blackColor] tag:0];
+            
+            n.center=CGPointMake(130, 25);
+            
+            
+            
+            UIButton *bt1= [self.view addButton:cell.contentView
+                                          image:@"manager_dial_bt.png"
+                                       position:CGPointMake(150, 0)
+                                            tag:1101
+                                         target:self
+                                         action:@selector(onDown:)];
 
-        }
-            break;
-             */
-          
-        case 0:
-        {
-            static NSString *CellIdentifier = @"cell";
-            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            UILabel *n1=[self.view addLabel:bt1
+                                     frame:CGRectMake(10, 0, 100, 25)
+                                      font:[UIFont boldSystemFontOfSize:16]
+                                      text:@"拨号"
+                                     color:[UIColor blackColor] tag:0];
             
-            if(cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                              reuseIdentifier:@"place_detail_cell_0"];
-                cell.textLabel.text=@"私人相册";
-                cell.selectionStyle=UITableViewCellSelectionStyleNone;
-                
-                
-                for (int i=0; i<3; i++) {
-                    member_photo *p=[[member_photo alloc] initWithFrame:CGRectMake(95+60*i, 20, 50, 50)];
-                    p.tag=1800+i;
-                    [cell.contentView addSubview:p];
-                    p.hidden=YES;
-                }
+            n1.center=CGPointMake(130, 25);
+            
+            
+            //
+            
+            UILabel *n2=[self.view addLabel:im
+                                     frame:CGRectMake(10, 0, 100, 25)
+                                      font:[UIFont boldSystemFontOfSize:16]
+                                      text:@"私人相册"
+                                     color:[UIColor blackColor] tag:0];
+            
+            n2.center=CGPointMake(n2.center.x, 85);
+            
+            
+            
+            for (int i=0; i<4; i++) {
+                member_photo *p=[[member_photo alloc] initWithFrame:CGRectMake(20+65*i, 115, 50, 50)];
+                p.tag=1800+i;
+                [cell.contentView addSubview:p];
+                p.hidden=YES;
             }
-            
+
             //有照片
             if([UserPhotoList count]>0)
             {
                 
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
-                for(int i=0;i<3;i++)
+                for(int i=0;i<4;i++)
                 {
                     if(i>[UserPhotoList count]-1)
                     {
@@ -294,34 +321,62 @@
                     
                 }
             }
+            
 
+            
         }
             break;
-
+                 
         case 1:
         {
-            //简介
-            static NSString *CellIdentifier = @"place_detail_cell_1";
-            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             
+            cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
             
-            if(cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                              reuseIdentifier:CellIdentifier];
-            }
-            
-            
-            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell2"];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             
             
-            cell.textLabel.text=@"个人简介";
+            UIImageView *im=[self.view addImageView:cell.contentView
+                                              image:@"user_row_top.png"
+                                           position:CGPointMake(0, 0)];
             
-            cell.tag=1100;
+            im.center=CGPointMake(160, im.center.y);
+            
+            
+            
+            UILabel *n=[self.view addLabel:im
+                                     frame:CGRectMake(10, 0, 100, 25)
+                                      font:[UIFont boldSystemFontOfSize:16]
+                                      text:@"个人简介"
+                                     color:[UIColor blackColor] tag:0];
+            
+            n.center=CGPointMake(n.center.x, 18);
+            
+        }
+            break;
+            
+            
+        case 2:
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
+            
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell2"];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            
+            
+            cell.contentView.frame=CGRectMake(0, 0, 100, 50);
+            
+            UIImageView *im=[self.view addImageView:cell.contentView
+                                              image:@"user_row_middle.png"
+                                           position:CGPointMake(0, 0)];
+            
+            im.center=CGPointMake(160, im.center.y);
+            
+            
+            
             cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
             cell.detailTextLabel.text = intro;
-            
+            cell.detailTextLabel.frame=CGRectMake(0, 0, 100, 200);
             
             if(isOpen)
             {
@@ -336,31 +391,163 @@
             cell.clipsToBounds=YES;
             
             
-            NSLog(@"%f %f",cell.frame.origin.x,cell.frame.origin.y);
         }
             break;
             
-        case 2:
-        {
-            static NSString *CellIdentifier = @"place_detail_cell_2";
-            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            
-            
-            if(cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                              reuseIdentifier:CellIdentifier];
-            }
-            
-            cell.selectionStyle=UITableViewCellSelectionStyleNone;
-            cell.textLabel.text=@"联系电话";
-            
-            cell.detailTextLabel.text=@"13343242342";
-            
-        }
-            break;
             
     }
+    
+    
+    
+    
+    
+    /*
+     switch (indexPath.row) {
+     
+     
+     case 0:
+     {
+     static NSString *CellIdentifier = @"cell";
+     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     
+     
+     if(cell==nil)
+     {
+     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+     reuseIdentifier:@"place_detail_cell_0"];
+     }
+     
+     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+     
+     cell.textLabel.numberOfLines = 0;
+     cell.textLabel.textAlignment=UITextAlignmentLeft;
+     
+     cell.textLabel.text=signature;
+     cell.textLabel.font=[UIFont systemFontOfSize:14];
+     
+     }
+     break;
+     
+     
+     case 0:
+     {
+     static NSString *CellIdentifier = @"cell";
+     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     
+     if(cell==nil)
+     {
+     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+     reuseIdentifier:@"place_detail_cell_0"];
+     cell.textLabel.text=@"私人相册";
+     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+     
+     
+     for (int i=0; i<3; i++) {
+     member_photo *p=[[member_photo alloc] initWithFrame:CGRectMake(95+60*i, 20, 50, 50)];
+     p.tag=1800+i;
+     [cell.contentView addSubview:p];
+     p.hidden=YES;
+     }
+     }
+     
+     //有照片
+     if([UserPhotoList count]>0)
+     {
+     
+     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+     
+     for(int i=0;i<3;i++)
+     {
+     if(i>[UserPhotoList count]-1)
+     {
+     break;
+     }
+     
+     member_photo *pre=(member_photo*)[cell.contentView viewWithTag:1800+i];
+     
+     pre.hidden=NO;
+     
+     NSDictionary *pd=[UserPhotoList objectAtIndex:i];
+     NSString *FileName=[pd objectForKey:@"Path"];
+     
+     NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,UserId,[NSString stringWithFormat:@"thumb_%@",FileName]]];
+     
+     [pre loadImage:url
+     Lock:AlbumPassword];
+     
+     }
+     }
+     
+     }
+     break;
+     
+     case 1:
+     {
+     //简介
+     static NSString *CellIdentifier = @"place_detail_cell_1";
+     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     
+     
+     if(cell==nil)
+     {
+     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+     reuseIdentifier:CellIdentifier];
+     }
+     
+     
+     
+     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+     
+     
+     cell.textLabel.text=@"个人简介";
+     
+     cell.tag=1100;
+     cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
+     cell.detailTextLabel.text = intro;
+     
+     
+     if(isOpen)
+     {
+     cell.detailTextLabel.numberOfLines = 0;
+     }
+     else
+     {
+     cell.detailTextLabel.numberOfLines = 3;
+     }
+     
+     
+     cell.clipsToBounds=YES;
+     
+     
+     NSLog(@"%f %f",cell.frame.origin.x,cell.frame.origin.y);
+     }
+     break;
+     
+     case 2:
+     {
+     static NSString *CellIdentifier = @"place_detail_cell_2";
+     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     
+     
+     if(cell==nil)
+     {
+     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+     reuseIdentifier:CellIdentifier];
+     }
+     
+     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+     cell.textLabel.text=@"联系电话";
+     
+     cell.detailTextLabel.text=@"13343242342";
+     
+     }
+     break;
+     
+     }
+     */
+    
+    
+    
     
     return cell;
 }
@@ -378,19 +565,19 @@
         case 1:
         {
             //判断密码输入是否正确
-           if(AlbumPassword!=[[alertView textFieldAtIndex:0].text integerValue])
-           {
-               //锁定
-               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"访问限制"
-                                                                   message:@"请输入访问密码"
-                                                                  delegate:self
-                                                         cancelButtonTitle:@"取消"
-                                                         otherButtonTitles:@"确定",nil];
-               
-               alertView.alertViewStyle=UIAlertViewStyleSecureTextInput;
-               [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
-               [alertView show];
-           }
+            if(AlbumPassword!=[[alertView textFieldAtIndex:0].text integerValue])
+            {
+                //锁定
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"访问限制"
+                                                                    message:@"请输入访问密码"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                          otherButtonTitles:@"确定",nil];
+                
+                alertView.alertViewStyle=UIAlertViewStyleSecureTextInput;
+                [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
+                [alertView show];
+            }
             else
             {
                 //相册
@@ -401,7 +588,7 @@
         }
             break;
     }
-
+    
 }
 
 #pragma mark - Table view delegate
@@ -436,7 +623,7 @@
         }
             break;
             
-        case 1:
+        case 3:
         {
             //个人简介
             NSLog(@"个人简介");
@@ -466,8 +653,8 @@
     
     //设置头像
     UIImageView *Avatar = [self.view addImageView:hView
-                                    image:@"noAvatar.png"
-                                 position:CGPointMake(20, 10)];
+                                            image:@"noAvatar.png"
+                                         position:CGPointMake(20, 10)];
     
     CALayer * ll =Avatar.layer;
     [ll setMasksToBounds:YES];
@@ -492,7 +679,7 @@
                                text:[MemberInfo objectForKey:@"UserName"]
                               color:[UIColor blackColor]
                                 tag:0];
-
+    
     un.shadowOffset=CGSizeMake(0, 1);
     un.shadowColor=[UIColor whiteColor];
     
@@ -519,33 +706,6 @@
 
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 60.0f;
-}
-
-
--(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView * hView;
-    
-    if(section==0)
-    {
-        hView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
-        //hView.backgroundColor=[UIColor redColor];
-        
-        //登入
-        [self.view addButtonWithCenter:hView
-                                 image:@"start_chat.png"
-                              position:CGPointMake(160, 30)
-                                   tag:2000
-                                target:self
-                                action:@selector(onStartChatDown:)];
-    }
-    return hView;
-}
-
-
 -(void)onStartChatDown:(UIButton*)sender
 {
     //开始聊天
@@ -555,7 +715,7 @@
        revName:[MemberInfo objectForKey:@"UserName"]
      revAvatar:[MemberInfo objectForKey:@"Avatar"]];
     
-
+    
     [self.navigationController pushViewController:cc animated:YES];
 }
 
@@ -586,27 +746,33 @@
             
         case 0:
         {
-            return 90;
+            return 200;
         }
             break;
             
         case 1:
+        {
+            return 40;
+        }
+            break;
+              
+        case 2:
         {
             if(!isOpen&&orgHeight>MinHeight)
             {
                 return MinHeight;
             }
             
-            return orgHeight;
+            return  300;// orgHeight;
         }
-            break;
             
             
         default:
         {
-            return 50;
+            return 40;
         }
             break;
+            
             
     }
 }
