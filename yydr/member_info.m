@@ -100,13 +100,13 @@
     
     
     //个人简介
-    intro=@"[汽车之家 试驾体验]  本田最近在国内动作不小，前不久广汽本田刚刚推出了一款叫凌派的紧凑型车，现在东风本田又拿出了一款重量级的全球产品，名字叫JADE，中文名称为杰德，听起来很像动画片里面劫富济贫的江洋大盗。当然吸引人的并不是它的名字，而是它在第九代思域的基础上进行开发，并且加入了第三排座椅，日本人真是把空间这件事玩的很出彩。以厂商的宣传来看，这是一款针对80后年轻家庭用户而设计的新车型，如果要说车型分类，我们姑且把它叫做迷你MPV吧，那么这样一款定位明确的产品，是否能打动目标用户的心呢？";
+    intro=@"[汽车之家 试驾体验]  本田最近在国内动作不小，前不久广汽本田刚刚推出了一款叫凌派的紧凑型车，现在东风本田又拿出了一款重量级的全球产品，名字叫JADE，中文名称为杰德，听起来很像动画片里面劫富济贫的江洋大盗。当然吸引人的并不是它的名字，而是它在第九代思域的基础上进行开发，并且加入了第三排座椅，日本人真是把空间这件事玩的很出彩。以厂商的宣传来看";
     
     CGSize titleSize = [intro sizeWithFont:[UIFont systemFontOfSize:14.f]
                          constrainedToSize:CGSizeMake(280, MAXFLOAT)
                              lineBreakMode:UILineBreakModeWordWrap];
     
-    orgHeight=titleSize.height+50;
+    orgHeight=titleSize.height;
     
     
     [self loadAblum:UserId];
@@ -216,7 +216,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -226,6 +226,73 @@
     switch (indexPath.row) {
             
         case 0:
+        {
+            
+            cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
+            
+            if (cell == nil)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell0"];
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;
+                
+
+                
+                //设置头像
+                UIImageView *Avatar = [self.view addImageView:cell.contentView
+                                                        image:@"noAvatar.png"
+                                                     position:CGPointMake(10, 10)];
+                CALayer * ll =Avatar.layer;
+                [ll setMasksToBounds:YES];
+                [ll setCornerRadius:6.0];
+
+                
+                NSString *FileName=[MemberInfo objectForKey:@"Avatar"];
+                NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,UserId,FileName]];
+                
+                
+                [Avatar setImageWithURL:url
+                       placeholderImage:[UIImage imageNamed:@"noAvatar.png"]
+                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                  
+                              }];
+                
+                //用户名
+                UILabel *un=[self.view addLabel:cell.contentView
+                                          frame:CGRectMake(100, 10, 200, 30)
+                                           font:[UIFont systemFontOfSize:22]
+                                           text:[MemberInfo objectForKey:@"UserName"]
+                                          color:[UIColor blackColor]
+                                            tag:0];
+                
+                
+                un.shadowOffset=CGSizeMake(0, 1);
+                un.shadowColor=[UIColor whiteColor];
+
+                //签名
+                UILabel *sign= [self.view addLabel:cell.contentView
+                                             frame:CGRectMake(0, 0, 210, 80)
+                                              font:[UIFont systemFontOfSize:12]
+                                              text:signature
+                                             color:[UIColor blackColor]
+                                               tag:0];
+
+                sign.numberOfLines=0;
+                sign.lineBreakMode=UILineBreakModeWordWrap;
+                
+                CGSize labelsize = [signature sizeWithFont:[UIFont systemFontOfSize:12]
+                                         constrainedToSize:CGSizeMake(210,2000)
+                                             lineBreakMode:UILineBreakModeWordWrap];
+                
+                sign.frame=CGRectMake(100, 40, labelsize.width, labelsize.height);
+                
+
+            }
+
+            
+        }
+            break;
+            
+        case 1:
         {
             
             cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
@@ -242,47 +309,30 @@
             im.center=CGPointMake(160, im.center.y);
             
             
-           UIButton *bt0= [self.view addButton:cell.contentView
-                           image:@"manager_chat_bt.png"
-                        position:CGPointMake(0, 0)
-                             tag:1100
-                          target:self
-                          action:@selector(onDown:)];
-            
-            
-            UILabel *n=[self.view addLabel:bt0
-                                     frame:CGRectMake(10, 0, 100, 25)
-                                      font:[UIFont boldSystemFontOfSize:16]
-                                      text:@"聊天"
-                                     color:[UIColor blackColor] tag:0];
-            
-            n.center=CGPointMake(130, 25);
+            UIButton *bt0= [self.view addButton:cell.contentView
+                                          image:@"user_chat.png"
+                                       position:CGPointMake(10, 10)
+                                            tag:1100
+                                         target:self
+                                         action:@selector(onStartChatDown:)];
             
             
             
             UIButton *bt1= [self.view addButton:cell.contentView
-                                          image:@"manager_dial_bt.png"
-                                       position:CGPointMake(150, 0)
+                                          image:@"user_dial.png"
+                                       position:CGPointMake(167, 10)
                                             tag:1101
                                          target:self
                                          action:@selector(onDown:)];
-
-            UILabel *n1=[self.view addLabel:bt1
-                                     frame:CGRectMake(10, 0, 100, 25)
-                                      font:[UIFont boldSystemFontOfSize:16]
-                                      text:@"拨号"
-                                     color:[UIColor blackColor] tag:0];
-            
-            n1.center=CGPointMake(130, 25);
             
             
             //
             
             UILabel *n2=[self.view addLabel:im
-                                     frame:CGRectMake(10, 0, 100, 25)
-                                      font:[UIFont boldSystemFontOfSize:16]
-                                      text:@"私人相册"
-                                     color:[UIColor blackColor] tag:0];
+                                      frame:CGRectMake(10, 0, 100, 25)
+                                       font:[UIFont boldSystemFontOfSize:16]
+                                       text:@"私人相册"
+                                      color:[UIColor blackColor] tag:0];
             
             n2.center=CGPointMake(n2.center.x, 85);
             
@@ -294,7 +344,7 @@
                 [cell.contentView addSubview:p];
                 p.hidden=YES;
             }
-
+            
             //有照片
             if([UserPhotoList count]>0)
             {
@@ -306,6 +356,12 @@
                     {
                         break;
                     }
+                    
+                    
+                    [self.view addImageView:cell.contentView
+                                      image:@"place_arrow.png"
+                                   position:CGPointMake(283, 135)];
+                    
                     
                     member_photo *pre=(member_photo*)[cell.contentView viewWithTag:1800+i];
                     
@@ -322,12 +378,12 @@
                 }
             }
             
-
+            
             
         }
             break;
-                 
-        case 1:
+            
+        case 2:
         {
             
             cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
@@ -356,7 +412,7 @@
             break;
             
             
-        case 2:
+        case 3:
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
             
@@ -364,7 +420,6 @@
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             
             
-            cell.contentView.frame=CGRectMake(0, 0, 100, 50);
             
             UIImageView *im=[self.view addImageView:cell.contentView
                                               image:@"user_row_middle.png"
@@ -372,28 +427,25 @@
             
             im.center=CGPointMake(160, im.center.y);
             
+            CGRect f=im.frame;
+            f.size.height=orgHeight;
+            im.frame=f;
             
             
-            cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
-            cell.detailTextLabel.text = intro;
-            cell.detailTextLabel.frame=CGRectMake(0, 0, 100, 200);
-            
-            if(isOpen)
-            {
-                cell.detailTextLabel.numberOfLines = 0;
-            }
-            else
-            {
-                cell.detailTextLabel.numberOfLines = 3;
-            }
+            UILabel *n=[self.view addLabel:im
+                                     frame:CGRectMake(10, 0, 280, orgHeight)
+                                      font:[UIFont systemFontOfSize:14]
+                                      text:intro
+                                     color:[UIColor blackColor] tag:0];
+            n.numberOfLines=0;
             
             
-            cell.clipsToBounds=YES;
-            
+            [self.view addImageView:cell.contentView
+                              image:@"user_row_bottom.png"
+                           position:CGPointMake(10, f.size.height)];
             
         }
             break;
-            
             
     }
     
@@ -625,6 +677,7 @@
             
         case 3:
         {
+            
             //个人简介
             NSLog(@"个人简介");
             
@@ -645,64 +698,6 @@
 }
 
 
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView * hView;
-    
-    hView=[[UIView alloc] initWithFrame:CGRectMake(20, 5, 300, 30)];
-    
-    //设置头像
-    UIImageView *Avatar = [self.view addImageView:hView
-                                            image:@"noAvatar.png"
-                                         position:CGPointMake(20, 10)];
-    
-    CALayer * ll =Avatar.layer;
-    [ll setMasksToBounds:YES];
-    [ll setCornerRadius:6.0];
-    
-    
-    NSString *FileName=[MemberInfo objectForKey:@"Avatar"];
-    NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,UserId,FileName]];
-    
-    
-    [Avatar setImageWithURL:url
-           placeholderImage:[UIImage imageNamed:@"noAvatar.png"]
-                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                      
-                  }];
-    
-    
-    //用户名
-    UILabel *un=[self.view addLabel:hView
-                              frame:CGRectMake(110, 10, 200, 30)
-                               font:[UIFont systemFontOfSize:22]
-                               text:[MemberInfo objectForKey:@"UserName"]
-                              color:[UIColor blackColor]
-                                tag:0];
-    
-    un.shadowOffset=CGSizeMake(0, 1);
-    un.shadowColor=[UIColor whiteColor];
-    
-    UILabel *sign= [self.view addLabel:hView
-                                 frame:CGRectMake(0, 0, 200, 80)
-                                  font:[UIFont systemFontOfSize:12]
-                                  text:signature
-                                 color:[UIColor blackColor]
-                                   tag:0];
-    
-    
-    sign.numberOfLines=0;
-    sign.lineBreakMode=UILineBreakModeWordWrap;
-    
-    CGSize labelsize = [signature sizeWithFont:[UIFont systemFontOfSize:12]
-                             constrainedToSize:CGSizeMake(200,2000)
-                                 lineBreakMode:UILineBreakModeWordWrap];
-    
-    sign.frame=CGRectMake(110, 40, labelsize.width, labelsize.height);
-    
-    
-    return hView;
-}
 
 
 
@@ -721,10 +716,6 @@
 
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 100.f;
-}
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -732,38 +723,33 @@
     
     
     switch (indexPath.row) {
-            /*
-             case 0:
-             {
-             CGSize titleSize = [signature sizeWithFont:[UIFont systemFontOfSize:16.f]
-             constrainedToSize:CGSizeMake(280, MAXFLOAT)
-             lineBreakMode:UILineBreakModeWordWrap];
-             
-             return titleSize.height+20;
-             }
-             break;
-             */
             
         case 0:
+        {
+            return 100;
+        }
+            break;
+
+        case 1:
         {
             return 200;
         }
             break;
             
-        case 1:
+        case 2:
         {
             return 40;
         }
             break;
-              
-        case 2:
-        {
-            if(!isOpen&&orgHeight>MinHeight)
-            {
-                return MinHeight;
-            }
             
-            return  300;// orgHeight;
+        case 3:
+        {
+            //            if(!isOpen&&orgHeight>MinHeight)
+            //            {
+            //                return MinHeight;
+            //            }
+            
+            return  orgHeight+20;
         }
             
             
