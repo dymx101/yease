@@ -110,7 +110,7 @@
 
     //初始化数组
     PlaceList = [NSMutableArray array];
-    //[PlaceList addObject:@"adv"];
+    PlaceAdvList = [NSMutableArray array];
 
     locNow=NO;
     
@@ -303,12 +303,17 @@
     
     NSError *error = nil;
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
-    NSArray *items=(NSArray*)jsonObject;
-    
+    NSArray *items=[(NSDictionary*)jsonObject objectForKey:@"Place_List"];
+
     switch (r.tag) {
         case 1010:
         {
             //刷新
+            
+            PlaceAdvList=nil;
+            PlaceAdvList=[NSMutableArray array];
+            PlaceAdvList=[(NSDictionary*)jsonObject objectForKey:@"Place_Banner"];
+            
             [self addItemsOnTop:items];
         }
             break;
@@ -380,7 +385,7 @@
     
     self.canLoadMore=NO;
     
-    NSString *sUrl=[NSString stringWithFormat:@"%@place?page=%d&oid=%d&cid=%d&aid=%d&cityid=%d&glat=%f&glng=%f",ServerURL,pid,ob,cid,aid,cityid,lat,lng];
+    NSString *sUrl=[NSString stringWithFormat:@"%@placelist?page=%d&oid=%d&cid=%d&aid=%d&cityid=%d&glat=%f&glng=%f",ServerURL,pid,ob,cid,aid,cityid,lat,lng];
     
     //请求
     NSURL *url = [NSURL URLWithString:sUrl];
@@ -410,10 +415,9 @@
     
     if ([items count]!=0){
         [PlaceList addObjectsFromArray:items];
-        
     }
     
-    NSLog(@"%d",[items count]);
+    NSLog(@"items=%d",[items count]);
     
     if ([items count]>=10)
     {
@@ -464,6 +468,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([PlaceAdvList count]>0&&section==0)
+    {
+        return 1;
+    }
+
+    
     return [PlaceList count];
 
 }
@@ -475,6 +485,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    
+    if([PlaceAdvList count]>0)
+    {
+        return 2;
+    }
+    
     return 1;
 }
 
@@ -603,78 +619,72 @@
 }
 
 
+
+//广告选择
+-(void)AdvSelected:(int)n
+{
+    NSLog(@"有广告%d",n);
+    
+    
+    NSDictionary *d=[[PlaceAdvList objectAtIndex:n] objectForKey:@"Place_Info"];
+    place_detail *mm = [[place_detail alloc] init];
+    [mm load:d];
+    [self.navigationController pushViewController:mm animated:YES];
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     NSDictionary *d=[PlaceList objectAtIndex:[indexPath row]];
+    place_detail *mm = [[place_detail alloc] init];
     
-    switch (indexPath.row) {
-        case 0:
-        {
-            
-            if([d objectForKey:@"advType"])
-            {
-                //有广告
-                
-                return;
-            }
-        }
-            
-        default:
-        {
-            place_detail *mm = [[place_detail alloc] init];
-            
-            [mm load:d];
-            
-            [self.navigationController pushViewController:mm animated:YES];
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        }
-            break;
-    }
+    [mm load:d];
+    
+    [self.navigationController pushViewController:mm animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSDictionary *PlaceDetail=[PlaceList objectAtIndex:indexPath.row];
     
-    switch (indexPath.row) {
-        case 0:
+    if([PlaceAdvList count]>0&&indexPath.section==0)
+    {
+        //有广告
+        place_list_cell0 *cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
+        
+        if (cell == nil)
         {
+            cell = [[place_list_cell0 alloc] initWithStyle:UITableViewCellStyleDefault
+                                           reuseIdentifier:@"cell0"];
+            cell.advDelegate=self;
             
-            if([PlaceDetail objectForKey:@"advType"])
-            {
-                place_list_cell0 *cell = [tableView dequeueReusableCellWithIdentifier:@"cell0"];
-                
-                if (cell == nil)
-                {
-                    cell = [[place_list_cell0 alloc] initWithStyle:UITableViewCellStyleDefault
-                                                   reuseIdentifier:@"cell0"];
-                }
-                return cell;
-            }
+            [cell loadPlaceAdv:PlaceAdvList];
         }
-            
-        default:
-        {
-            place_list_cell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-            
-          
-            
-            if (cell == nil)
-            {
-                cell = [[place_list_cell alloc] initWithStyle:UITableViewCellStyleDefault
-                                              reuseIdentifier:@"cell1"];
-            }
-            
-            [cell loadPlaceDetail:PlaceDetail];
-            
-            return cell;
-        }
-            break;
+        
+        return cell;
     }
+
+    
+    NSDictionary *PlaceDetail= [PlaceList objectAtIndex:indexPath.row];
+    
+    //列表
+    place_list_cell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+    
+    if (cell == nil)
+    {
+        cell = [[place_list_cell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:@"cell1"];
+    }
+    
+    [cell loadPlaceDetail:PlaceDetail];
+    
+    return cell;
+    
 }
 
 

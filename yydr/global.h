@@ -11,6 +11,7 @@
 #define ServerURL @"http://www.yease.cn/api/"
 #define PlacePhotoURL @"http://img.yease.cn/"
 #define UserPhotoURL @"http://user.yease.cn/" 
+#define AdvPhotoURL @"http://adv.yease.cn/"
 #define ChatServerURL @"im.yease.cn"
 
 #define XMPPServer @"yease.cn"

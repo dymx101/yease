@@ -10,51 +10,77 @@
 #import "UIView+iButtonManager.h"
 #import "UIView+iImageManager.h"
 #import "UIView+iTextManager.h"
+#import "UIImageView+WebCache.h"
 
+#import "global.h"
 @implementation place_list_cell0
+@synthesize advDelegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
-        
-        sv=[self addScrollView:self
-                      delegate:self
-                         frame:CGRectMake(0, 0, 320, 100)
-                       bounces:NO
-                          page:YES
-                         showH:NO
-                         showV:NO];
-    
-        sv.backgroundColor=[UIColor grayColor];
-        
-        
-        
-        
-        for (int i=0; i<2; i++) {
-            
-            UIImageView *im=[self addImageView:sv
-                                         image:@"adv_0.png"
-                                      position:CGPointMake(0, 0)];
-            
-            im.frame=CGRectMake(i*320, 0, 320, 100);
-            im.contentMode=UIViewContentModeScaleAspectFit;
-        }
-        
-        
-        pc = [self addPageControl:self point:CGPointMake(160, 90)];
-        pc.numberOfPages=2;
-        pc.currentPage=0;
-        
-        sv.contentSize=CGSizeMake(320*2, 0);
-        
+        // Initialization code    
          
     }
     return self;
 }
 
 
+-(void)loadPlaceAdv:(NSArray*)pl
+{
+    
+    sv=[self addScrollView:self
+                  delegate:self
+                     frame:CGRectMake(0, 0, 320, 100)
+                   bounces:NO
+                      page:YES
+                     showH:NO
+                     showV:NO];
+    
+    sv.backgroundColor=[UIColor blackColor];
+    
+    
+    for (int i=0; i<[pl count]; i++) {
+
+        
+        UIImageView *im=[self addImageView:sv
+                                     image:@"adv_0.png"
+                                  position:CGPointMake(0, 0)];
+        
+        NSString *path=[[pl objectAtIndex:i] objectForKey:@"BannerPath"];
+        
+     
+        
+        NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",AdvPhotoURL,path]];
+        
+        [im setImageWithURL:url
+           placeholderImage:[UIImage imageNamed:@"noPhoto.png"]];
+
+        im.frame=CGRectMake(i*320, 0, 320, 100);
+        im.contentMode=UIViewContentModeScaleAspectFit;
+        
+
+        [self addTapEvent:im
+                   target:self
+                   action:@selector(onTap:)];
+        
+    }
+    
+    
+    pc = [self addPageControl:self point:CGPointMake(160, 90)];
+    pc.numberOfPages=[pl count];
+    pc.currentPage=0;
+    
+    sv.contentSize=CGSizeMake(320*[pl count], 0);
+ 
+}
+
+
+-(void)onTap:(id)sender
+{
+    [advDelegate AdvSelected:sv.contentOffset.x/320];
+}
 
 
 

@@ -124,8 +124,8 @@
 {
     int price=[[pd objectForKey:@"Price"] intValue];
     int manager=[[pd objectForKey:@"ManagerCount"] intValue];
-    int starNum=[[pd objectForKey:@"GoodCount"] intValue];
-    int cc=[[pd objectForKey:@"CommentCount"] intValue];
+    int starNum=[[pd objectForKey:@"Star"] intValue];
+
     
     int status=[[pd objectForKey:@"AdvStatus"] intValue];
     
@@ -233,15 +233,11 @@
 
     //===================================================================================================
     //计算星星数量 
-    if(cc>0)
-    {
-        int s=starNum/cc;
-        star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png",s]];
-    }
-    else
-    {
-        star.image=[UIImage imageNamed:@"star_0.png"];
-    }
+
+    
+
+    star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png",starNum]];
+
 
     
     //===================================================================================================

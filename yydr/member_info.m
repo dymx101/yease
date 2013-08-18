@@ -100,7 +100,12 @@
     
     
     //个人简介
-    intro=@"[汽车之家 试驾体验]  本田最近在国内动作不小，前不久广汽本田刚刚推出了一款叫凌派的紧凑型车，现在东风本田又拿出了一款重量级的全球产品，名字叫JADE，中文名称为杰德，听起来很像动画片里面劫富济贫的江洋大盗。当然吸引人的并不是它的名字，而是它在第九代思域的基础上进行开发，并且加入了第三排座椅，日本人真是把空间这件事玩的很出彩。以厂商的宣传来看";
+    intro=[MemberInfo objectForKey:@"Intro"];
+    if( !signature || [signature isKindOfClass:[NSNull class]] )
+    {
+        signature=@"没有个人简介";
+    }
+    
     
     CGSize titleSize = [intro sizeWithFont:[UIFont systemFontOfSize:14.f]
                          constrainedToSize:CGSizeMake(280, MAXFLOAT)
@@ -260,7 +265,7 @@
                 UILabel *un=[self.view addLabel:cell.contentView
                                           frame:CGRectMake(100, 10, 200, 30)
                                            font:[UIFont systemFontOfSize:22]
-                                           text:[MemberInfo objectForKey:@"UserName"]
+                                           text:[MemberInfo objectForKey:@"Name"]
                                           color:[UIColor blackColor]
                                             tag:0];
                 

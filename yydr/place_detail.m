@@ -89,8 +89,6 @@
     
     NSLog(@"%@",pd);
     
-    
-    
     //照片
     FileName=[pd objectForKey:@"Path"];
     manager_count=[[pd objectForKey:@"ManagerCount"] intValue];
@@ -211,7 +209,7 @@
     PlaceId=pid;
     
     //请求
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@PlaceComment?page=%d&pid=%d",ServerURL,PageIndex,PlaceId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@PlaceCommentList?page=%d&pid=%d",ServerURL,PageIndex,PlaceId]];
     
     NSLog(@"%@",url);
     
@@ -252,9 +250,9 @@
         
         if(PageIndex==1)
         {
-            NSDictionary *temp=[items objectAtIndex:0];
-            comment_count=[[temp objectForKey:@"CommentCount"] intValue];
-            star_count=[[temp objectForKey:@"GoodCount"] intValue];
+            //第一次的时候才刷新
+            comment_count=[[pd objectForKey:@"CommentCount"] intValue];
+            star_count=[[pd objectForKey:@"Star"] intValue];
         }
         
         //计算每行高度
@@ -468,15 +466,9 @@
 
                     ((place_detail_cell0*)cell).placename.text=[pd objectForKey:@"Name"];
                    
-                    if(comment_count>0)
-                    {
-                        int starNum=star_count/comment_count;
-                        ((place_detail_cell0*)cell).star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png",starNum]];
-                    }
-                    else
-                    {
-                        ((place_detail_cell0*)cell).star.image=[UIImage imageNamed:@"star_0.png"];
-                    }
+                    //星星数量
+                    ((place_detail_cell0*)cell).star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png",star_count]];
+
                     
                     ((place_detail_cell0*)cell).commentcount.text=[NSString stringWithFormat:@"%d人体验",comment_count];
 
@@ -605,7 +597,7 @@
                     if (manager_count>0)
                     {
                          UILabel *off=((place_detail_manager_cell*)cell).off;
-                         off.text=[pd objectForKey:@"ManagerOff"];
+                         off.text=[[pd objectForKey:@"ManagerInfo"] objectForKey:@"Off"];
                     }
                     else
                     {
@@ -713,6 +705,7 @@
             
             
             member_info *mm=[[member_info alloc] init];
+            [mm loadInfo:[pd objectForKey:@"ManagerInfo"] Appointment:NO];
             [self.navigationController pushViewController:mm animated:YES];
             
             

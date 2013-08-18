@@ -21,11 +21,12 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-@interface place_list : STableViewController<CLLocationManagerDelegate,MBProgressHUDDelegate,UIActionSheetDelegate,AreaDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface place_list : STableViewController<CLLocationManagerDelegate,MBProgressHUDDelegate,UIActionSheetDelegate,AreaDelegate,UITableViewDataSource,UITableViewDelegate,AdvDelegate>
 {
 
     
     NSMutableArray *PlaceList;
+    NSMutableArray *PlaceAdvList;
     
     int PageIndex;
     int PageCount;
