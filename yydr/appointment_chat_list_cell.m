@@ -33,21 +33,28 @@
         
         
         //头像
+        
         self.photo =[self addImageView:self.contentView
-                                 image:@"noAvatar.png"
-                              position:CGPointMake(10, 10)];
+                                  image:@"noAvatar.png"
+                               position:CGPointMake(10, 10)];
         
         self.photo.center=CGPointMake(self.photo.center.x, 50);
-        
         self.photo.backgroundColor = [UIColor grayColor];
         self.photo.contentMode = UIViewContentModeScaleAspectFill;
         self.photo.clipsToBounds = YES;
+        self.photo.frame=CGRectMake(10, 10, 60, 60);
         
+        CALayer * ll = self.photo.layer;
+        
+        [ll setMasksToBounds:YES];
+        [ll setCornerRadius:6.0];
+        
+
         
         
         //名字
         self.UserName = [self addLabel:self.contentView
-                                 frame:CGRectMake(100, 10, 200, 25)
+                                 frame:CGRectMake(80, 10, 200, 25)
                                   font:[UIFont systemFontOfSize:20]
                                   text:@""
                                  color:[UIColor blackColor]
@@ -69,17 +76,19 @@
         
         //最后得消息
         self.Msg = [self addLabel:self.contentView
-                                 frame:CGRectMake(100, 30, 200, 30)
+                                 frame:CGRectMake(80, 30, 200, 30)
                                   font:[UIFont systemFontOfSize:14]
                                   text:@""
                                  color:[UIColor grayColor]
                                    tag:0];
         self.Msg.numberOfLines=2;
 
+
         
+        //新消息数量图标
         self.qNum=[self addImageView:self.contentView
                                image:@"homePage_num.png"
-                            position:CGPointMake(70, 5)];
+                            position:CGPointMake(55, 5)];
         //self.qNum.hidden=YES;
         
         self.num=[self addLabel:qNum

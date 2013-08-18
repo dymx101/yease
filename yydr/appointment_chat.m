@@ -180,7 +180,7 @@
 {
 
     //播放声音
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"sms_7" ofType:@"mp3"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"sms_8" ofType:@"mp3"];
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSURL *url = [NSURL fileURLWithPath:path];
         SystemSoundID sound;

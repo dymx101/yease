@@ -323,7 +323,7 @@
                                        position:CGPointMake(167, 10)
                                             tag:1101
                                          target:self
-                                         action:@selector(onDown:)];
+                                         action:@selector(onDial:)];
             
             
             //
@@ -348,16 +348,13 @@
             //有照片
             if([UserPhotoList count]>0)
             {
-                
-                
                 for(int i=0;i<4;i++)
                 {
                     if(i>[UserPhotoList count]-1)
                     {
                         break;
                     }
-                    
-                    
+
                     [self.view addImageView:cell.contentView
                                       image:@"place_arrow.png"
                                    position:CGPointMake(283, 135)];
@@ -374,6 +371,9 @@
                     
                     [pre loadImage:url
                               Lock:AlbumPassword];
+                    
+                    [self.view addTapEvent:pre target:self action:@selector(onAblumDown:)];
+                    
                     
                 }
             }
@@ -428,7 +428,7 @@
             im.center=CGPointMake(160, im.center.y);
             
             CGRect f=im.frame;
-            f.size.height=orgHeight;
+            f.size.height=orgHeight+10;
             im.frame=f;
             
             
@@ -450,159 +450,57 @@
     }
     
     
-    
-    
-    
-    /*
-     switch (indexPath.row) {
-     
-     
-     case 0:
-     {
-     static NSString *CellIdentifier = @"cell";
-     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     
-     
-     if(cell==nil)
-     {
-     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-     reuseIdentifier:@"place_detail_cell_0"];
-     }
-     
-     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-     
-     cell.textLabel.numberOfLines = 0;
-     cell.textLabel.textAlignment=UITextAlignmentLeft;
-     
-     cell.textLabel.text=signature;
-     cell.textLabel.font=[UIFont systemFontOfSize:14];
-     
-     }
-     break;
-     
-     
-     case 0:
-     {
-     static NSString *CellIdentifier = @"cell";
-     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     
-     if(cell==nil)
-     {
-     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-     reuseIdentifier:@"place_detail_cell_0"];
-     cell.textLabel.text=@"私人相册";
-     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-     
-     
-     for (int i=0; i<3; i++) {
-     member_photo *p=[[member_photo alloc] initWithFrame:CGRectMake(95+60*i, 20, 50, 50)];
-     p.tag=1800+i;
-     [cell.contentView addSubview:p];
-     p.hidden=YES;
-     }
-     }
-     
-     //有照片
-     if([UserPhotoList count]>0)
-     {
-     
-     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-     
-     for(int i=0;i<3;i++)
-     {
-     if(i>[UserPhotoList count]-1)
-     {
-     break;
-     }
-     
-     member_photo *pre=(member_photo*)[cell.contentView viewWithTag:1800+i];
-     
-     pre.hidden=NO;
-     
-     NSDictionary *pd=[UserPhotoList objectAtIndex:i];
-     NSString *FileName=[pd objectForKey:@"Path"];
-     
-     NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,UserId,[NSString stringWithFormat:@"thumb_%@",FileName]]];
-     
-     [pre loadImage:url
-     Lock:AlbumPassword];
-     
-     }
-     }
-     
-     }
-     break;
-     
-     case 1:
-     {
-     //简介
-     static NSString *CellIdentifier = @"place_detail_cell_1";
-     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     
-     
-     if(cell==nil)
-     {
-     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-     reuseIdentifier:CellIdentifier];
-     }
-     
-     
-     
-     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-     
-     
-     cell.textLabel.text=@"个人简介";
-     
-     cell.tag=1100;
-     cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0f];
-     cell.detailTextLabel.text = intro;
-     
-     
-     if(isOpen)
-     {
-     cell.detailTextLabel.numberOfLines = 0;
-     }
-     else
-     {
-     cell.detailTextLabel.numberOfLines = 3;
-     }
-     
-     
-     cell.clipsToBounds=YES;
-     
-     
-     NSLog(@"%f %f",cell.frame.origin.x,cell.frame.origin.y);
-     }
-     break;
-     
-     case 2:
-     {
-     static NSString *CellIdentifier = @"place_detail_cell_2";
-     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     
-     
-     if(cell==nil)
-     {
-     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-     reuseIdentifier:CellIdentifier];
-     }
-     
-     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-     cell.textLabel.text=@"联系电话";
-     
-     cell.detailTextLabel.text=@"13343242342";
-     
-     }
-     break;
-     
-     }
-     */
-    
-    
+
     
     
     return cell;
 }
+
+
+-(void)onDial:(id)sender
+{
+    
+    UIActionSheet *menu=[[UIActionSheet alloc] initWithTitle:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"取消"
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:@"立即预约",nil];
+    [menu showInView:self.view];
+    
+}
+
+
+//真正开始拨号了
+- (void)actionSheet:(UIActionSheet *)as didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex==1)
+    {
+        return;
+    }
+    
+    NSString *ck=[[NSUserDefaults standardUserDefaults] objectForKey:@"Value"];
+    if(ck==nil)
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        return;
+    }
+    
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",mobile]]];
+    
+    //拨打统计
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@PlaceManager?mid=%d&num=1",ServerURL,mid]];
+    ASIHTTPRequest *req=[ASIHTTPRequest requestWithURL:url];
+    req.timeOutSeconds=TIMEOUT;
+    req.tag=1020;
+    [req setRequestMethod:@"PUT"];
+    [req setUseCookiePersistence:NO];
+    [req setRequestCookies:[self.view GetRequestCookie:ServerURL value:ck]];
+    [req setDelegate:self];
+    [req startAsynchronous];
+    
+}
+
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -643,63 +541,33 @@
     
 }
 
-#pragma mark - Table view delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)onAblumDown:(id)sender
 {
-    switch (indexPath.row) {
-        case 0:
-        {
-            NSLog(@"相册");
-            
-            if(AlbumPassword>0)
-            {
-                //锁定
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"访问限制"
-                                                                    message:@"请输入访问密码"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"取消"
-                                                          otherButtonTitles:@"确定",nil];
-                
-                alertView.alertViewStyle=UIAlertViewStyleSecureTextInput;
-                [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
-                [alertView show];
-            }
-            else
-            {
-                //相册
-                self_photo_list *mm = [[self_photo_list alloc] init];
-                [mm setUid:UserId];
-                [self.navigationController pushViewController:mm animated:YES];
-                
-            }
-        }
-            break;
-            
-        case 3:
-        {
-            
-            //个人简介
-            NSLog(@"个人简介");
-            
-            if (orgHeight<MinHeight)
-            {
-                return;
-            }
-            
-            isOpen=!isOpen;
-            
-            [tb reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                      withRowAnimation:UITableViewRowAnimationFade];
-            
-        }
-            break;
-            
+    NSLog(@"相册");
+    
+    if(AlbumPassword>0)
+    {
+        //锁定
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"访问限制"
+                                                            message:@"请输入访问密码"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定",nil];
+        
+        alertView.alertViewStyle=UIAlertViewStyleSecureTextInput;
+        [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeNumberPad];
+        [alertView show];
     }
+    else
+    {
+        //相册
+        self_photo_list *mm = [[self_photo_list alloc] init];
+        [mm setUid:UserId];
+        [self.navigationController pushViewController:mm animated:YES];
+        
+    }
+
 }
-
-
-
-
 
 -(void)onStartChatDown:(UIButton*)sender
 {
@@ -718,6 +586,7 @@
 
 
 
+#pragma mark - Table view delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -749,7 +618,7 @@
             //                return MinHeight;
             //            }
             
-            return  orgHeight+20;
+            return  orgHeight+30;
         }
             
             
