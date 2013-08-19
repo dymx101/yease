@@ -8,6 +8,7 @@
 
 #import "place_detail.h"
 #import "member_info.h"
+#import "place_manager_add.h"
 
 @interface place_detail ()
 
@@ -597,7 +598,7 @@
                     if (manager_count>0)
                     {
                          UILabel *off=((place_detail_manager_cell*)cell).off;
-                         off.text=[[pd objectForKey:@"ManagerInfo"] objectForKey:@"Off"];
+                         off.text=[pd objectForKey:@"ManagerOff"];
                     }
                     else
                     {
@@ -704,20 +705,23 @@
             //经理
             
             
-            member_info *mm=[[member_info alloc] init];
-            [mm loadInfo:[pd objectForKey:@"ManagerInfo"] Appointment:NO];
-            [self.navigationController pushViewController:mm animated:YES];
+            id ManagerInfo=[pd objectForKey:@"Manager"];
             
             
+            if(!ManagerInfo||[ManagerInfo isKindOfClass:[NSNull class]])
+            {
+                place_manager_add *mm = [[place_manager_add alloc] initWithStyle:UITableViewStyleGrouped];
+                [mm setPlaceId:PlaceId];
+                mm.title=@"客户经理";
+                [self.navigationController pushViewController:mm animated:YES];
+            }
+            else
+            {
+                member_info *mm=[[member_info alloc] init];
+                [mm loadInfo:ManagerInfo];
+                [self.navigationController pushViewController:mm animated:YES];
+            }
             
-            /*
-            int tel=[[pd objectForKey:@"Phone"] integerValue];
-            
-            place_manager_list *mm = [[place_manager_list alloc] init];
-            [mm FirstLoad:PlaceId Tel:tel];
-            mm.title=@"预约订位";
-            [self.navigationController pushViewController:mm animated:YES];
-             */
             
         }
             break;

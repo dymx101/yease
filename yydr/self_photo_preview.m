@@ -29,8 +29,11 @@
 }
 
 
--(void)loadImage:(UIImage*)im
+-(void)loadImage:(UIImage*)im RoleId:(int)rid
 {
+    
+    RoleId=rid;
+    
     img=im;
     
     UIImageView *photo=[[UIImageView alloc] initWithImage:img];
@@ -99,7 +102,7 @@
     
     NSData* data = UIImageJPEGRepresentation(img, .5);
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@UserPhotoUpload?desc=0",ServerURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@UserPhotoUpload?desc=0&rid=%d",ServerURL,RoleId]];
     NSLog(@"%@",url);
     
     uploadRequest = nil;
@@ -202,14 +205,33 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)r
 {
-    NSLog(@"用户照片上传完成");
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    HUD.mode = MBProgressHUDModeCustomView;
-    HUD.labelText = @"上传成功";
-    HUD.delegate=self;
-    [HUD hide:YES afterDelay:1.5];
     
-    [uploadDelegate UploadFinished];
+    NSData *jsonData = [r responseData];
+    NSError *error = nil;
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+
+    id count = [jsonObject objectForKey:@"Message"];
+    
+    if([count isEqualToString:@"uploaded"])
+    {
+        NSLog(@"用户照片上传完成");
+        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.labelText = @"上传成功";
+        HUD.delegate=self;
+        [HUD hide:YES afterDelay:1.5];
+        
+        [uploadDelegate UploadFinished];
+    }
+    else
+    {
+        HUD.labelText = [NSString stringWithFormat: @"只能上传%@张照片",count] ;
+        HUD.mode = MBProgressHUDModeCustomView;
+        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert"]];
+        HUD.delegate=self;
+        [HUD hide:YES afterDelay:1.5];
+    }
+    
 }
 
 - (void)hudWasHidden:(MBProgressHUD *)hud {

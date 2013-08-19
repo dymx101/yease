@@ -55,7 +55,7 @@
         NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",AdvPhotoURL,path]];
         
         [im setImageWithURL:url
-           placeholderImage:[UIImage imageNamed:@"noPhoto.png"]];
+           placeholderImage:nil];
 
         im.frame=CGRectMake(i*320, 0, 320, 100);
         im.contentMode=UIViewContentModeScaleAspectFit;

@@ -20,10 +20,10 @@
     NSDictionary *md;
     
     int mid,commentHeight;
-    NSString *mobile;
     MBProgressHUD *HUD;
     ASIFormDataRequest *request;
     int UserId;
+    id Mobile;
     
     id signature,intro;
     NSMutableArray *UserPhotoList;
@@ -32,15 +32,14 @@
     
     int AlbumPassword;
 
-    BOOL isApp;
-    
     
     BOOL isOpen;
     int orgHeight;
+
     
 }
 @property (nonatomic,strong) ASIFormDataRequest *request;
 -(void)loadAblum:(int)uid;
--(void)loadInfo:(NSDictionary*)info Appointment:(BOOL)app;
+-(void)loadInfo:(NSDictionary*)info;
 
 @end

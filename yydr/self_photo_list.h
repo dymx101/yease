@@ -24,11 +24,13 @@
 
     MBProgressHUD *HUD;
     
-    int UserId,status,photo_row,SelfId;
+    int UserId,status,photo_row,SelfId,photoCount,RoleId;
+    UIBarButtonItem *uploadButton;
+    
     
 }
 @property (nonatomic,strong) ASIFormDataRequest *request;
 @property (nonatomic,strong) NSMutableArray *UserPhotoList;
--(void)setUid:(int)uid;
+-(void)setUid:(int)uid RoleId:(int)rid;
 
 @end

@@ -388,8 +388,7 @@
     
     member_info *cc=[[member_info alloc] init];
     
-    [cc loadInfo:UserDetail
-     Appointment:YES];
+    [cc loadInfo:UserDetail];
     
     cc.title=@"个人信息";
     

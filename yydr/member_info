@@ -364,26 +364,20 @@
                                          target:self
                                          action:@selector(onStartChatDown:)];
             
-
             
-            //拨号
+            
+            
+            
+            UIButton *bt1= [self.view addButton:cell.contentView
+                                          image:@"user_dial.png"
+                                       position:CGPointMake(167, 10)
+                                            tag:1101
+                                         target:self
+                                         action:@selector(onDial:)];
+
             if( !Mobile || [Mobile isKindOfClass:[NSNull class]] )
             {
-               
-                [self.view addImageView:cell.contentView
-                                  image:@"user_not_dial.png"
-                               position:CGPointMake(167, 10)];
-            }
-            
-            else
-            {
-                [self.view addButton:cell.contentView
-                                           image:@"user_dial.png"
-                                        position:CGPointMake(167, 10)
-                                             tag:1101
-                                          target:self
-                                          action:@selector(onDial:)];
-                
+                bt1.userInteractionEnabled=NO;
             }
 
             
@@ -592,7 +586,7 @@
             {
                 //相册
                 self_photo_list *mm = [[self_photo_list alloc] init];
-                [mm setUid:UserId RoleId:0];
+                [mm setUid:UserId];
                 [self.navigationController pushViewController:mm animated:YES];
             }
         }
@@ -622,7 +616,7 @@
     {
         //相册
         self_photo_list *mm = [[self_photo_list alloc] init];
-        [mm setUid:UserId RoleId:0];
+        [mm setUid:UserId];
         [self.navigationController pushViewController:mm animated:YES];
         
     }

@@ -51,32 +51,33 @@
         
         HUD.labelText = @"正在加载，请稍等...";
        
+        photoCount=-1;
         
     }
     return self;
 }
 
 
--(void)setUid:(int)uid
+-(void)setUid:(int)uid RoleId:(int)rid
 {
     UserId = uid;
+    RoleId = rid;
     SelfId=[[[NSUserDefaults standardUserDefaults] objectForKey:@"UserId"] integerValue];
     
     
     if(SelfId==UserId)
     {
-        UIBarButtonItem *rbt=[self.view add_upload_button:@selector(onRDown:)
-                                                   target:self];
-        self.navigationItem.rightBarButtonItem=rbt;
-        
         self.title=@"我的相册";
+        
+        
+        //上传按钮
+        uploadButton=[self.view add_upload_button:@selector(onRDown:)
+                                                   target:self];
+        self.navigationItem.rightBarButtonItem=uploadButton;
     }
     else
     {
-        self.title=@"私人相册";
-        
-        
-        
+        self.title=@"私人相册"; 
     }
     
     
@@ -107,7 +108,6 @@
         [self.request setRequestCookies:[self.view GetRequestCookie:ServerURL value:ck]];
     }
     
-    
     [self.request setRequestMethod:@"GET"];
     [self.request startAsynchronous];
     
@@ -123,8 +123,6 @@
 {
     [self loadAblum];
 }
-
-
 
 
 #pragma mark –
@@ -153,8 +151,14 @@
             
             NSLog(@"%@",items);
             
+            
+            
+            photoCount=[items count];
+            
+            
+            
             //相册数量限制 暂定100张
-            if ([items count]<100){
+            if (photoCount>0){
                 [self.UserPhotoList addObject:@"add"];
             }
             
@@ -275,10 +279,12 @@
     {
         UIImage *originalImage=[info objectForKey:UIImagePickerControllerOriginalImage];
         self_photo_preview *ppp=[[self_photo_preview alloc] init];
+        
+        
         ppp.uploadDelegate=self;
         ppp.title=@"预览";
         [picker pushViewController:ppp animated:YES];
-        [ppp loadImage:originalImage];
+        [ppp loadImage:originalImage RoleId:RoleId];
     }
 }
 

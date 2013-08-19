@@ -23,9 +23,10 @@
     MBProgressHUD *HUD;
     UIImage *img;
     BOOL uploading;
+    int RoleId;
 }
 @property (nonatomic,strong) id<UploadDelegate> uploadDelegate;
--(void)loadImage:(UIImage*)im;
+-(void)loadImage:(UIImage*)im RoleId:(int)rid;
 @end
 
 

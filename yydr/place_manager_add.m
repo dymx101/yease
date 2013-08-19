@@ -103,14 +103,14 @@
     {
         msg=@"请输入优惠信息";
     }
-    else if(body.text.length==0)
-    {
-        msg=@"请输入服务介绍";
-    }
-    else if(body.text.length<10)
-    {
-        msg=@"服务内容太少啦～多写点吧（10字以上）";
-    }
+//    else if(body.text.length==0)
+//    {
+//        msg=@"请输入服务介绍";
+//    }
+//    else if(body.text.length<10)
+//    {
+//        msg=@"服务内容太少啦～多写点吧（10字以上）";
+//    }
     else if(off.text.length>15)
     {
         msg=@"优惠信息太长（15字内）";
@@ -151,8 +151,8 @@
                        forKey:@"Off"];
         
         //描述
-        [request setPostValue:body.text
-                       forKey:@"Description"];
+       [request setPostValue:@"无内容"
+                      forKey:@"Description"];
         
         
         //PlaceId
@@ -284,7 +284,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

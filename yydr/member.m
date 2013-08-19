@@ -109,12 +109,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-   
-    if(RoleId==1||RoleId==5||RoleId==6)
-        return 3;
-    
-    
-    return 2;
+
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -467,7 +463,7 @@
                 {
                     //相册
                     self_photo_list *mm = [[self_photo_list alloc] init];
-                    [mm setUid:UserId];
+                    [mm setUid:UserId RoleId:RoleId];
                     [self.navigationController pushViewController:mm animated:YES];
                 }
                     break;

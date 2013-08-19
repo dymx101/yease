@@ -76,7 +76,7 @@
             //个人信息
             
             member_info *mm = [[member_info alloc] init];
-            [mm loadInfo:md Appointment:NO];
+            [mm loadInfo:md];
             mm.title=@"个人信息";
             [self.navigationController pushViewController:mm animated:YES];
         }
