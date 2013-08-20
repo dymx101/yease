@@ -94,7 +94,7 @@
     signature=[MemberInfo objectForKey:@"Signature"];
     if( !signature || [signature isKindOfClass:[NSNull class]] )
     {
-        signature=@"没有个性签名";
+        signature=@"无";
     }
     
 
@@ -103,7 +103,7 @@
     
     if( !intro || [intro isKindOfClass:[NSNull class]] )
     {
-        intro=@"没有个人简介";
+        intro=@"无";
     }
 
 
@@ -327,6 +327,15 @@
                 sign.numberOfLines=0;
                 sign.lineBreakMode=UILineBreakModeWordWrap;
                 
+                
+                if([signature isEqualToString:@"无"])
+                {
+                    sign.textColor=[UIColor grayColor];
+                    sign.text=@"没有个性签名";
+                }
+                
+                
+                
                 CGSize labelsize = [signature sizeWithFont:[UIFont systemFontOfSize:12]
                                          constrainedToSize:CGSizeMake(210,2000)
                                              lineBreakMode:UILineBreakModeWordWrap];
@@ -492,13 +501,24 @@
             im.frame=f;
             
             
+            
+            
+            
             UILabel *n=[self.view addLabel:im
                                      frame:CGRectMake(10, 0, 280, orgHeight)
                                       font:[UIFont systemFontOfSize:14]
                                       text:intro
                                      color:[UIColor blackColor] tag:0];
             n.numberOfLines=0;
+
+            if([intro isEqualToString:@"无"])
+            {
+                n.textColor=[UIColor grayColor];
+                n.text=@"没有个人简介";
+            }
             
+            
+                       
             
             [self.view addImageView:cell.contentView
                               image:@"user_row_bottom.png"

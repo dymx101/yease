@@ -508,7 +508,6 @@
 		6EEB6EBF1760735200B8EA27 /* xin.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEB6DF41760735200B8EA27 /* xin.png */; };
 		6EEB6EC01760735200B8EA27 /* xin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEB6DF51760735200B8EA27 /* xin@2x.png */; };
 		6EFBDBC31754E9910079E621 /* dbHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EFBDBC21754E9910079E621 /* dbHelper.m */; };
-		6EFFE70A17C2655A00E1EB12 /* member_info in Resources */ = {isa = PBXBuildFile; fileRef = 6EFFE70917C2655A00E1EB12 /* member_info */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1248,7 +1247,6 @@
 		6EEB6DF51760735200B8EA27 /* xin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xin@2x.png"; sourceTree = "<group>"; };
 		6EFBDBC11754E9910079E621 /* dbHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbHelper.h; sourceTree = "<group>"; };
 		6EFBDBC21754E9910079E621 /* dbHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dbHelper.m; sourceTree = "<group>"; };
-		6EFFE70917C2655A00E1EB12 /* member_info */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = member_info; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1711,7 +1709,6 @@
 			children = (
 				5BD11B9717212E2C007C0091 /* member_info.h */,
 				5BD11B9817212E2C007C0091 /* member_info.m */,
-				6EFFE70917C2655A00E1EB12 /* member_info */,
 			);
 			name = "个人信息";
 			sourceTree = "<group>";
@@ -3289,7 +3286,6 @@
 				6EC6727B17C0A0D400EF7653 /* user_dial.png in Resources */,
 				6EC6727D17C0B6C700EF7653 /* user_not_dial@2x.png in Resources */,
 				6EC6727F17C0B6CD00EF7653 /* user_not_dial.png in Resources */,
-				6EFFE70A17C2655A00E1EB12 /* member_info in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3587,8 +3583,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: li yi (77T4EXPYBA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: li yi (77T4EXPYBA)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Feng Zhou (ZJ5WC8HZY9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Feng Zhou (ZJ5WC8HZY9)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "yydr/yydr-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -3601,8 +3597,8 @@
 					"\"$(SRCROOT)/common/QCAR/lib/arm\"",
 				);
 				PRODUCT_NAME = nightlife;
-				PROVISIONING_PROFILE = "BB1CBC00-69E6-4538-ABD8-979E083897B5";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BB1CBC00-69E6-4538-ABD8-979E083897B5";
+				PROVISIONING_PROFILE = "FAE13FF3-5754-4E2D-B68D-0CFFA0EEDBBB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FAE13FF3-5754-4E2D-B68D-0CFFA0EEDBBB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
