@@ -38,7 +38,7 @@
 
         //底部输入框
         int tHeight=44;
-        int tWidth=260;
+        int tWidth=300;
         //int off=_AppDelegate.notifierView.hidden==YES?0:20;
         
         

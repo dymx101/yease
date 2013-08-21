@@ -31,7 +31,7 @@
 -(BOOL)deleteRecord:(int)did Mid:(int)mid;
 -(int)getUserSex:(int)userid;
 -(int)getNewMessageCount:(int)mid;
-
+-(BOOL)updateIntro:(int)userid Intro:(NSString*)intro;
 
 -(void)updateDatabase:(int)_did         //对话方id
              senderid:(int)sid          //发送方id

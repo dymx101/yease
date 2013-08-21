@@ -15,6 +15,7 @@
     UIPlaceHolderTextView *body;
     MBProgressHUD *HUD;
     int PlaceId;
+    BOOL waiting;
 }
 -(void)setPlaceId:(int)pid;
 @end

@@ -90,7 +90,7 @@
     
     if ([msg isEqualToString:@"ok"]) {
     
-    NSString *sUrl=[NSString stringWithFormat:@"%@User?signature=%@",ServerURL,body.text];
+    NSString *sUrl=[NSString stringWithFormat:@"%@User?content=%@&type=0",ServerURL,body.text];
     NSURL *url = [NSURL URLWithString:[sUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSLog(@"url=%@",sUrl);
     

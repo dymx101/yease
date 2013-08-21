@@ -38,7 +38,7 @@
         self.tableView.backgroundView = [self.view addImageView:nil
                                                           image:@"place_tel_bbg.png"
                                                        position:CGPointMake(0, 0)];
-        
+        waiting=NO;
     }
     return self;
 }
@@ -53,6 +53,9 @@
 #pragma mark 顶部按钮事件
 -(void)onRDown:(id*)sender
 {
+    if(waiting)
+        return;
+    
     
     [HUD show:YES];
     
@@ -106,6 +109,8 @@
         [request setRequestMethod:@"POST"];
         
         [request startAsynchronous];
+        
+        waiting=YES;
     }
     
     else
@@ -125,6 +130,8 @@
 - (void)requestFailed:(ASIHTTPRequest *)r
 {
     [HUD hide:YES];
+    
+    waiting=NO;
     
     int statusCode=[r responseStatusCode];
     switch (statusCode) {
@@ -183,6 +190,8 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }
+    
+    waiting=NO;
 }
 
 
@@ -229,6 +238,9 @@
 
 -(void)onBack:(id)sender
 {
+    if(waiting)
+        return;
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -36,6 +36,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:@"0"
                                                   forKey:@"lng"];
 
+        waiting=NO;
     }
     return self;
 }
@@ -94,6 +95,9 @@
 
 -(void)onLDown:(id*)sender
 {
+    if(waiting)
+        return;
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -101,6 +105,12 @@
 //提交请求
 -(void)onRDown:(id*)sender
 {
+    if(waiting)
+    {
+        return;
+    }
+    
+    
     
     NSLog(@"添加新场馆");
     
@@ -193,6 +203,8 @@
         [request setDelegate:self];
         [request startAsynchronous];
         
+        waiting=YES;
+        
     }
     else
     {
@@ -212,6 +224,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)r
 {
     [HUD hide:YES];
+    waiting=NO;
     
     int statusCode=[r responseStatusCode];
     switch (statusCode) {
@@ -245,6 +258,8 @@
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     int StatusCode=[request responseStatusCode];
+    
+    waiting=NO;
     
     if(StatusCode==201)
     {

@@ -3583,8 +3583,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Feng Zhou (ZJ5WC8HZY9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Feng Zhou (ZJ5WC8HZY9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "yydr/yydr-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -3597,8 +3597,8 @@
 					"\"$(SRCROOT)/common/QCAR/lib/arm\"",
 				);
 				PRODUCT_NAME = nightlife;
-				PROVISIONING_PROFILE = "FAE13FF3-5754-4E2D-B68D-0CFFA0EEDBBB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FAE13FF3-5754-4E2D-B68D-0CFFA0EEDBBB";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

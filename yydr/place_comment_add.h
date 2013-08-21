@@ -26,6 +26,7 @@
     UITextField *price;
     UISegmentedControl *segmentedControl;
     int rating;
+    BOOL waiting;
     
 }
 @property (nonatomic,strong) id<CommentAddDelegate> delegate;

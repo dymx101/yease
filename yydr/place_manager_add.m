@@ -55,10 +55,15 @@
     [self.navigationController.view addSubview:HUD];
     HUD.labelText = @"正在提交，请稍等...";
     
+    waiting=NO;
+    
 }
 
 -(void)onBack:(id)sender
 {
+    if(waiting)
+        return;
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -77,6 +82,8 @@
 //提交请求
 -(void)onRDown:(id*)sender
 {
+    if(waiting)
+        return;
     
     NSLog(@"添加新场馆");
     
@@ -172,6 +179,7 @@
         [request setDelegate:self];
         [request startAsynchronous];
         
+        waiting=YES;
     }
     else
     {
@@ -197,6 +205,8 @@
 //请求回调 ---------------------------------------------------------------------------------------------------
 - (void)requestFailed:(ASIHTTPRequest *)r
 {
+    waiting=NO;
+    
     [HUD hide:YES];
     
     int statusCode=[r responseStatusCode];
@@ -236,28 +246,47 @@
 
     NSLog(@"%d",StatusCode);
     
-    if(StatusCode==201)
-    {
-        //注册成功
-        HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-        HUD.mode = MBProgressHUDModeCustomView;
-        HUD.delegate = self;
-        HUD.labelText = @"添加成功,我们将会尽快审核";
-        [HUD hide:YES afterDelay:1.5];
-    }
-    else
-    {
-        [HUD hide:YES];
-        //注册失败
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                            message:[request responseString]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"确定"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
     
     
+    
+    switch (StatusCode) {
+        case 201:
+        {
+            //注册成功
+            HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+            HUD.mode = MBProgressHUDModeCustomView;
+            HUD.delegate = self;
+            HUD.labelText = @"添加成功,我们将会尽快审核";
+            [HUD hide:YES afterDelay:1.5];
+        }
+            break;
+            
+        case 302:
+        {
+            //注册成功
+            HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert"]];
+            HUD.mode = MBProgressHUDModeCustomView;
+            HUD.labelText = @"无法加入,你已是其他场所的经理";
+            [HUD hide:YES afterDelay:1.5];
+            waiting=NO;
+        }
+            break;
+        default:
+        {
+            [HUD hide:YES];
+            //注册失败
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                message:[request responseString]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"确定"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+            waiting=NO;
+        }
+            break;
+    }
+    
+        
     request=nil;
 }
 

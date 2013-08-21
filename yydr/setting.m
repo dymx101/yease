@@ -33,6 +33,9 @@
         HUD = [[MBProgressHUD alloc] initWithView:self.view];
         [self.view addSubview:HUD];
         
+        waiting=NO;
+        
+        
     }
     return self;
 }
@@ -73,11 +76,12 @@
             {
                 [SDWebImageManager.sharedManager.imageCache clearMemory];
                 [SDWebImageManager.sharedManager.imageCache clearDisk];
-
             }
             else
             {
-               
+                //开始注销
+                waiting=YES;
+                
                 //清除cookie
                 [[NSUserDefaults standardUserDefaults] setObject:nil
                                                           forKey:@"Value"];
@@ -94,8 +98,6 @@
                 
                 [[self appDelegate] disconnect];
                 //////////////////////////////////////////
-                
-                
                 
                 //设备Token注销
                 NSString *dt=   [[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"];
@@ -116,6 +118,7 @@
                 HUD.delegate = self;
                 [HUD show:YES];
                 [HUD hide:YES afterDelay:1];
+                 
             }
         }
             break;
@@ -146,6 +149,8 @@
     
     [r clearDelegatesAndCancel];
     r=nil;
+    
+    waiting=NO;
 }
 
 
@@ -159,7 +164,9 @@
     [HUD hide:YES afterDelay:1];
     
     request=nil;
-      
+    
+    waiting=NO;
+    
 }
 
 
@@ -262,7 +269,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if(waiting)
+        return;
+    
 
+    
+    
     if(indexPath.section==1)
     {
         about_us *mm = [[about_us alloc] initWithStyle:UITableViewStyleGrouped];

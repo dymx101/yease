@@ -605,7 +605,7 @@
                         UILabel *off=((place_detail_manager_cell*)cell).off;
                         
                         off.textColor=[UIColor grayColor];
-                        off.text=@"立即加入";
+                        off.text=@"经理加入";
                     }
                     
                 }
@@ -712,7 +712,7 @@
             {
                 place_manager_add *mm = [[place_manager_add alloc] initWithStyle:UITableViewStyleGrouped];
                 [mm setPlaceId:PlaceId];
-                mm.title=@"客户经理";
+                mm.title=@"经理加入";
                 [self.navigationController pushViewController:mm animated:YES];
             }
             else

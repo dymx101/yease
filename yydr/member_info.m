@@ -94,7 +94,7 @@
     signature=[MemberInfo objectForKey:@"Signature"];
     if( !signature || [signature isKindOfClass:[NSNull class]] )
     {
-        signature=@"无";
+        signature=@"没有个性签名";
     }
     
 
@@ -321,18 +321,13 @@
                                              frame:CGRectMake(0, 0, 210, 80)
                                               font:[UIFont systemFontOfSize:12]
                                               text:signature
-                                             color:[UIColor blackColor]
+                                             color:[UIColor grayColor]
                                                tag:0];
 
                 sign.numberOfLines=0;
                 sign.lineBreakMode=UILineBreakModeWordWrap;
                 
-                
-                if([signature isEqualToString:@"无"])
-                {
-                    sign.textColor=[UIColor grayColor];
-                    sign.text=@"没有个性签名";
-                }
+
                 
                 
                 

@@ -237,7 +237,7 @@
                 [[cell textLabel] setText:@"个人简介"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 //下回
-                cell.detailTextLabel.text=@"";
+                cell.detailTextLabel.text=[userinfo objectForKey:@"intro"];;
             }
                 break;
                 
@@ -445,7 +445,7 @@
                 case 3:
                 {
                     member_intro *mm = [[member_intro alloc] initWithStyle:UITableViewStyleGrouped];
-                    [mm loadSignature:[userinfo objectForKey:@"signature"]];
+                    [mm loadSignature:[userinfo objectForKey:@"intro"]];
                     mm.title=@"个人简介";
                     [self.navigationController pushViewController:mm animated:YES];
                 }

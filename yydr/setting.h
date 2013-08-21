@@ -13,5 +13,6 @@
 @interface setting : iTableViewController<MBProgressHUDDelegate>
 {
      MBProgressHUD *HUD;
+        BOOL waiting;
 }
 @end

@@ -92,7 +92,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,7 +117,7 @@
         }
             break;
             
-        case 1:
+        case 2:
         {
             [[cell textLabel] setText:@"业务联系"];
             cell.detailTextLabel.text=@"QQ:474208746";
@@ -126,7 +126,7 @@
         }
             break;
             
-        case 2:
+        case 1:
         {
             [[cell textLabel] setText:@"免责声明"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -185,7 +185,7 @@
 {
 
     switch (indexPath.row) {
-        case 2:
+        case 1:
         {
             law *mm = [[law alloc] init];
             mm.title=@"免责声明";

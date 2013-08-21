@@ -20,6 +20,9 @@
     int category_id,area_id,currentAreaSelectRow,currentCategorySelectRow;
     MBProgressHUD *HUD;
     double lat,lng;
+    
+    BOOL waiting;
+    
 }
 
 

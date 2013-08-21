@@ -28,7 +28,7 @@
         //创建表（FMDB中只有update和query操作，出了查询其他都是update操作）
         [database executeUpdate:@"create table dialog (did integer,mid integer,username text,avatar text,message text,count integer,lastdate datetime)"];
         [database executeUpdate:@"create table record (did integer,sid integer,mid integer,createdate datetime,message text,type integer)"];
-        [database executeUpdate:@"create table userinfo (userid integer,avatar text,mobile integer,sex integer,username text,signature text,albumpassword integer,roleid integer,cityid integer)"];
+        [database executeUpdate:@"create table userinfo (userid integer,avatar text,mobile integer,sex integer,username text,signature text,albumpassword integer,roleid integer,cityid integer,intro text)"];
         [database close];
     }
 }
@@ -287,6 +287,31 @@
     
 }
 
+#pragma mark - 更新简介
+-(BOOL)updateIntro:(int)userid Intro:(NSString*)intro
+{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *dbPath = [documentPath stringByAppendingPathComponent:nldb];
+    
+    BOOL update=NO;
+    
+    FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
+    
+    if ([database open])
+    {
+        update = [database executeUpdate:@"update userinfo set intro = ? where userid = ?",
+                  intro,[NSNumber numberWithInt:userid]];
+        
+        [database close];
+    }
+    
+    return update;
+    
+}
+
+
 
 
 #pragma mark - 更新头像
@@ -343,6 +368,7 @@
                         [resultSet stringForColumn:@"signature"],@"signature",
                         [NSString stringWithFormat:@"%d",albumpassword],@"albumpassword",
                         [resultSet stringForColumn:@"roleid"],@"roleid",
+                        [resultSet stringForColumn:@"intro"],@"intro",
                         nil];  
         }
         
@@ -424,7 +450,7 @@
         if (count>0) {
             //更新数据
             NSLog(@"更新");
-            BOOL update = [database executeUpdate:@"update userinfo set avatar = ?, mobile = ?, username = ?, sex = ?, signature = ?, albumpassword = ?, roleid = ?, cityid = ? where userid = ?",
+            BOOL update = [database executeUpdate:@"update userinfo set avatar = ?, mobile = ?, username = ?, sex = ?, signature = ?, albumpassword = ?, roleid = ?, cityid = ?, intro = ? where userid = ?",
                            avatar,
                            [NSNumber numberWithInt:mobileNum],
                            [userinfo objectForKey:@"UserName"],
@@ -433,7 +459,8 @@
                            [userinfo objectForKey:@"AlbumPassword"],
                            [NSNumber numberWithInt:roleid],
                            [NSNumber numberWithInt:UserId],
-                           [NSNumber numberWithInt:cityid]];
+                           [NSNumber numberWithInt:cityid],
+                            [userinfo objectForKey:@"Intro"]];
             
             if(update){
                 NSLog(@"更新UserInfo成功");
@@ -444,7 +471,7 @@
             NSLog(@"插入");
             
             //插入数据
-            BOOL insert = [database executeUpdate:@"insert into userinfo values (?,?,?,?,?,?,?,?,?)",
+            BOOL insert = [database executeUpdate:@"insert into userinfo values (?,?,?,?,?,?,?,?,?,?)",
                            [NSNumber numberWithInt:UserId] ,
                            avatar,
                            [NSNumber numberWithInt:mobileNum],
@@ -453,7 +480,8 @@
                            signature,
                            [userinfo objectForKey:@"AlbumPassword"],
                            [NSNumber numberWithInt:roleid],
-                           [NSNumber numberWithInt:cityid]];
+                           [NSNumber numberWithInt:cityid],
+                            [userinfo objectForKey:@"Intro"]];
             
             
             if (insert) {

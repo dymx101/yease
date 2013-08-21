@@ -83,14 +83,14 @@
     NSString *msg=@"ok";
     [body endEditing:YES];
     
-    if(body.text.length>50)
+    if(body.text.length>1000)
     {
-        msg=@"签名太长（50字内）";
+        msg=@"简介太长（1000字内）";
     }
     
     if ([msg isEqualToString:@"ok"]) {
     
-    NSString *sUrl=[NSString stringWithFormat:@"%@User?signature=%@",ServerURL,body.text];
+    NSString *sUrl=[NSString stringWithFormat:@"%@User?content=%@&type=1",ServerURL,body.text];
     NSURL *url = [NSURL URLWithString:[sUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSLog(@"url=%@",sUrl);
     
@@ -101,6 +101,8 @@
     self.request.timeOutSeconds=TIMEOUT;
     [self.request setDelegate:self];
     
+        
+        
     NSString *ck=[[NSUserDefaults standardUserDefaults] objectForKey:@"Value"];
     
     if(ck!=nil)
@@ -140,7 +142,7 @@
 {
     int uid=[[[NSUserDefaults standardUserDefaults] objectForKey:@"UserId"] integerValue];
     
-    [dh updateSignature:uid Signatrue:body.text];
+    [dh updateIntro:uid Intro:body.text];
     
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     HUD.mode = MBProgressHUDModeCustomView;
@@ -194,7 +196,7 @@
         body.font = [UIFont systemFontOfSize:15.0f];
         //body.delegate=self;
         body.tag=1102;
-        body.placeholder=@"50字内";
+        body.placeholder=@"1000字内";
         
         [cell.contentView addSubview:body];
     }
