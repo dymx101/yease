@@ -96,6 +96,7 @@
         [request setPostValue:body.text forKey:@"Comment"];
         [request setPostValue:[NSNumber numberWithInt:rating] forKey:@"Evaluation"];
         [request setPostValue:price.text forKey:@"Spend"];
+        [request setPostValue:recommend.text forKey:@"Recommend"];
         
         
         NSString *ck=[[NSUserDefaults standardUserDefaults] objectForKey:@"Value"];
@@ -433,7 +434,7 @@
                                                   tag:1101];
                     recommend.delegate=self;
                     recommend.returnKeyType = UIReturnKeyNext;
-                    
+                    [recommend setKeyboardType:UIKeyboardTypeNumberPad];
                     
                     [[cell textLabel] setText:@"推荐"];
                     cell.accessoryView = recommend;

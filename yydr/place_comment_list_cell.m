@@ -92,13 +92,12 @@
         
         //推荐
         recommend = [self addLabel:self.contentView
-                             frame:CGRectMake(145, 26, 200, 25)
+                             frame:CGRectMake(200, 26, 200, 25)
                               font:[UIFont systemFontOfSize:12]
                               text:@"推荐：200"
                              color:f
                                tag:0];
-        recommend.hidden=YES;
-        
+
 
         
         
@@ -159,15 +158,15 @@
     
     
     //推荐
-    NSString *str=[cd objectForKey:@"recommend"];
+    id str=[cd objectForKey:@"Recommend"];
     
-    if([str isEqual:[NSNull null]]||str==nil||[str isEqualToString:@"(null)"])
+    if( [str isKindOfClass:[NSNull class]] || !str)
     {
         self.recommend.hidden = YES;
     }
     else
     {
-        self.recommend.text=[NSString stringWithFormat:@"推荐：%@",[cd objectForKey:@"recommend"]];
+        self.recommend.text=[NSString stringWithFormat:@"推荐：%@",str];
         self.recommend.hidden = NO;
     }
 

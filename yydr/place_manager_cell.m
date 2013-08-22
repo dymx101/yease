@@ -7,7 +7,7 @@
 //
 
 #import "place_manager_cell.h"
-#import "UILabelStrikeThrough.h"
+
 
 @implementation place_manager_cell
 

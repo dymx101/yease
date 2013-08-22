@@ -25,6 +25,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        sexNum=0;
     }
     return self;
 }
@@ -294,6 +295,10 @@
     {
         msg=@"请输入用户名";    
     }
+    else if(sexNum==0)
+    {
+        msg=@"请选择性别";
+    }
     else if(Password.text.length==0)
     {
         msg=@"请输入密码";    
@@ -327,7 +332,7 @@
         
         
         
-        NSString *s=[NSString stringWithFormat:@"%@register?sex=%d",ServerURL,sexNum];
+        NSString *s=[NSString stringWithFormat:@"%@register?Sex=%d",ServerURL,sexNum];
         NSURL *url = [NSURL URLWithString:[s stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         
         NSLog(@"通过验证，可提交 url=%@",url);
@@ -371,7 +376,7 @@
 }
 
 -(BOOL) validUsername:(NSString *)un {
-    NSString *regex3 = @"^[\\u4E00-\\u9FA5\\uF900-\\uFA2D\\w]{2,15}$";
+    NSString *regex3 = @"^[\\u4E00-\\u9FA5\\uF900-\\uFA2D\\w]{2,30}$";
     NSPredicate * pred3 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex3];
     return [pred3 evaluateWithObject:un];
 }
