@@ -1,12 +1,12 @@
 //
-//  girl_chat_cell.m
+//  appointment_chat_view.m
 //  yydr
 //
-//  Created by liyi on 13-4-25.
+//  Created by Li yi on 13-10-2.
 //
 //
 
-#import "appointment_chat_cell.h"
+#import "appointment_chat_view.h"
 
 #import "UIView+iImageManager.h"
 #import "UIView+iButtonManager.h"
@@ -15,53 +15,33 @@
 
 #import "global.h"
 
+@implementation appointment_chat_view
 
-@implementation appointment_chat_cell
+@synthesize AvatarImageView;
+@synthesize msgDict;
 
-
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         
-        self.selectionStyle=UITableViewCellSelectionStyleNone;
-        
-        self.backgroundColor=[UIColor whiteColor];
-        
-    
         self.clipsToBounds=NO;
         
         self.backgroundColor=[UIColor clearColor];
         
         //对方泡泡
         bubble = [[UIImage imageNamed:@"messageBubbleGray"] stretchableImageWithLeftCapWidth:23 topCapHeight:15];
-        bubbleView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-        bubbleView.image=bubble;
-        [self addSubview:bubbleView];
-        
-        
-        
         //自己得泡泡
         sbubble = [[UIImage imageNamed:@"messageBubbleBlue"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
-        sbubbleView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-        sbubbleView.image=sbubble;
-        [self addSubview:sbubbleView];
-        
         
         self.AvatarImageView=[self addImageView:self
                                           image:@"temp_ava.jpg"
                                        position:CGPointMake(0, 0)];
         
         
-        chatText=[self addLabel:self
-                          frame:CGRectMake(0, 0, 0, 0)
-                           font:[UIFont systemFontOfSize:18.0]
-                           text:@""
-                          color:[UIColor whiteColor]
-                            tag:0];
-        chatText.numberOfLines=0;
+        
+        
         
     }
     return self;
@@ -69,13 +49,11 @@
 
 
 
-
-
 -(void)loadMessage:(NSDictionary*)msg
 {
-
-    bubbleView.hidden=YES;
-    sbubbleView.hidden=YES;
+    
+    
+    
 
     self.AvatarImageView.hidden=YES;
     
@@ -91,11 +69,6 @@
         sid=[[msgDict objectForKey:@"Sid"] integerValue];
         mid=[[msgDict objectForKey:@"Mid"] integerValue];
         
-        
-        
-        chatText.text=Msg;
-        
-        
         //头像
         Avatar=[msgDict objectForKey:@"Avatar"];
         
@@ -107,9 +80,9 @@
                                                   nil];
             
             bubbleSize = [Msg boundingRectWithSize:CGSizeMake(ChatTextWidth, MAXFLOAT)
-                                           options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                        attributes:attributesDictionary
-                                           context:nil].size;
+                                              options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                           attributes:attributesDictionary
+                                              context:nil].size;
         }
         else
         {
@@ -117,22 +90,14 @@
             bubbleSize = [Msg sizeWithFont:[UIFont systemFontOfSize:18.f]
                          constrainedToSize:CGSizeMake(ChatTextWidth, MAXFLOAT)
                              lineBreakMode:NSLineBreakByWordWrapping];
-            
+
         }
         
-        
+
         //bubbleSize.height+=10;
-        
-        
-
-        int w = bubbleSize.width>10?bubbleSize.width:10;
-        int h = bubbleSize.height>22?bubbleSize.height+5:22;
-
         
         if(sid!=mid)
         {
-            
-            
             self.AvatarImageView.hidden=NO;
             NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,sid,Avatar]];
             [self.AvatarImageView setImageWithURL:url
@@ -141,45 +106,7 @@
                                                   bubbleSize.height-50+30,
                                                   self.AvatarImageView.frame.size.width,
                                                   self.AvatarImageView.frame.size.height);
-            
-            CGRect bubbleFrame=CGRectMake(ChatTextPaddingLeft,
-                                          0,
-                                          w+ChatTextPaddingRight,
-                                          h+ChatTextPaddingBottom);
-            bubbleView.hidden=NO;
-            bubbleView.frame=bubbleFrame;
-            
-            
-            CGRect textFrame = CGRectMake(ChatTextPaddingLeft+20,
-                                          8,
-                                          w,
-                                          h);
-
-            chatText.frame=textFrame;
-            chatText.textColor=[UIColor blackColor];
-            
-
         }
-        else
-        {
-            //自己发的～
-            CGRect bubbleFrame=CGRectMake(320-w-ChatTextPaddingRight,
-                                          0,
-                                          w+ChatTextPaddingRight,
-                                          h+ChatTextPaddingBottom);
-            
-            sbubbleView.hidden=NO;
-            sbubbleView.frame=bubbleFrame;
-         
-            
-            CGRect textFrame = CGRectMake(320-w-ChatTextPaddingRight+10,
-                                          8,
-                                          w,
-                                          h);
-            chatText.frame=textFrame;
-            chatText.textColor=[UIColor whiteColor];
-        }
-        
     }
     else
     {
@@ -213,25 +140,104 @@
         }
         
     }
-    
+
     //fuck的地方
     self.frame=CGRectMake(0, 0, 320, bubbleSize.height+30+20);
     
     
-}
-
-
-
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
     
-    // Configure the view for the selected state
+    
+    
+    UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    iv.image=sbubble;
+    
+    [self addSubview:iv];
+    
+    
+    
+   // [self setNeedsDisplay];
 }
 
 
+-(void)drawRect:(CGRect)rect
+{
+    
+    if([type isEqualToString:@"message"])
+    {
+        int w = bubbleSize.width>10?bubbleSize.width:10;
+        int h = bubbleSize.height>22?bubbleSize.height:22;
+        
+        if(sid==mid)
+        {
+            
+        
+            //自己发的～
+            CGRect bubbleFrame=CGRectMake(320-w-ChatTextPaddingRight,
+                                          0,
+                                          w+ChatTextPaddingRight,
+                                          h+ChatTextPaddingBottom);
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            [sbubble drawInRect:bubbleFrame];
+            
+            CGRect textFrame = CGRectMake(320-w-ChatTextPaddingRight+10,
+                                          8,
+                                          w,
+                                          h);
+//            
+//            [Msg drawInRect:textFrame
+//                   withFont:[UIFont systemFontOfSize:18.f]
+//              lineBreakMode:NSLineBreakByWordWrapping
+//                  alignment:NSTextAlignmentLeft];
+   
+        }
+        else
+        {
+            
+            
+            CGRect bubbleFrame=CGRectMake(ChatTextPaddingLeft,
+                                          0,
+                                          w+ChatTextPaddingRight,
+                                          h+ChatTextPaddingBottom);
+            
+            [bubble drawInRect:bubbleFrame];
+            
+            CGRect textFrame = CGRectMake(ChatTextPaddingLeft+20,
+                                          8,
+                                          w,
+                                          h);
+            
+            [Msg drawInRect:textFrame
+                   withFont:[UIFont systemFontOfSize:18.f]
+              lineBreakMode:NSLineBreakByWordWrapping
+                  alignment:NSTextAlignmentLeft];
+        }
+        
+    }
+    else
+    {
+        //日期
+        CGRect textFrame = CGRectMake(0,
+                                      10,
+                                      self.frame.size.width,
+                                      self.frame.size.height);
+        
+        [cdate drawInRect:textFrame
+                 withFont:[UIFont systemFontOfSize:12.f]
+            lineBreakMode:NSLineBreakByWordWrapping
+                alignment:NSTextAlignmentCenter];
+    }
+    
+}
 
 
 @end

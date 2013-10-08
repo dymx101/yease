@@ -21,7 +21,7 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-@interface place_list : STableViewController<CLLocationManagerDelegate,MBProgressHUDDelegate,UIActionSheetDelegate,AreaDelegate,UITableViewDataSource,UITableViewDelegate,AdvDelegate>
+@interface place_list : STableViewController<CLLocationManagerDelegate,MBProgressHUDDelegate,UIActionSheetDelegate,AreaDelegate,UITableViewDataSource,UITableViewDelegate,AdvDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
 {
 
     
@@ -53,6 +53,9 @@
     
     CLLocationManager *locManager;
     BOOL locNow;
+    
+    
+    UISearchDisplayController *searchDisplayController;
     
 }
 -(void)reload;

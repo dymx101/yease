@@ -74,13 +74,14 @@
 
 -(void)showPlace
 {
+
+    
     titleText.center=CGPointMake(90, titleText.center.y);
     cityText.hidden=NO;
     arrow.hidden=NO;
     [cityText sizeToFit];
     arrow.center=CGPointMake(cityText.frame.size.width+cityText.frame.origin.x+10,
                                          cityText.center.y);
-    
 }
 
 -(void)showOther

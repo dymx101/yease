@@ -33,12 +33,43 @@
 }
 
 
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"aaaaa");
+    
+    [searchDisplayController setActive:YES animated:YES];
+    //[searchBar setShowsCancelButton:YES animated:YES];
+}
+
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+   [searchBar endEditing:YES];
+}
+
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+   
+}
+
+
+     
+     
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
     self.tableView.frame=CGRectMake(0, 40, 320, self.view.frame.size.height-40);
+    
+    
+
+   
+
+    
     
     PageIndex=1;
     order_by=0;
@@ -70,6 +101,10 @@
                                    tag:1002
                                 target:self
                                 action:@selector(onDown:)];
+    
+    
+    
+    
     
     
     areaLabel=[self.view addLabel:bt0

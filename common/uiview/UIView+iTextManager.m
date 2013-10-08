@@ -51,6 +51,7 @@
         l.tag=g;
     }
     l.textAlignment = UITextAlignmentLeft;
+
     l.font = f;
     
     if(v!=nil)

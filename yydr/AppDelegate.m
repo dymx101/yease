@@ -81,14 +81,19 @@
     
     
     login *hp=[[login alloc] initWithStyle:UITableViewStyleGrouped];
-
+    
+    
+    
     nav = [[UINavigationController alloc] initWithRootViewController:hp];
     
     nav.navigationBar.barStyle = UIBarStyleBlack;
+    nav.navigationBar.translucent=NO;
 
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+    NSLog(@"bounds=%f",self.window.bounds.size.height);
+    
     [self.window setRootViewController:nav];
     [self.window makeKeyAndVisible];
 

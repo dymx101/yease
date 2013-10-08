@@ -27,15 +27,15 @@
     if (self) {
         // Initialization code
         
-        self.backgroundView=[self addImageView:nil
-                                         image:@"place_cell_bg.jpg"
-                                      position:CGPointMake(0, 0)];
+//        self.backgroundView=[self addImageView:nil
+//                                         image:@"place_cell_bg.jpg"
+//                                      position:CGPointMake(0, 0)];
         
         
         //场所照片
         self.photo =[self addImageView:self.contentView
                             image:@"noPhoto.png"
-                         position:CGPointMake(10, 10)];
+                         position:CGPointMake(15, 10)];
         self.photo.center=CGPointMake(self.photo.center.x, 50);
         self.photo.backgroundColor = [UIColor grayColor];
         self.photo.contentMode = UIViewContentModeScaleAspectFill;
@@ -45,7 +45,7 @@
         //场所图标
         self.placelevel =[self addImageView:self.contentView
                                     image:@"place_new.png"
-                                 position:CGPointMake(55, 3)];
+                                 position:CGPointMake(58, 3)];
         self.placelevel.hidden=YES;
         
 
@@ -169,8 +169,7 @@
     }
     
 
-    
-    
+
     
     //==================================================================================================
     //距离
@@ -233,8 +232,6 @@
 
     //===================================================================================================
     //计算星星数量 
-
-    
 
     star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png",starNum]];
 

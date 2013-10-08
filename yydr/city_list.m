@@ -34,8 +34,9 @@
 {
     [super viewDidLoad];
 
-    self.title=[NSString stringWithFormat:@"当前城市-%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"City"]];
+
     
+    self.title=[NSString stringWithFormat:@"当前城市-%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"City"]];
 
     UIBarButtonItem *lbt=[self.view add_close_button:@selector(onLDown:)
                                               target:self];

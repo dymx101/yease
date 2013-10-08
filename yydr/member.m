@@ -64,9 +64,6 @@
 {
     [super viewDidLoad];
     
-    self.tableView.backgroundView= [self.view addImageView:nil
-                                                     image:@"place_tel_bbg.png"
-                                                  position:CGPointMake(0, 0)];
     
     HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
@@ -316,13 +313,15 @@
 
 
 #pragma mark - Table view 设置
+
+/*
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView * hView;
+   // UIView * hView;
     
-    hView=[[UIView alloc] initWithFrame:CGRectMake(20, 5, 300, 30)];
+   // hView=[[UIView alloc] initWithFrame:CGRectMake(20, 5, 300, 30)];
     
-    UILabel *l=[[UILabel alloc] initWithFrame:hView.frame];
+    UILabel *l=[[UILabel alloc] init];
     l.backgroundColor=[UIColor clearColor];
     l.shadowColor=[UIColor whiteColor];
     l.shadowOffset=CGSizeMake(0, 1);
@@ -341,10 +340,10 @@
             break;
     }
     
-    [hView addSubview:l];
+  //  [hView addSubview:l];
     
-    return hView;
-}
+    return l;
+}*/
 
 //-----------------------------------
 #pragma mark - load数据
@@ -368,7 +367,7 @@
         return 0;
     }
     
-    return 40.f;
+    return 0;
 }
 
 
@@ -490,6 +489,8 @@
         }
             break;
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
 

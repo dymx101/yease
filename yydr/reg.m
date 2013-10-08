@@ -42,16 +42,29 @@
 {
     [super viewDidLoad];
     
-    self.tableView.backgroundView= [self.view addImageView:nil
-                                                     image:@"place_tel_bbg.png"
-                                                  position:CGPointMake(0, 0)];
-    
+//    self.tableView.backgroundView= [self.view addImageView:nil
+//                                                     image:@"place_tel_bbg.png"
+//                                                  position:CGPointMake(0, 0)];
+//    
 
-    self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onLDown:) target:self];
+//    self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onLDown:) target:self];
+    
+    
+    
+    UIBarButtonItem * backBtn1 = [[UIBarButtonItem alloc]initWithTitle:@"完成"
+                                                                 style:UIBarButtonItemStyleDone
+                                                                target:self
+                                                                action:@selector(onRegButtonDown:)];
+    
+    self.navigationItem.rightBarButtonItem = backBtn1;
+    
+    
     
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:HUD];
     HUD.labelText = @"正在提交，请稍等...";
+    
+    [self.view addTapEvent:self.view target:self action:@selector(onTap:)];
 }
 
 
@@ -65,11 +78,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    
-    [self.view addTapEvent:self.view
-                    target:self
-                    action:@selector(onTap:)];
-    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -148,8 +156,13 @@
                 case 1:
                 {
                     [[cell textLabel] setText:@"性别"];
-                    textField.enabled=NO;
                     textField.placeholder = @"点击选择";
+
+                    [self.view addTapEvent:textField
+                                    target:self
+                                    action:@selector(onSelectSex:)];
+                    
+                    
                 }
                     break;
                     
@@ -185,29 +198,24 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)onSelectSex:(id)sender
 {
+    [UserName endEditing:YES];
+    [Mobile endEditing:YES];
+    [Password endEditing:YES];
+    [ConfirmPassword endEditing:YES];
     
-    switch (indexPath.row) {
-        case 1:
-        {
-            
-            [UserName endEditing:YES];
-            [Mobile endEditing:YES];
-            [Password endEditing:YES];
-            [ConfirmPassword endEditing:YES];
-            
-            UIActionSheet *menu=[[UIActionSheet alloc] initWithTitle:nil
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                              destructiveButtonTitle:nil
-                                                   otherButtonTitles:@"男",@"女",nil];
-            [menu showInView:self.view];
-        }
-            break;
-    }
-
+    UIActionSheet *menu=[[UIActionSheet alloc] initWithTitle:nil
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:@"男",@"女",nil];
+    [menu showInView:self.view];
+ 
 }
+
+
+
 
 
 //排序
@@ -468,27 +476,6 @@
     [self disablesAutomaticKeyboardDismissal];
 }
 
-
--(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView * hView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
-    //hView.backgroundColor=[UIColor redColor];
-    
-    //注册按钮
-    [self.view addButtonWithCenter:hView 
-                             image:@"reg_button.png"
-                          position:CGPointMake(160, 30)
-                               tag:2000
-                            target:self
-                            action:@selector(onRegButtonDown:)];
-    return hView;
-    
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 60.0f;
-}
 
 
 @end

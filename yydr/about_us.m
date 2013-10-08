@@ -24,9 +24,9 @@
     if (self) {
         // Custom initialization
         
-        self.tableView.backgroundView= [self.view addImageView:nil
-                                                         image:@"place_tel_bbg.png"
-                                                      position:CGPointMake(0, 0)];
+//        self.tableView.backgroundView= [self.view addImageView:nil
+//                                                         image:@"place_tel_bbg.png"
+//                                                      position:CGPointMake(0, 0)];
     }
     return self;
 }
@@ -112,7 +112,7 @@
         case 0:
         {
             cell.textLabel.text=@"版本";
-            cell.detailTextLabel.text=@"1.5.0";
+            cell.detailTextLabel.text=@"1.5.5";
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
             break;

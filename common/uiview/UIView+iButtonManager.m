@@ -13,14 +13,23 @@
 
 -(UIBarButtonItem*)add_logout_button:(SEL)_a target:(id)_s
 {
-    UIButton *bt = [self addButton:nil
-                             image:@"place_logout_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_logout_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
+//    
+//    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+//    
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+    
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"退出"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
 }
 
 -(UIBarButtonItem*)add_manager_add_button:(SEL)_a target:(id)_s
@@ -38,28 +47,46 @@
 
 -(UIBarButtonItem*)add_setting_button:(SEL)_a target:(id)_s
 {
-    UIButton *bt = [self addButton:nil
-                             image:@"place_setting_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_setting_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
+//    
+//    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"设置"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
+
 }
 
 
 
 -(UIBarButtonItem*)add_nav_button:(SEL)_a target:(id)_s
 {
-    UIButton *bt = [self addButton:nil
-                             image:@"place_nav_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_nav_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
+//    
+//    return [[UIBarButtonItem alloc] initWithCustomView:bt];
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+    
+    
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"导航"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
 }
 
 
@@ -67,14 +94,23 @@
 {
     
     //place 新加按钮
-    UIButton *bt = [self addButton:nil
-                             image:@"place_add_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_add_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
+//    
+//    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"添加"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
+
 }
 
 
@@ -96,14 +132,24 @@
 {
     
 
-    UIButton *bt = [self addButton:nil
-                             image:@"place_back_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_back_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
+//    
+//    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+//    
+//    
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+    
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
 }
 
 -(UIBarButtonItem*)add_close_button:(SEL)_a target:(id)_s
@@ -123,14 +169,24 @@
 -(UIBarButtonItem*)add_upload_button:(SEL)_a target:(id)_s
 {
     
-    UIButton *bt = [self addButton:nil
-                             image:@"place_upload_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_upload_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
+//    
+//    return [[UIBarButtonItem alloc] initWithCustomView:bt];
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+    
+    
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"上传"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
+
 }
 
 -(UIBarButtonItem*)add_clear_button:(SEL)_a target:(id)_s
@@ -149,14 +205,22 @@
 
 -(UIBarButtonItem*)add_ok_button:(SEL)_a target:(id)_s
 {
-    UIButton *bt = [self addButton:nil
-                             image:@"place_ok_bt.png"
-                          position:CGPointMake(0, 0)
-                               tag:0
-                            target:_s
-                            action:_a];
+   
+//    UIButton *bt = [self addButton:nil
+//                             image:@"place_ok_bt.png"
+//                          position:CGPointMake(0, 0)
+//                               tag:0
+//                            target:_s
+//                            action:_a];
     
-    return [[UIBarButtonItem alloc] initWithCustomView:bt];
+
+
+    UIBarButtonItem *bb=[[UIBarButtonItem alloc] initWithTitle:@"完成"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:_s
+                                                        action:_a];
+    bb.tintColor=[UIColor whiteColor];
+    return bb;
 }
 
 
@@ -174,6 +238,8 @@
     UIImage *btBg=[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:_n 
                                                                                    ofType:nil]];
     UIButton *bt=[UIButton buttonWithType: UIButtonTypeCustom];
+
+    
     if(_t!=0)
     {
         bt.tag=_t;

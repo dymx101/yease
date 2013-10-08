@@ -61,12 +61,7 @@
 {
     [super viewDidLoad];
  
-    self.tableView.separatorStyle = NO;
-    self.tableView.backgroundView= [self.view addImageView:nil
-                                                     image:@"place_tel_bbg.png"
-                                                  position:CGPointMake(0, 0)];
 
-    
     //返回按钮
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onLDown:) target:self];
 
@@ -502,16 +497,16 @@
         case 1:
         {
             place_category_list *actionSheet = [[place_category_list alloc] initWithTitle:@"选择分类"
-                                                                         delegate:nil
-                                                                cancelButtonTitle:nil
-                                                           destructiveButtonTitle:nil
-                                                                otherButtonTitles:nil];
+                                                                                 delegate:nil
+                                                                        cancelButtonTitle:nil
+                                                                   destructiveButtonTitle:nil
+                                                                        otherButtonTitles:nil];
             
             [actionSheet loadCategoryWithAll:NO Selected:currentCategorySelectRow];
             
             actionSheet.categoryDelegate=self;
             [actionSheet showInView:[[UIApplication sharedApplication] keyWindow]];
-            [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
+            //[actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
         }
             break;
             

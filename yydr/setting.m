@@ -175,9 +175,7 @@
 {
     [super viewDidLoad];
 
-    self.tableView.backgroundView= [self.view addImageView:nil
-                                                     image:@"place_tel_bbg.png"
-                                                  position:CGPointMake(0, 0)];
+
     
     
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onLDown:)

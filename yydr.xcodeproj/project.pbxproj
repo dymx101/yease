@@ -242,6 +242,7 @@
 		6E7B874D17BFF55400993E5E /* user_row_content@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E7B874C17BFF55400993E5E /* user_row_content@2x.png */; };
 		6E7B874F17BFF56500993E5E /* user_row_content.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E7B874E17BFF56500993E5E /* user_row_content.png */; };
 		6E82EECC1750E36400B12E56 /* self_photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E82EECB1750E36400B12E56 /* self_photo.m */; };
+		6E9CBBD117FC353C0021DE70 /* appointment_chat_view.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9CBBD017FC353C0021DE70 /* appointment_chat_view.m */; };
 		6EA3963D179181CA004871F8 /* member_intro.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA3963C179181CA004871F8 /* member_intro.m */; };
 		6EB24B8D1770B93100F86CEB /* STableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB24B8C1770B93100F86CEB /* STableViewController.m */; };
 		6EB24B941771F09E00F86CEB /* place_list.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB24B931771F09E00F86CEB /* place_list.m */; };
@@ -717,6 +718,7 @@
 		6E1DEC0E17A71FF900A889F5 /* 144@Logo_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "144@Logo_2.png"; sourceTree = "<group>"; };
 		6E2866AD1751FC190008355C /* member_photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = member_photo.h; sourceTree = "<group>"; };
 		6E2866AE1751FC190008355C /* member_photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = member_photo.m; sourceTree = "<group>"; };
+		6E329CD817ED87D100F7A892 /* nightlife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = nightlife.entitlements; sourceTree = "<group>"; };
 		6E48119417B3CBAE002D5B70 /* member_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = member_cell_bg.png; sourceTree = "<group>"; };
 		6E48119617B3CBB3002D5B70 /* member_cell_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "member_cell_bg@2x.png"; sourceTree = "<group>"; };
 		6E55EC5A177ECE4600B26688 /* hp_appointment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hp_appointment@2x.png"; sourceTree = "<group>"; };
@@ -741,6 +743,8 @@
 		6E7B874E17BFF56500993E5E /* user_row_content.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_row_content.png; sourceTree = "<group>"; };
 		6E82EECA1750E36400B12E56 /* self_photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = self_photo.h; sourceTree = "<group>"; };
 		6E82EECB1750E36400B12E56 /* self_photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = self_photo.m; sourceTree = "<group>"; };
+		6E9CBBCF17FC353C0021DE70 /* appointment_chat_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appointment_chat_view.h; sourceTree = "<group>"; };
+		6E9CBBD017FC353C0021DE70 /* appointment_chat_view.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appointment_chat_view.m; sourceTree = "<group>"; };
 		6EA3963B179181CA004871F8 /* member_intro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = member_intro.h; sourceTree = "<group>"; };
 		6EA3963C179181CA004871F8 /* member_intro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = member_intro.m; sourceTree = "<group>"; };
 		6EB24B8B1770B93100F86CEB /* STableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STableViewController.h; sourceTree = "<group>"; };
@@ -1188,6 +1192,8 @@
 				5BD11B9E17213388007C0091 /* appointment_chat.m */,
 				5B0C102C172910FE00383EDB /* appointment_chat_cell.h */,
 				5B0C102D172910FE00383EDB /* appointment_chat_cell.m */,
+				6E9CBBCF17FC353C0021DE70 /* appointment_chat_view.h */,
+				6E9CBBD017FC353C0021DE70 /* appointment_chat_view.m */,
 			);
 			name = "聊天";
 			sourceTree = "<group>";
@@ -1413,6 +1419,7 @@
 		5BE8296F15B453440061C2F5 /* yydr */ = {
 			isa = PBXGroup;
 			children = (
+				6E329CD817ED87D100F7A892 /* nightlife.entitlements */,
 				5B5215761705E31F009422BF /* 其他相关 */,
 				5BF8A500171B0D5800AC8996 /* 楼凤 */,
 				5BCFF17A16D540D600163D0A /* 检查更新 */,
@@ -1492,10 +1499,10 @@
 			children = (
 				6EB24B921771F09E00F86CEB /* place_list.h */,
 				6EB24B931771F09E00F86CEB /* place_list.m */,
-				6ED60D831765F5CA005FA548 /* place_list_cell0.h */,
-				6ED60D841765F5CA005FA548 /* place_list_cell0.m */,
 				5BCF726D1693432F00D0EBC4 /* place_list_cell.h */,
 				5BCF726E1693432F00D0EBC4 /* place_list_cell.m */,
+				6ED60D831765F5CA005FA548 /* place_list_cell0.h */,
+				6ED60D841765F5CA005FA548 /* place_list_cell0.m */,
 				5BEA2F29169A9F3C00E6DD79 /* place_list_footview.h */,
 				5BEA2F2A169A9F3C00E6DD79 /* place_list_footview.m */,
 			);
@@ -1532,8 +1539,8 @@
 				5B979AEA172D4706002DFDCE /* chatDelegate.h */,
 				5B0C103C1729227D00383EDB /* UIView+AnimationOptionsForCurve.h */,
 				5B0C103D1729227D00383EDB /* UIView+AnimationOptionsForCurve.m */,
-				5B979AFE172FF38E002DFDCE /* 对话列表 */,
 				5BD11BB01721357C007C0091 /* 会员列表 */,
+				5B979AFE172FF38E002DFDCE /* 对话列表 */,
 				5B979AFC172FF340002DFDCE /* 聊天 */,
 			);
 			name = "楼凤";
@@ -2759,6 +2766,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					5BE8296415B453440061C2F5 = {
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 5BE8295F15B453440061C2F5 /* Build configuration list for PBXProject "yydr" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -3086,6 +3102,7 @@
 				6EDE9DC017507DBF0088E491 /* iMapView.m in Sources */,
 				6EDE9DC117507DBF0088E491 /* iPageView.m in Sources */,
 				6EDE9DC617507DBF0088E491 /* MBProgressHUD.m in Sources */,
+				6E9CBBD117FC353C0021DE70 /* appointment_chat_view.m in Sources */,
 				6EDE9DE317507DBF0088E491 /* MKAnnotationView+WebCache.m in Sources */,
 				6EDE9DE417507DBF0088E491 /* SDImageCache.m in Sources */,
 				6EDE9DE517507DBF0088E491 /* SDWebImageCompat.m in Sources */,
@@ -3281,6 +3298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_ENTITLEMENTS = yydr/nightlife.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: li yi (77T4EXPYBA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: li yi (77T4EXPYBA)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3305,6 +3323,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_ENTITLEMENTS = yydr/nightlife.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: li yi (87Z7X9986U)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: li yi (87Z7X9986U)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

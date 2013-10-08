@@ -23,6 +23,9 @@
     if (self) {
         // Initialization code
 
+        
+        self.backgroundColor=[UIColor grayColor];
+        
         //加载中...
         title=[self addLabel:self
                        frame:CGRectMake(0, 0, 100, 25)

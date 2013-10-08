@@ -24,25 +24,28 @@
     if (self) {
         // Custom initialization
         
-        place_add_button =  [self.view add_add_button:@selector(onPlaceAddDown:) target:self];
+        place_add_button = [self.view add_add_button:@selector(onPlaceAddDown::) target:self];//[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(onPlaceAddDown:)];
+       
         place_reload_button=[self.view add_reload_button:@selector(onPlaceReloadDown:) target:self];
         
-
         setting_button=[self.view add_setting_button:@selector(onSettingDown:) target:self];
         
         self.navigationItem.rightBarButtonItem=place_add_button;
 
         
         
-        //场所列表
+        //底部工具栏 场所列表
         p0 = [[place_list alloc] init];
         
         UITabBarItem *item0 = [[UITabBarItem alloc] initWithTitle:@"场所"
                                                             image:[UIImage imageNamed:@"hp_place.png"]
                                                               tag:0];
+        
         item0.titlePositionAdjustment=UIOffsetMake(0, -2);
         p0.tabBarItem = item0;
         item0.tag=1000;
+        
+        
         
         //约会列表
         p1 = [[appointment_member_list alloc] init];
@@ -54,12 +57,13 @@
         p1.tabBarItem = item1;
         item1.tag=1001;
         
+        
         //消息列表
         p2 = [[appointment_chat_list alloc] init];
         
         UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"对话"
-                                              image:[UIImage imageNamed:@"hp_chat.png"]
-                                                tag:0];
+                                                            image:[UIImage imageNamed:@"hp_chat.png"]
+                                                              tag:0];
         item2.titlePositionAdjustment=UIOffsetMake(0, -2);
         p2.tabBarItem = item2;
         item2.tag=1002;
@@ -75,6 +79,13 @@
         p3.tabBarItem = item3;
         item3.tag=1003;
         
+        if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+        {
+            self.tabBar.barStyle=UIBarStyleBlack;
+            self.tabBar.translucent=NO;
+        }
+        
+        
         self.viewControllers = [NSArray arrayWithObjects:p0, p1, p2, p3, nil];
         
         [self.navigationItem setHidesBackButton:YES];
@@ -88,6 +99,30 @@
 }
 
 
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"aaaaa");
+    
+    [searchBar setShowsCancelButton:YES animated:YES];
+}
+
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [searchBar endEditing:YES];
+}
+
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+}
+
+
+
+
+
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     titleView.titleText.text = item.title;
@@ -95,9 +130,31 @@
     switch (item.tag) {
         case 1000:
         {
+            
+            
+            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
+            searchBar.placeholder=@"搜索";
+            [searchBar setShowsCancelButton:YES];
+            searchBar.delegate=self;
+            //[searchBar setTranslucent:YES];
+            searchBar.barTintColor=[UIColor blackColor];
+
+            
+            UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
+            [searchView addSubview:searchBar];
+            
+            
+            self.navigationItem.titleView = searchView;
+
+            
+            /*
             [titleView showPlace];
             self.navigationItem.leftBarButtonItem=nil;
             self.navigationItem.rightBarButtonItem=place_add_button;
+            */
+                 
+            
+            
         }
             break;
         case 1001:
@@ -189,7 +246,9 @@
     mm.delegate=self;
 
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mm];
-    nav.navigationBar.tintColor=[UIColor blackColor];
+    nav.navigationBar.barStyle = UIBarStyleBlack;
+    nav.navigationBar.translucent=NO;
+    
     
     [self presentModalViewController:nav
                             animated:YES];
@@ -199,6 +258,7 @@
 //城市选择
 -(void)onCitySelected
 {
+    
     NSLog(@"onCitySelected");
     
     NSString *city= [[NSUserDefaults standardUserDefaults] objectForKey:@"City"];
@@ -207,6 +267,7 @@
     //城市改变重新载入
     [p0 reloadWithInit];
     [titleView showPlace];
+    
 }
 
 

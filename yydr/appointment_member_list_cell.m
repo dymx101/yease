@@ -27,24 +27,24 @@
     if (self) {
         // Initialization code
         
-        self.backgroundView=[self addImageView:nil
-                                         image:@"member_cell_bg.png"
-                                      position:CGPointMake(0, 0)];
-        
-        
+//        self.backgroundView=[self addImageView:nil
+//                                         image:@"member_cell_bg.png"
+//                                      position:CGPointMake(0, 0)];
+//        
+//        
 
 
         
         //头像
         self.Avatar =[self addImageView:self.contentView
                                  image:@"noAvatar.png"
-                              position:CGPointMake(10, 10)];
+                              position:CGPointMake(15, 10)];
 
         self.Avatar.center=CGPointMake(self.Avatar.center.x, 50);
         self.Avatar.backgroundColor = [UIColor grayColor];
         self.Avatar.contentMode = UIViewContentModeScaleAspectFill;
         self.Avatar.clipsToBounds = YES;
-        self.Avatar.frame=CGRectMake(10, 10, 60, 60);
+        self.Avatar.frame=CGRectMake(15, 10, 60, 60);
         
         CALayer * ll = self.Avatar.layer;
         

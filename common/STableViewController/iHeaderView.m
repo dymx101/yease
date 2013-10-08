@@ -21,6 +21,9 @@
     if (self) {
         // Initialization code
         
+        
+        //self.backgroundColor=[UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1];
+        
         infoLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
         infoLabel.backgroundColor=[UIColor clearColor];
         infoLabel.textColor=[UIColor blackColor];

@@ -33,11 +33,7 @@
         HUD.labelText = @"正在提交，请稍等...";
         
         rating=-1;
-        
-        
-        self.tableView.backgroundView = [self.view addImageView:nil
-                                                          image:@"place_tel_bbg.png"
-                                                       position:CGPointMake(0, 0)];
+
         waiting=NO;
     }
     return self;

@@ -34,23 +34,58 @@
         locManager = [[CLLocationManager alloc] init];
         locManager.delegate = self;
         locManager.desiredAccuracy = kCLLocationAccuracyBest;
+        
+    
+        
+       
+        
     }
     return self;
 }
-
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.tableView.backgroundView= [self.view addImageView:nil
-                                                     image:@"place_tel_bbg.png"
-                                                  position:CGPointMake(0, 0)];
     HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:HUD];
     
     self.title=@"夜色";
+
+
+    [self.view addTapEvent:self.view
+                    target:self
+                    action:@selector(onTap:)];
+    
+    
+    //self.navigationController.navigationBar.tintColor = [UIColor redColor];
+ 
+   // self.navigationController.navigationItem.backBarButtonItem.tintColor=[UIColor redColor];
+    
+    
+    UIBarButtonItem * lb = [[UIBarButtonItem alloc]initWithTitle:@"注册"
+                                                           style:UIBarButtonItemStylePlain
+                                                          target:self
+                                                          action:@selector(onRegDown:)];
+    lb.tintColor=[UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = lb;
+    
+    
+    UIBarButtonItem * rb = [[UIBarButtonItem alloc]initWithTitle:@"登入"
+                                                           style:UIBarButtonItemStyleDone
+                                                          target:self
+                                                          action:@selector(onLoginDown:)];
+    rb.tintColor=[UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = rb;
+
+}
+
+
+-(void)onTap:(id)sender
+{
+    [UserName endEditing:YES];
+    [Password endEditing:YES];
 }
 
 
@@ -160,7 +195,8 @@
         [self.navigationController pushViewController:p
                                              animated:NO];
     }
-  
+    
+    
 }
 
 
@@ -222,7 +258,8 @@
      //去注册页面
      reg *mm = [[reg alloc] initWithStyle:UITableViewStyleGrouped];
      mm.title=@"注册";
-     [self.navigationController pushViewController:mm animated:YES];
+     [self.navigationController pushViewController:mm
+                                          animated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -417,38 +454,6 @@
                                          animated:NO];
 }
 
--(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView * hView;
-    
-    if(section==0)
-    {
-        hView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
-        //hView.backgroundColor=[UIColor redColor];
-        
-        //登入
-        [self.view addButtonWithCenter:hView
-                                 image:@"login_button.png"
-                              position:CGPointMake(222, 30)
-                                   tag:2000
-                                target:self
-                                action:@selector(onLoginDown:)];
-        
-        //注册
-        [self.view addButtonWithCenter:hView
-                                 image:@"reg_button_s.png"
-                              position:CGPointMake(60, 30)
-                                   tag:2001
-                                target:self
-                                action:@selector(onRegDown:)];
-    }
-    return hView;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 60.0f;
-}
 
 
 

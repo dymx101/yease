@@ -20,6 +20,7 @@
 #import "FMDatabaseAdditions.h"
 
 #import "NSDataAdditions.h"
+#import "appointment_chat_view.h"
 
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -36,20 +37,42 @@
     if (self) {
         // Custom in不itialization
 
+   
+        
+        
+        //键盘出现隐藏
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillHide:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
+
+        
+
         //底部输入框
         int tHeight=44;
         int tWidth=300;
         //int off=_AppDelegate.notifierView.hidden==YES?0:20;
         
+        int off=0;
         
-        tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height-44-tHeight)];
+        if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+        {
+            off=20;
+        }
+        
+        
+        
+        tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height-44-tHeight-off)];
         tb.delegate=self;
         tb.dataSource=self;
         tb.separatorStyle = NO;
-
-        tb.backgroundView= [self.view addImageView:nil
-                                             image:@"place_tel_bbg.png"
-                                          position:CGPointMake(0, 0)];
+        
+        
         [self.view addSubview:tb];
         
         
@@ -58,22 +81,17 @@
                         action:@selector(onTap:)];
         
         
-     
-    
-        NSLog(@"%f",self.view.frame.size.height-tHeight-44);
-        NSLog(@"%f",self.view.bounds.size.height-tHeight-44);
-    
+        NSLog(@"=====================%f",self.view.frame.size.height);
+        NSLog(@"=====================%f",self.view.bounds.size.height-tHeight-44);
         
 
-        
-
+        //底部输入条
         inputView = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                             self.view.bounds.size.height-tHeight-44,
+                                                             self.view.bounds.size.height-tHeight-44-off,
                                                              320,
                                                              tHeight)];
         inputView.backgroundColor=[UIColor redColor];
         
-
         
         [self.view addButton:inputView
                        image:@"chat_photo_bt.png"
@@ -83,12 +101,8 @@
                       action:@selector(onDown:)];
         
         
-        
-        
-        
-        
-        
-        tv = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 5, tWidth, 40)];
+        //输入框
+        tv = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(9, 5, tWidth, 40)];
         tv.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
         tv.minNumberOfLines = 1;
         tv.maxNumberOfLines = 5;
@@ -97,16 +111,21 @@
         tv.delegate = self;
         tv.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
         tv.backgroundColor = [UIColor whiteColor];
+  
+        
+        
+        
         
         // textView.text = @"test\n\ntest";
         // textView.animateHeightChange = NO; //turns off animation
         
         //输入框
         UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
-        UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
+        UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:14 topCapHeight:21];
         UIImageView *entryImageView = [[UIImageView alloc] initWithImage:entryBackground];
-        entryImageView.frame = CGRectMake(5, 0, tWidth+2, tHeight);
+        entryImageView.frame = CGRectMake(8, 0, tWidth+2, tHeight);
         entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        
         
         //输入框背景
         UIImage *rawBackground = [UIImage imageNamed:@"MessageEntryBackground.png"];
@@ -118,6 +137,7 @@
         tv.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         
+        
         // view hierachy
         [inputView addSubview:imageView];
         [inputView addSubview:tv];
@@ -125,20 +145,10 @@
         
         [self.view addSubview:inputView];
         
-
-        //键盘出现隐藏
-        [[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(keyboardWillShow:)
-													 name:UIKeyboardWillShowNotification
-												   object:nil];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(keyboardWillHide:)
-													 name:UIKeyboardWillHideNotification
-												   object:nil];
         
         messageArray=nil;
         messageArray=[NSMutableArray new];
+
         
     }
     return self;
@@ -313,7 +323,7 @@
             [messageArray addObject:msg];
         }
         
-        //NSLog(@"histroy=%@",messageArray);
+        NSLog(@"histroy=%@",messageArray);
         
         [database close];
         
@@ -324,6 +334,7 @@
     [tb reloadData];
     
 }
+
 
 
 - (void)viewDidLoad
@@ -337,6 +348,8 @@
 
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onBack:)
                                                               target:self];
+    
+    
 
     dbHelper *dh = [[dbHelper alloc] init];
     [dh updateRecordCountToZero:did Mid:mid];
@@ -367,38 +380,41 @@
     UIViewAnimationCurve curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
 
     
-    [UIView animateWithDuration:duration
-                          delay:0.0f
-                        options:[UIView animationOptionsForCurve:curve]
-                     animations:^{
-                         
-                         
-                         
-                         CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
-                         
-                         CGRect inputViewFrame = inputView.frame;
-                         inputView.frame = CGRectMake(inputViewFrame.origin.x,
-                                                           keyboardY - inputViewFrame.size.height,
-                                                           inputViewFrame.size.width,
-                                                           inputViewFrame.size.height);
-                         
-                         
-                         
-                         UIEdgeInsets insets = UIEdgeInsetsMake(0.0f,
-                                                                0.0f,
-                                                                self.view.frame.size.height - inputView.frame.origin.y-44,
-                                                                0.0f);
-                         
-                         tb.contentInset = insets;
-                         tb.scrollIndicatorInsets = insets;
-                         
-                         [self scrollToBottomAnimated:YES];
-                     }
-                     completion:^(BOOL finished) {
-                         
-                         
-                     }];
     
+    
+    
+    [UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationCurve:curve];
+	
+
+    
+    
+    CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
+    
+    CGRect inputViewFrame = inputView.frame;
+    inputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                 keyboardY - inputViewFrame.size.height,
+                                 inputViewFrame.size.width,
+                                 inputViewFrame.size.height);
+    
+    
+    
+    UIEdgeInsets insets = UIEdgeInsetsMake(0.0f,
+                                           0.0f,
+                                           self.view.frame.size.height - inputView.frame.origin.y-44,
+                                           0.0f);
+    
+    tb.contentInset = insets;
+    tb.scrollIndicatorInsets = insets;
+    
+    [self scrollToBottomAnimated:YES];
+
+
+	// commit animations
+	[UIView commitAnimations];
+
 }
 
 
@@ -441,7 +457,7 @@
 
         
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"输入内容少200字"
+                                                        message:@"输入内容少于200字"
                                                        delegate:self
                                               cancelButtonTitle:@"确定"
                                               otherButtonTitles:nil];
@@ -526,6 +542,8 @@
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     
+    NSLog(@"拉高拉高=====================%f",height);
+    
     float diff = (growingTextView.frame.size.height - height);
     
 	CGRect r = inputView.frame;
@@ -533,7 +551,7 @@
     r.origin.y += diff;
 	inputView.frame = r;
 
-    
+
     UIEdgeInsets insets = UIEdgeInsetsMake(0.0f,
                                            0.0f,
                                            self.view.frame.size.height - inputView.frame.origin.y-44,
@@ -590,15 +608,21 @@
 {
     NSString *type=[[messageArray objectAtIndex:indexPath.row] objectForKey:@"Type"];
     
+
     if([type isEqualToString:@"message"])
     {
         NSString *mm=[[messageArray objectAtIndex:indexPath.row] objectForKey:@"Body"];
         
+
         CGSize bubbleSize = [mm sizeWithFont:[UIFont systemFontOfSize:18.f]
                            constrainedToSize:CGSizeMake(ChatTextWidth, MAXFLOAT)
-                               lineBreakMode:UILineBreakModeWordWrap];
+                               lineBreakMode:NSLineBreakByWordWrapping];
+
         
         int h = bubbleSize.height>22?bubbleSize.height:22;
+        
+
+        //NSLog(@"====================%d",h+20+30);
         
         return h+20+30;
     }
@@ -606,7 +630,9 @@
     {
         return 30;
     }
+    
 }
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -623,8 +649,8 @@
                                             reuseIdentifier:CellIdentifier];
     }
     
+    
     [cell loadMessage:msg];
-    [cell setNeedsDisplay];
     
     return cell;
 }

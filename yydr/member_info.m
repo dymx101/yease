@@ -45,19 +45,22 @@
         // Custom initialization
         
         
-        tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height-44)
+        int off=0;
+        
+        
+        if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+        {
+            off=20;
+        }
+        
+        
+        tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height-44-20)
                                         style:UITableViewStylePlain];
         
         tb.delegate=self;
         tb.dataSource=self;
         tb.separatorStyle = NO;
-        tb.backgroundView = [self.view addImageView:nil
-                                              image:@"bg.png"
-                                           position:CGPointMake(0, 0)];
         
-        tb.backgroundView= [self.view addImageView:nil
-                                             image:@"place_tel_bbg.png"
-                                          position:CGPointMake(0, 0)];
         
         [self.view addSubview:tb];
         
@@ -72,7 +75,7 @@
 
 -(void)loadInfo:(NSDictionary*)info
 {
-
+    
     MemberInfo=info;
     NSLog(@"info==========%@",info);
     
@@ -97,7 +100,7 @@
         signature=@"没有个性签名";
     }
     
-
+    
     //个人简介
     intro=[MemberInfo objectForKey:@"Intro"];
     
@@ -105,13 +108,34 @@
     {
         intro=@"无";
     }
-
-
     
-    CGSize titleSize = [intro sizeWithFont:[UIFont systemFontOfSize:14.f]
-                         constrainedToSize:CGSizeMake(280, MAXFLOAT)
-                             lineBreakMode:UILineBreakModeWordWrap];
-    orgHeight=titleSize.height;
+    
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+    {
+        NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [UIFont systemFontOfSize:14.0],
+                                              NSFontAttributeName,
+                                              nil];
+        
+        CGSize titleSize= [intro boundingRectWithSize:CGSizeMake(280, MAXFLOAT)
+                                              options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                           attributes:attributesDictionary
+                                              context:nil].size;
+        orgHeight=titleSize.height+5;
+    }
+    else
+    {
+        
+        CGSize titleSize = [intro sizeWithFont:[UIFont systemFontOfSize:14.f]
+                             constrainedToSize:CGSizeMake(280, MAXFLOAT)
+                                 lineBreakMode:NSLineBreakByCharWrapping];
+        orgHeight=titleSize.height;
+        
+    }
+    
+    
+    
     
     [self loadAblum:UserId];
     [self loadManager:UserId];
@@ -194,7 +218,7 @@
 {
     [HUD hide:YES];
     
-   
+    
     
     switch (r.tag) {
         case 1010:
@@ -220,7 +244,7 @@
             NSData *jsonData = [r responseData];
             NSError *error = nil;
             id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
-
+            
             Mobile = [jsonObject objectForKey:@"ManagerMobile"];
             
             
@@ -283,7 +307,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell0"];
                 cell.selectionStyle=UITableViewCellSelectionStyleNone;
                 
-
+                
                 
                 //设置头像
                 UIImageView *Avatar = [self.view addImageView:cell.contentView
@@ -292,7 +316,7 @@
                 CALayer * ll =Avatar.layer;
                 [ll setMasksToBounds:YES];
                 [ll setCornerRadius:6.0];
-
+                
                 
                 NSString *FileName=[MemberInfo objectForKey:@"Avatar"];
                 NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,UserId,FileName]];
@@ -315,7 +339,7 @@
                 
                 un.shadowOffset=CGSizeMake(0, 1);
                 un.shadowColor=[UIColor whiteColor];
-
+                
                 //签名
                 UILabel *sign= [self.view addLabel:cell.contentView
                                              frame:CGRectMake(0, 0, 210, 80)
@@ -323,11 +347,11 @@
                                               text:signature
                                              color:[UIColor grayColor]
                                                tag:0];
-
+                
                 sign.numberOfLines=0;
                 sign.lineBreakMode=UILineBreakModeWordWrap;
                 
-
+                
                 
                 
                 
@@ -337,9 +361,9 @@
                 
                 sign.frame=CGRectMake(100, 40, labelsize.width, labelsize.height);
                 
-
+                
             }
-
+            
             
         }
             break;
@@ -368,12 +392,12 @@
                                          target:self
                                          action:@selector(onStartChatDown:)];
             
-
+            
             
             //拨号
             if( !Mobile || [Mobile isKindOfClass:[NSNull class]] )
             {
-               
+                
                 [self.view addImageView:cell.contentView
                                   image:@"user_not_dial.png"
                                position:CGPointMake(167, 10)];
@@ -382,14 +406,14 @@
             else
             {
                 [self.view addButton:cell.contentView
-                                           image:@"user_dial.png"
-                                        position:CGPointMake(167, 10)
-                                             tag:1101
-                                          target:self
-                                          action:@selector(onDial:)];
+                               image:@"user_dial.png"
+                            position:CGPointMake(167, 10)
+                                 tag:1101
+                              target:self
+                              action:@selector(onDial:)];
                 
             }
-
+            
             
             UILabel *n2=[self.view addLabel:im
                                       frame:CGRectMake(10, 0, 100, 25)
@@ -417,7 +441,7 @@
                     {
                         break;
                     }
-
+                    
                     [self.view addImageView:cell.contentView
                                       image:@"place_arrow.png"
                                    position:CGPointMake(283, 135)];
@@ -504,8 +528,10 @@
                                       font:[UIFont systemFontOfSize:14]
                                       text:intro
                                      color:[UIColor blackColor] tag:0];
+            
+            
             n.numberOfLines=0;
-
+            
             if([intro isEqualToString:@"无"])
             {
                 n.textColor=[UIColor grayColor];
@@ -513,7 +539,7 @@
             }
             
             
-                       
+            
             
             [self.view addImageView:cell.contentView
                               image:@"user_row_bottom.png"
@@ -525,7 +551,7 @@
     }
     
     
-
+    
     
     
     return cell;
@@ -641,7 +667,7 @@
         [self.navigationController pushViewController:mm animated:YES];
         
     }
-
+    
 }
 
 -(void)onStartChatDown:(UIButton*)sender
@@ -673,7 +699,7 @@
             return 100;
         }
             break;
-
+            
         case 1:
         {
             return 200;

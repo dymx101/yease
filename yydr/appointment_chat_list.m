@@ -10,6 +10,9 @@
 #import "appointment_chat_list_cell.h"
 #import "appointment_chat.h"
 
+
+
+
 #import "global.h"
 
 #import "UIImageView+WebCache.h"
@@ -188,6 +191,9 @@
     dbHelper *dh=[[dbHelper alloc] init];
     [dh updateRecordCountToZero:sid Mid:mid];
 
+    
+    
+
     //去聊天
     appointment_chat *cc=[[appointment_chat alloc] init];
     cc.title=[UserDetail objectForKey:@"From"];
@@ -196,6 +202,7 @@
     [cc setRev:[[UserDetail objectForKey:@"Sid"] integerValue]
        revName:[UserDetail objectForKey:@"From"]
      revAvatar:[UserDetail objectForKey:@"Avatar"]];
+    
     
     [self.navigationController pushViewController:cc animated:YES];
     

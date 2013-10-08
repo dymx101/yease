@@ -24,7 +24,7 @@
 #import "UIView+iButtonManager.h"
 #import "AppDelegate.h"
 
-@interface homepage : UITabBarController<UITabBarControllerDelegate,chatDelegate,CityDelegate,CitySelectedDelegate>
+@interface homepage : UITabBarController<UITabBarControllerDelegate,chatDelegate,CityDelegate,CitySelectedDelegate,UISearchBarDelegate>
 {
     UIBarButtonItem *place_add_button,*place_reload_button,*setting_button;
     place_list *p0;

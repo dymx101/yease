@@ -71,7 +71,7 @@
     tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tableView.dataSource = self;
     tableView.delegate = self;
-    tableView.separatorStyle = NO;
+    //tableView.separatorStyle = NO;
     
     
     //表头

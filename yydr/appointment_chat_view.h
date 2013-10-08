@@ -1,31 +1,26 @@
 //
-//  girl_chat_cell.h
+//  appointment_chat_view.h
 //  yydr
 //
-//  Created by liyi on 13-4-25.
+//  Created by Li yi on 13-10-2.
 //
 //
 
-#import <UIKit/UIKit.h>
-#import "appointment_chat_view.h"
+#import "iPageView.h"
 
-@interface appointment_chat_cell : UITableViewCell
+@interface appointment_chat_view : iPageView
 {
     UIImage *bubble,*sbubble,*avatar;
-    UIImageView *bubbleView,*sbubbleView;
-    
-    
     CGSize bubbleSize,bodySize;
     NSString *UserName,*Sender,*Msg,*Avatar;
     int sid,mid;
     NSString *type,*cdate;
     NSDictionary *msgDict;
     UIImageView *AvatarImageView;
-    
-    UILabel *chatText;
 }
 
 @property (nonatomic,strong) UIImageView *AvatarImageView;
 @property (nonatomic,strong) NSDictionary *msgDict;
 -(void)loadMessage:(NSDictionary*)msg;
+
 @end

@@ -27,22 +27,22 @@
     if (self) {
         // Initialization code
         
-        self.backgroundView=[self addImageView:nil
-                                         image:@"place_cell_bg.jpg"
-                                      position:CGPointMake(0, 0)];
+//        self.backgroundView=[self addImageView:nil
+//                                         image:@"place_cell_bg.jpg"
+//                                      position:CGPointMake(0, 0)];
         
         
         //头像
         
         self.photo =[self addImageView:self.contentView
                                   image:@"noAvatar.png"
-                               position:CGPointMake(10, 10)];
+                               position:CGPointMake(15, 10)];
         
         self.photo.center=CGPointMake(self.photo.center.x, 50);
         self.photo.backgroundColor = [UIColor grayColor];
         self.photo.contentMode = UIViewContentModeScaleAspectFill;
         self.photo.clipsToBounds = YES;
-        self.photo.frame=CGRectMake(10, 10, 60, 60);
+        self.photo.frame=CGRectMake(15, 10, 60, 60);
         
         CALayer * ll = self.photo.layer;
         

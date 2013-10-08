@@ -21,8 +21,9 @@
         // Initialization code
         
         
-        [self setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+       // [self setActionSheetStyle:UIActionSheetStyleBlackOpaque];
         
+        /*
         //确定
         UISegmentedControl *closeButton = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@"确定"]];
         closeButton.momentary = YES;
@@ -36,7 +37,7 @@
         [self addSubview:closeButton];
         [self showInView:[[UIApplication sharedApplication] keyWindow]];
         [self setBounds:CGRectMake(0, 0, 320, 485)];
-        
+        */
     }
     return self;
 }

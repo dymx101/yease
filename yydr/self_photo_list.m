@@ -37,9 +37,9 @@
         tb.delegate=self;
         tb.dataSource=self;
         tb.separatorStyle = NO;
-        tb.backgroundView = [self.view addImageView:nil
-                                              image:@"place_tel_bbg.png"
-                                           position:CGPointMake(0, 0)];
+//        tb.backgroundView = [self.view addImageView:nil
+//                                              image:@"place_tel_bbg.png"
+//                                           position:CGPointMake(0, 0)];
         [self.view addSubview:tb];
         
         

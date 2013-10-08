@@ -55,14 +55,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.tableView.backgroundView = [self.view addImageView:nil
-                                                      image:@"place_tel_bbg.png"
-                                                   position:CGPointMake(0, 0)];
+
     
     self.title=@"详情";
     
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onBack:)
                                                               target:self];
+    
+    
+    self.tableView.separatorStyle=NO;
 }
 
 -(void)onBack:(id)sender
