@@ -36,7 +36,7 @@
 #import "self_photo_password.h"
 
 #import "AppDelegate.h"
-
+#import "city_list.h"
 
 @interface member ()
 
@@ -106,8 +106,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
-    return 3;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -115,7 +114,7 @@
     // Return the number of rows in the section.
     
     if(section==0)
-        return 2;
+        return 3;
     
     if(section==1)
         return 4;
@@ -123,6 +122,11 @@
     if(section==2)
         return 2;
     
+    if(section==3)
+        return 2;
+    
+    if(section==4)
+        return 1;
     
     return 0;
 }
@@ -158,6 +162,13 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
                 break;
+            case 2:
+            {
+                [[cell textLabel] setText:@"手机绑定"];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                 cell.detailTextLabel.text = @"未绑定";
+            }
+                break;
         }
         
     }
@@ -182,7 +193,7 @@
                                                   image:@"noAvatar.png"
                                                position:CGPointMake(0, 0)];
                 avatar.contentMode= UIViewContentModeScaleToFill;
-                avatar.frame=CGRectMake(220, 5, 50, 50);
+                avatar.frame=CGRectMake(220, 10, 50, 50);
                 
                 
                 NSString *FileName=[userinfo objectForKey:@"avatar"];
@@ -237,7 +248,6 @@
                 cell.detailTextLabel.text=[userinfo objectForKey:@"intro"];;
             }
                 break;
-                
         }
     }
     
@@ -261,7 +271,7 @@
             }
                 break;
                 
-                case 1:
+            case 1:
             {
                 
                 [[cell textLabel] setText:@"访问限制"];
@@ -280,12 +290,49 @@
                 break;
         }
         
-       
-
+        
+        
     }
     
-    /*
     else if(indexPath.section==3)
+    {
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
+        
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                          reuseIdentifier:@"cell2"];
+        }
+        
+        
+        switch (indexPath.row) {
+            case 0:
+            {
+                [[cell textLabel] setText:@"优惠卷"];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text =@"10张";
+
+            }
+                break;
+        
+            case 1:
+            {
+                [[cell textLabel] setText:@"我的积分"];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.text =@"999999分";
+            }
+                break;
+        
+        }
+        
+        
+        
+         return cell;
+        
+    }
+    
+    else if(indexPath.section==4)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
         
@@ -294,11 +341,14 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                           reuseIdentifier:@"cell2"];
         }
-
-        [[cell textLabel] setText:@"居住地"];
+        
+        [[cell textLabel] setText:@"当前城市"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.detailTextLabel.text =@"上海";
+        
     }
-     */
+
+    
     
     return cell;
 }
@@ -376,7 +426,7 @@
 {
     if(indexPath.section==1&&indexPath.row==0)
     {
-        return 60;
+        return 70;
     }
     
     return 40;
@@ -391,7 +441,6 @@
     switch (indexPath.section) {
         case 0:
         {
-            
             switch (indexPath.row) {
                     
                 case 0:
@@ -410,7 +459,6 @@
                 }
                     break;
             }
-            
         }
             break;
             
@@ -453,8 +501,18 @@
         }
             break;
             
-            
         case 2:
+        {
+            
+            //居住地
+            city_list *mm = [[city_list alloc] init];
+            //mm.title=@"选择城市";
+            [self.navigationController pushViewController:mm animated:YES];
+            
+        }
+            break;
+            
+        case 3:
         {
             //个人相册
             switch (indexPath.row) {   
@@ -478,16 +536,7 @@
         }
             break;
             
-        case 3:
-        {
-            
-            //居住地
-            member_map *mm = [[member_map alloc] init];
-            mm.title=@"定位";
-            [self.navigationController pushViewController:mm animated:YES];
-            
-        }
-            break;
+        
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];

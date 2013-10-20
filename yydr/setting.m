@@ -118,7 +118,7 @@
                 HUD.delegate = self;
                 [HUD show:YES];
                 [HUD hide:YES afterDelay:1];
-                 
+                
             }
         }
             break;
@@ -174,9 +174,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-
-    
     
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onLDown:)
                                                               target:self];
@@ -214,7 +211,7 @@
     if (section==0) {
         return 3;
     }
-
+    
     return 1;
 }
 
@@ -260,7 +257,7 @@
         [[cell textLabel] setText:@"关于我们"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-
+    
     return cell;
 }
 
@@ -271,7 +268,7 @@
     if(waiting)
         return;
     
-
+    
     
     
     if(indexPath.section==1)
@@ -283,6 +280,7 @@
     }
     
 
+    
     switch (indexPath.row) {
         case 0:
         {
@@ -311,6 +309,8 @@
         }
             break;
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 

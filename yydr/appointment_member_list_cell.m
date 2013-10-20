@@ -19,7 +19,7 @@
 @synthesize Signature;
 @synthesize UserName;
 @synthesize Distance;
-
+@synthesize Sex;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,8 +54,8 @@
         
         //名字
         self.UserName = [self addLabel:self.contentView
-                                  frame:CGRectMake(80, 10, 200, 25)
-                                   font:[UIFont systemFontOfSize:20]
+                                  frame:CGRectMake(85, 8, 200, 25)
+                                   font:[UIFont systemFontOfSize:18]
                                    text:@""
                                   color:[UIColor blackColor]
                                     tag:0];
@@ -65,15 +65,45 @@
         self.UserName.shadowColor=[UIColor whiteColor];
         self.UserName.shadowOffset=CGSizeMake(0,1);
 
+        
+        
+        
+        
+        
+        
+        //性别
+        self.Sex= [self addImageView:self.contentView
+                               image:@"m_icon.png"
+                            position:CGPointMake(85, 53)];
+        
+        //经理
+        self.Manager= [self addImageView:self.contentView
+                                   image:@"ke_icon.png"
+                                position:CGPointMake(105, 53)];
+        
+        UILabel *ke_t= [self addLabel:self.Manager
+                                frame:CGRectMake(0, 0, 10, 25)
+                                 font:[UIFont boldSystemFontOfSize:12]
+                                 text:@"经"
+                                color:[UIColor whiteColor]
+                                  tag:0];
+        [ke_t sizeToFit];
+        ke_t.center=CGPointMake(self.Manager.frame.size.width/2, self.Manager.frame.size.height/2);
+        
+        self.Manager.hidden=YES;
+        
+        
+        
         //签名
         self.Signature = [self addLabel:self.contentView
-                                 frame:CGRectMake(80, 10, 200, 0)
+                                 frame:CGRectMake(85, 32, 200, 0)
                                   font:[UIFont systemFontOfSize:14]
                                   text:@"从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃"
                                  color:[UIColor grayColor]
                                    tag:0];
         
-        self.Signature.numberOfLines=2;
+        self.Signature.numberOfLines=1;
+        
 
         //距离
         self.Distance=[self addLabel:self.contentView

@@ -10,6 +10,8 @@
 
 #import "city_list.h"
 #import "chatDelegate.h"
+#import "search.h"
+
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface homepage ()
@@ -30,10 +32,8 @@
         
         setting_button=[self.view add_setting_button:@selector(onSettingDown:) target:self];
         
-        self.navigationItem.rightBarButtonItem=place_add_button;
+        
 
-        
-        
         //底部工具栏 场所列表
         p0 = [[place_list alloc] init];
         
@@ -41,10 +41,10 @@
                                                             image:[UIImage imageNamed:@"hp_place.png"]
                                                               tag:0];
         
+        
         item0.titlePositionAdjustment=UIOffsetMake(0, -2);
         p0.tabBarItem = item0;
         item0.tag=1000;
-        
         
         
         //约会列表
@@ -93,35 +93,28 @@
         
         ad=(AppDelegate *)[[UIApplication sharedApplication] delegate];
         ad.chatDelegate=self;
- 
+        
+        
     }
     return self;
 }
 
 
--(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+
+
+
+-(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
 {
-    NSLog(@"aaaaa");
-    
-    [searchBar setShowsCancelButton:YES animated:YES];
+   // self.navigationItem.leftBarButtonItem=place_add_button;
+   // searchView.frame=CGRectMake(0, 0, 270, 44);
 }
 
 
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+-(void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
 {
-    [searchBar setShowsCancelButton:NO animated:YES];
-    [searchBar endEditing:YES];
+   // self.navigationItem.leftBarButtonItem=nil;
+   // searchView.frame=CGRectMake(0, 0, 300, 44);
 }
-
-
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    
-}
-
-
-
-
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
@@ -132,48 +125,31 @@
         {
             
             
-            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
-            searchBar.placeholder=@"搜索";
-            [searchBar setShowsCancelButton:YES];
-            searchBar.delegate=self;
-            //[searchBar setTranslucent:YES];
-            searchBar.barTintColor=[UIColor blackColor];
-
-            
-            UIView *searchView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 44)];
-            [searchView addSubview:searchBar];
-            
-            
-            self.navigationItem.titleView = searchView;
-
-            
-            /*
-            [titleView showPlace];
+            self.navigationItem.titleView=searchView;
+            self.navigationItem.rightBarButtonItem=nil;
             self.navigationItem.leftBarButtonItem=nil;
-            self.navigationItem.rightBarButtonItem=place_add_button;
-            */
-                 
-            
-            
         }
             break;
         case 1001:
         {
-            [titleView showOther];
+            self.navigationItem.titleView=nil;
+            self.navigationItem.title=@"约会";
             self.navigationItem.rightBarButtonItem=nil;
             self.navigationItem.leftBarButtonItem=nil;
         }
             break;
         case 1002:
         {
-            [titleView showOther];
+            self.navigationItem.titleView=nil;
+            self.navigationItem.title=@"对话";
             self.navigationItem.rightBarButtonItem=nil;
             self.navigationItem.leftBarButtonItem=nil;
         }
             break;
         case 1003:
         {
-            [titleView showOther];
+            self.navigationItem.titleView=nil;
+            self.navigationItem.title=@"我的";
             self.navigationItem.rightBarButtonItem=setting_button;
             self.navigationItem.leftBarButtonItem=nil;
         }
@@ -203,7 +179,9 @@
         [p2 updateNewMessageCount];
         [p2 viewDidAppear:NO];
     }
+    
 }
+
 
 
 -(void)messageReceived:(NSDictionary *)msg
@@ -280,8 +258,37 @@
     titleView.cityDelegate=self;
     self.navigationItem.titleView = titleView;
     [titleView showPlace];
+}
+
+
+
+//现实搜索栏
+-(void)showSearchBar
+{
+    //默认出现搜索框初始化,原本的添加按钮消失。
+    //self.navigationItem.rightBarButtonItem=place_add_button;
+    
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+    searchBar.placeholder=@"搜索场所";
+    searchBar.delegate=self;
+    searchBar.backgroundImage=[UIImage imageNamed:@"search_bg.jpg"];
+    
+    
+    sdc=[[UISearchDisplayController alloc] initWithSearchBar:searchBar
+                                          contentsController:self.navigationController];
+    
+    sdc.delegate = self;
+    
+    //sdc.searchResultsDataSource = self;
+    //sdc.searchResultsDelegate = self;
+    
+    
+    searchView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+    self.navigationItem.titleView=searchView;
+    [searchView addSubview:searchBar];
 
 }
+
 
 -(void)onSettingDown:(id)sender
 {

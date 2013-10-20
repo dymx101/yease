@@ -38,9 +38,9 @@
     
     self.title=[NSString stringWithFormat:@"当前城市-%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"City"]];
 
-    UIBarButtonItem *lbt=[self.view add_close_button:@selector(onLDown:)
-                                              target:self];
-    self.navigationItem.leftBarButtonItem=lbt;
+//    UIBarButtonItem *lbt=[self.view add_close_button:@selector(onLDown:)
+//                                              target:self];
+//    self.navigationItem.leftBarButtonItem=lbt;
     
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"city" ofType:@"plist"];
     cityList = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];

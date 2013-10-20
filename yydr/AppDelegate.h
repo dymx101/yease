@@ -65,6 +65,7 @@
 - (BOOL)connect:(NSString*)myJID password:(NSString*)myPassword;
 - (void)disconnect;
 - (void)setShow:(BOOL)b;
+- (void)goOffline;
 
 @end
 

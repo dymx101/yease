@@ -18,7 +18,8 @@
 
 @implementation appointment_chat_cell
 
-
+@synthesize AvatarImageView;
+@synthesize chatText;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -30,16 +31,14 @@
         
         self.backgroundColor=[UIColor whiteColor];
         
-    
         self.clipsToBounds=NO;
-        
-        self.backgroundColor=[UIColor clearColor];
+
         
         //对方泡泡
         bubble = [[UIImage imageNamed:@"messageBubbleGray"] stretchableImageWithLeftCapWidth:23 topCapHeight:15];
         bubbleView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         bubbleView.image=bubble;
-        [self addSubview:bubbleView];
+        [self.contentView addSubview:bubbleView];
         
         
         
@@ -47,21 +46,21 @@
         sbubble = [[UIImage imageNamed:@"messageBubbleBlue"] stretchableImageWithLeftCapWidth:15 topCapHeight:15];
         sbubbleView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         sbubbleView.image=sbubble;
-        [self addSubview:sbubbleView];
+        [self.contentView addSubview:sbubbleView];
         
         
-        self.AvatarImageView=[self addImageView:self
+        self.AvatarImageView=[self addImageView:self.contentView
                                           image:@"temp_ava.jpg"
                                        position:CGPointMake(0, 0)];
         
         
-        chatText=[self addLabel:self
-                          frame:CGRectMake(0, 0, 0, 0)
-                           font:[UIFont systemFontOfSize:18.0]
-                           text:@""
-                          color:[UIColor whiteColor]
-                            tag:0];
-        chatText.numberOfLines=0;
+        self.chatText=[self addLabel:self.contentView
+                               frame:CGRectMake(0, 0, 0, 0)
+                                font:[UIFont systemFontOfSize:18.0]
+                                text:@""
+                               color:[UIColor whiteColor]
+                                 tag:0];
+        
         
     }
     return self;
@@ -91,10 +90,12 @@
         sid=[[msgDict objectForKey:@"Sid"] integerValue];
         mid=[[msgDict objectForKey:@"Mid"] integerValue];
         
-        
-        
+    
         chatText.text=Msg;
-        
+        chatText.numberOfLines=0;
+        chatText.textAlignment=NSTextAlignmentLeft;
+        chatText.font=[UIFont systemFontOfSize:18.0];
+        chatText.lineBreakMode = NSLineBreakByCharWrapping;
         
         //头像
         Avatar=[msgDict objectForKey:@"Avatar"];
@@ -113,25 +114,23 @@
         }
         else
         {
-            
             bubbleSize = [Msg sizeWithFont:[UIFont systemFontOfSize:18.f]
                          constrainedToSize:CGSizeMake(ChatTextWidth, MAXFLOAT)
                              lineBreakMode:NSLineBreakByWordWrapping];
-            
         }
         
         
         //bubbleSize.height+=10;
+
+
+        float w = bubbleSize.width>10?bubbleSize.width:10;
+        float h = bubbleSize.height>22?bubbleSize.height:22;
+
         
         
-
-        int w = bubbleSize.width>10?bubbleSize.width:10;
-        int h = bubbleSize.height>22?bubbleSize.height+5:22;
-
         
         if(sid!=mid)
         {
-            
             
             self.AvatarImageView.hidden=NO;
             NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@%d/%@",UserPhotoURL,sid,Avatar]];
@@ -211,12 +210,19 @@
             [dateFormatter setDateFormat:@"HH:mm"];
             cdate = [NSString stringWithFormat:@"今天 %@",[dateFormatter stringFromDate:ld]];
         }
+
+        
+        self.chatText.text=cdate;
+        self.chatText.numberOfLines=1;
+        self.chatText.textAlignment=NSTextAlignmentCenter;
+        self.chatText.textColor=[UIColor blackColor];
+        self.chatText.font=[UIFont systemFontOfSize:12.0];
+        self.chatText.frame=CGRectMake(0,0,320,30);
         
     }
     
     //fuck的地方
-    self.frame=CGRectMake(0, 0, 320, bubbleSize.height+30+20);
-    
+    //self.frame=CGRectMake(0, 0, 320, bubbleSize.height+30+20);
     
 }
 

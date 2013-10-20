@@ -24,16 +24,32 @@
     if (self) {
         // Initialization code
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         titleText= [self addLabel:self
                             frame:CGRectMake(0, 0, 200, 40)
                              font:[UIFont boldSystemFontOfSize:20]
                              text:@"场所"
                             color:[UIColor whiteColor]
                               tag:1000];
-        
+
         titleText.textAlignment=UITextAlignmentCenter;
         
         
+        
+        /*
         cityText= [self addLabel:self
                            frame:CGRectMake(150, 0, 100, 40)
                             font:[UIFont systemFontOfSize:12]
@@ -56,7 +72,11 @@
         [self addTapEvent:self
                    target:self
                    action:@selector(onDown:)];
+        */
         
+        
+        
+      
         
         
         

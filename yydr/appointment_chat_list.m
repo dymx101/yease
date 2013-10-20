@@ -41,7 +41,6 @@
         //表格
         tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height-44-49)];
         [self.view addSubview:tb];
-        tb.separatorStyle = NO;
         tb.delegate=self;
         tb.dataSource=self;
         

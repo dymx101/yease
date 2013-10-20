@@ -28,6 +28,10 @@
         locManager.desiredAccuracy = kCLLocationAccuracyBest;
         
 
+        
+       
+
+        
     }
     return self;
 }
@@ -53,9 +57,6 @@
 {
    
 }
-
-
-     
      
 
 - (void)viewDidLoad
@@ -65,11 +66,7 @@
     
     self.tableView.frame=CGRectMake(0, 40, 320, self.view.frame.size.height-40);
     
-    
 
-   
-
-    
     
     PageIndex=1;
     order_by=0;
@@ -101,9 +98,6 @@
                                    tag:1002
                                 target:self
                                 action:@selector(onDown:)];
-    
-    
-    
     
     
     
@@ -150,6 +144,11 @@
     locNow=NO;
     
     [self refresh];
+    
+    
+    
+
+
 }
 
 

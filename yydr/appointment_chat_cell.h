@@ -24,7 +24,7 @@
     
     UILabel *chatText;
 }
-
+@property (nonatomic,strong) UILabel *chatText;
 @property (nonatomic,strong) UIImageView *AvatarImageView;
 @property (nonatomic,strong) NSDictionary *msgDict;
 -(void)loadMessage:(NSDictionary*)msg;

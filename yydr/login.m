@@ -35,10 +35,6 @@
         locManager.delegate = self;
         locManager.desiredAccuracy = kCLLocationAccuracyBest;
         
-    
-        
-       
-        
     }
     return self;
 }
@@ -194,6 +190,9 @@
         homepage *p=[[homepage alloc] init];
         [self.navigationController pushViewController:p
                                              animated:NO];
+        
+        //特殊...
+        [p showSearchBar];
     }
     
     
@@ -253,9 +252,12 @@
 }
 
 
+
+//------------------------------------------------------------------------------------------------
+//去注册页面
+//------------------------------------------------------------------------------------------------
 -(void)onRegDown:(id)sender
 {
-     //去注册页面
      reg *mm = [[reg alloc] initWithStyle:UITableViewStyleGrouped];
      mm.title=@"注册";
      [self.navigationController pushViewController:mm
@@ -415,7 +417,7 @@
         //连接xmpp服务器
         /////////////////////////////////////////
         
-        [[self appDelegate] disconnect];
+        //[[self appDelegate] disconnect];
         [[self appDelegate] connect:[NSString stringWithFormat:@"%@@%@",UserName.text,XMPPServer]
                            password:Password.text];
         

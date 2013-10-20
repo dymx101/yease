@@ -54,7 +54,7 @@
         }
         
         
-        tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height-44-20)
+        tb=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height-44-off)
                                         style:UITableViewStylePlain];
         
         tb.delegate=self;

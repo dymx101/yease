@@ -409,11 +409,15 @@
     NSDictionary *UserDetail=[UserList objectAtIndex:indexPath.row];
     
     
+    NSLog(@"%@",UserDetail);
+    
     if (cell == nil)
     {
         cell = [[appointment_member_list_cell alloc] initWithStyle:UITableViewCellStyleDefault
                                                    reuseIdentifier:CellIdentifier];
     }
+    
+ 
     
     cell.UserName.text=[UserDetail objectForKey:@"UserName"];
     
@@ -426,21 +430,36 @@
     [cell.Avatar setImageWithURL:url
                 placeholderImage:[UIImage imageNamed:@"noAvatar.png"]];
     
-
+    //性别
+    int sex=[[UserDetail objectForKey:@"Sex"] integerValue];
+    cell.Sex.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",sex==1?@"m_icon.png":@"f_icon.png"]];
+    
+    
+    //是经理？
+    int rid=[[UserDetail objectForKey:@"RoleId"] integerValue];
+    if(rid==5)
+    {
+        cell.Manager.hidden=NO;
+    }
+    else
+    {
+        cell.Manager.hidden=YES;
+    }
+    
+    
     
     //签名
     id signature=[UserDetail objectForKey:@"Signature"];
     
     if( !signature || [signature isKindOfClass:[NSNull class]] )
     {
-        signature=@"";
+        signature=@"这家伙很懒，没有签名。";
     }
     
     cell.Signature.text=signature;
     [cell.Signature sizeToFit];
     CGRect f=cell.Signature.frame;
     f.size.width=200;
-    f.origin.y=35;
     cell.Signature.frame=f;
     
     //距离

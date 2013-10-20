@@ -253,7 +253,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)goOnline
 {
-	XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
+	XMPPPresence *presence = [XMPPPresence presenceWithType:@"available"]; // type="available" is implicit
 	[[self xmppStream] sendElement:presence];
 }
 
@@ -516,13 +516,44 @@
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error
 {
-  
     NSLog(@"聊天服务器登入失败 error=%@",error);
 }
+
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
 	NSLog(@"xmppStream_didReceivePresence:%@",presence);
+    
+    
+    NSString *type=[[presence attributeForName:@"type"] stringValue];
+    NSString *from=[[presence attributeForName:@"from"] stringValue];
+    NSString *to=[[presence attributeForName:@"to"] stringValue];
+        
+        
+    NSArray *fromArray = [from componentsSeparatedByString:@"@"]; //从字符A中分隔成2个元素的数组
+    NSArray *toArray = [to componentsSeparatedByString:@"@"]; //从字符A中分隔成2个元素的
+    
+    from=[fromArray objectAtIndex:0];
+    to=[toArray objectAtIndex:0];
+        
+    
+    
+//        
+//        //直接登入
+//
+//    if([from isEqualToString:username]&&[to isEqualToString:username])
+//    {
+//        
+//        NSLog(@"帐户在其他登入 username=%@ from=%@ to=%@",username,from,to);
+//        
+//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示"
+//                                                            message:@"您的帐号在其他设备上登入了！"
+//                                                           delegate:self
+//                                                  cancelButtonTitle:@"确定"
+//                                                  otherButtonTitles:nil];
+//            [alert show];
+//    }
+    
 }
 
 

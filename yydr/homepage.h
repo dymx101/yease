@@ -24,7 +24,7 @@
 #import "UIView+iButtonManager.h"
 #import "AppDelegate.h"
 
-@interface homepage : UITabBarController<UITabBarControllerDelegate,chatDelegate,CityDelegate,CitySelectedDelegate,UISearchBarDelegate>
+@interface homepage : UITabBarController<UITabBarControllerDelegate,chatDelegate,CityDelegate,CitySelectedDelegate,UISearchDisplayDelegate,UISearchBarDelegate>
 {
     UIBarButtonItem *place_add_button,*place_reload_button,*setting_button;
     place_list *p0;
@@ -33,5 +33,10 @@
     member *p3;
     AppDelegate *ad;
     title *titleView;
+    
+    UISearchDisplayController *sdc;
+    
+    UIView *searchView;
 }
+-(void)showSearchBar;
 @end

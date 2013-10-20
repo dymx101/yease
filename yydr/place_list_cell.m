@@ -31,6 +31,8 @@
 //                                         image:@"place_cell_bg.jpg"
 //                                      position:CGPointMake(0, 0)];
         
+       // self.backgroundColor=[UIColor redColor];
+        
         
         //场所照片
         self.photo =[self addImageView:self.contentView

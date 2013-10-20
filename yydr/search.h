@@ -2,12 +2,14 @@
 //  search.h
 //  yydr
 //
-//  Created by 毅 李 on 12-7-21.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by Li yi on 13-10-10.
+//
 //
 
-#import <UIKit/UIKit.h>
+#import "iPageView.h"
 
-@interface search : UITableViewController
-
+@interface search : iPageView<UISearchBarDelegate,UISearchDisplayDelegate>
+{
+   
+}
 @end

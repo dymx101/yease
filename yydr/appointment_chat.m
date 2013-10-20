@@ -24,6 +24,8 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 
+#import "NSData+Base64.h"
+
 @interface appointment_chat ()
 
 @end
@@ -55,7 +57,7 @@
 
         //底部输入框
         int tHeight=44;
-        int tWidth=300;
+        int tWidth=200;
         //int off=_AppDelegate.notifierView.hidden==YES?0:20;
         
         int off=0;
@@ -85,7 +87,7 @@
         NSLog(@"=====================%f",self.view.bounds.size.height-tHeight-44);
         
 
-        //底部输入条
+        //底部输入外框
         inputView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                              self.view.bounds.size.height-tHeight-44-off,
                                                              320,
@@ -93,12 +95,8 @@
         inputView.backgroundColor=[UIColor redColor];
         
         
-        [self.view addButton:inputView
-                       image:@"chat_photo_bt.png"
-                    position:CGPointMake(300, 0)
-                         tag:1100
-                      target:self
-                      action:@selector(onDown:)];
+        
+
         
         
         //输入框
@@ -142,6 +140,18 @@
         [inputView addSubview:imageView];
         [inputView addSubview:tv];
         [inputView addSubview:entryImageView];
+        
+        
+        
+        //发送图片按钮
+        [self.view addButton:inputView
+                       image:@"chat_photo_bt.png"
+                    position:CGPointMake(210, 0)
+                         tag:1100
+                      target:self
+                      action:@selector(onDown:)];
+        
+        
         
         [self.view addSubview:inputView];
         
@@ -215,6 +225,77 @@
     
 }
 
+
+-(void)onDown:(UIButton*)sender
+{
+    
+    NSLog(@"拍照");
+    
+    NSData* data = UIImageJPEGRepresentation( [UIImage imageNamed:@"xin@2x.png"], 1.0);
+    
+    NSString *img=[data base64EncodedString];
+    
+    NSLog(@"%@",img);
+    
+    
+    
+    //获取自己的信息
+    dbHelper *dh=[[dbHelper alloc] init];
+    NSDictionary *userinfo = [dh getUserInfo:mid];
+    
+    NSString *MyUserName=[userinfo objectForKey:@"username"];
+    
+    
+    
+    
+    
+    
+    NSDictionary *msg = [NSDictionary dictionaryWithObjectsAndKeys:
+                         MyUserName,@"From",
+                         @"",@"CreateDate",
+                         @"message",@"Type",
+                         [tv.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],@"Body", nil];
+    
+    
+    [self.messageArray addObject:msg];
+    
+    //XMPPFramework主要是通过KissXML来生成XML文件
+    //生成<body>文档
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:img];
+    
+    //生成头像
+    NSXMLElement *avatar = [NSXMLElement elementWithName:@"avatar"];
+    [avatar setStringValue:[userinfo objectForKey:@"avatar"]];
+    
+    //生成发送者id
+    NSXMLElement *uid = [NSXMLElement elementWithName:@"sid"];
+    [uid setStringValue:[NSString stringWithFormat:@"%d",mid]];
+    
+    //生成XML消息文档
+    NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
+    
+    //消息类型
+    [mes addAttributeWithName:@"type" stringValue:@"chat"];
+    
+    //接受者
+    NSString *Receiver=[NSString stringWithFormat:@"%@@yease.cn",rname];
+    [mes addAttributeWithName:@"to" stringValue:Receiver];
+    
+    //发送者
+    [mes addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@@yease.cn",MyUserName]];
+    
+    [mes addChild:body];
+    [mes addChild:avatar];
+    [mes addChild:uid];
+    
+    NSLog(@"did=%d MyUserName=%@ 我发送的消息:%@",did,MyUserName,mes);
+    
+    //发送消息
+    [[_AppDelegate xmppStream] sendElement:mes];
+    
+    
+}
 
 
 #pragma mark – 清空聊天纪录
