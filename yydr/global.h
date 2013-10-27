@@ -8,11 +8,13 @@
 
   //@"http://www.qiaobei.info/api/" //@"http://180.172.105.176/api/" //    @"http://10.0.1.108/api/"
 
-#define ServerURL @"http://www.yease.cn/api/"
+#define ServerURL @"http://test.yease.cn:8989/api/"
 #define PlacePhotoURL @"http://img.yease.cn/"
 #define UserPhotoURL @"http://user.yease.cn/" 
 #define AdvPhotoURL @"http://adv.yease.cn/"
 #define ChatServerURL @"im.yease.cn"
+
+#define LogoFile @"about_logo.png"
 
 #define XMPPServer @"yease.cn"
 #define TIMEOUT 30

@@ -217,6 +217,8 @@
 		6E0AC94E17C5187F0020EBCB /* tel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E0AC90F17C5187F0020EBCB /* tel_icon.png */; };
 		6E1DEC0F17A71FF900A889F5 /* 144@Logo_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E1DEC0E17A71FF900A889F5 /* 144@Logo_2.png */; };
 		6E2866AF1751FC190008355C /* member_photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2866AE1751FC190008355C /* member_photo.m */; };
+		6E41A35F181D7EF1009D787E /* BPushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E41A35E181D7EF1009D787E /* BPushConfig.plist */; };
+		6E41A361181D8219009D787E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E41A360181D8219009D787E /* CoreTelephony.framework */; };
 		6E48119517B3CBAE002D5B70 /* member_cell_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E48119417B3CBAE002D5B70 /* member_cell_bg.png */; };
 		6E48119717B3CBB3002D5B70 /* member_cell_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E48119617B3CBB3002D5B70 /* member_cell_bg@2x.png */; };
 		6E546AA4181432DB00A5C586 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E546A97181432DB00A5C586 /* libBPush.a */; };
@@ -741,10 +743,12 @@
 		6E2866AD1751FC190008355C /* member_photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = member_photo.h; sourceTree = "<group>"; };
 		6E2866AE1751FC190008355C /* member_photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = member_photo.m; sourceTree = "<group>"; };
 		6E329CD817ED87D100F7A892 /* nightlife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = nightlife.entitlements; sourceTree = "<group>"; };
+		6E41A35E181D7EF1009D787E /* BPushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BPushConfig.plist; sourceTree = "<group>"; };
+		6E41A360181D8219009D787E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		6E48119417B3CBAE002D5B70 /* member_cell_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = member_cell_bg.png; sourceTree = "<group>"; };
 		6E48119617B3CBB3002D5B70 /* member_cell_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "member_cell_bg@2x.png"; sourceTree = "<group>"; };
 		6E546A96181432DB00A5C586 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
-		6E546A97181432DB00A5C586 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
+		6E546A97181432DB00A5C586 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBPush.a; path = common/lib/libBPush.a; sourceTree = "<group>"; };
 		6E546A99181432DB00A5C586 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		6E546A9A181432DB00A5C586 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		6E546A9B181432DB00A5C586 /* Base64Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Defines.h; sourceTree = "<group>"; };
@@ -1187,6 +1191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E41A361181D8219009D787E /* CoreTelephony.framework in Frameworks */,
 				5BA61EF9174C9C0900534BF7 /* CoreImage.framework in Frameworks */,
 				5BF48ED4174168CB00993136 /* AudioToolbox.framework in Frameworks */,
 				5B17D11A173BAA07005D1604 /* libsqlite3.dylib in Frameworks */,
@@ -1343,14 +1348,11 @@
 		5BCDB60C16E86B510017FE92 /* 详细 */ = {
 			isa = PBXGroup;
 			children = (
+				6E41A35D181D582B009D787E /* bk */,
 				6E01CA95177D59130077860D /* place_detail.h */,
 				6E01CA96177D59130077860D /* place_detail.m */,
 				6ED60DAB17675E6A005FA548 /* place_detail_cell0.h */,
 				6ED60DAC17675E6A005FA548 /* place_detail_cell0.m */,
-				6ED60DB617675EF9005FA548 /* place_detail_tel_cell.h */,
-				6ED60DB717675EF9005FA548 /* place_detail_tel_cell.m */,
-				6ED60DB117675EBE005FA548 /* place_detail_manager_cell.h */,
-				6ED60DB217675EBE005FA548 /* place_detail_manager_cell.m */,
 				6ED60DAD17675E6A005FA548 /* place_detail_comment_cell.h */,
 				6ED60DAE17675E6A005FA548 /* place_detail_comment_cell.m */,
 			);
@@ -1460,6 +1462,8 @@
 		5BE8296815B453440061C2F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E41A360181D8219009D787E /* CoreTelephony.framework */,
+				6E546A97181432DB00A5C586 /* libBPush.a */,
 				5BF48ED3174168CB00993136 /* AudioToolbox.framework */,
 				5B5917E315D11A9000A47BE6 /* libz.dylib */,
 				5B5917E115D11A8400A47BE6 /* libxml2.dylib */,
@@ -1506,6 +1510,7 @@
 		5BE8297015B453440061C2F5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6E41A35E181D7EF1009D787E /* BPushConfig.plist */,
 				6EB24BA81773582C00F86CEB /* city.plist */,
 				5BE8297115B453440061C2F5 /* yydr-Info.plist */,
 				5BE8297215B453440061C2F5 /* InfoPlist.strings */,
@@ -1845,11 +1850,21 @@
 			name = "头像";
 			sourceTree = "<group>";
 		};
+		6E41A35D181D582B009D787E /* bk */ = {
+			isa = PBXGroup;
+			children = (
+				6ED60DB617675EF9005FA548 /* place_detail_tel_cell.h */,
+				6ED60DB717675EF9005FA548 /* place_detail_tel_cell.m */,
+				6ED60DB117675EBE005FA548 /* place_detail_manager_cell.h */,
+				6ED60DB217675EBE005FA548 /* place_detail_manager_cell.m */,
+			);
+			name = bk;
+			sourceTree = "<group>";
+		};
 		6E546A95181432DB00A5C586 /* lib */ = {
 			isa = PBXGroup;
 			children = (
 				6E546A96181432DB00A5C586 /* BPush.h */,
-				6E546A97181432DB00A5C586 /* libBPush.a */,
 				6E546A98181432DB00A5C586 /* opensource */,
 			);
 			path = lib;
@@ -3070,6 +3085,7 @@
 				6E0AC8B817C516C70020EBCB /* place_big_star_0.png in Resources */,
 				6E0AC8B917C516C70020EBCB /* place_big_star_1.png in Resources */,
 				6E0AC8BA17C516C70020EBCB /* place_big_star_2.png in Resources */,
+				6E41A35F181D7EF1009D787E /* BPushConfig.plist in Resources */,
 				6E0AC8BB17C516C70020EBCB /* place_big_star_3.png in Resources */,
 				6E0AC8BC17C516C70020EBCB /* place_big_star_4.png in Resources */,
 				6E0AC8BD17C516C70020EBCB /* place_big_star_5.png in Resources */,

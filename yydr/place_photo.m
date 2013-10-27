@@ -8,6 +8,7 @@
 
 #import "place_photo.h"
 #import "UIImageView+WebCache.h"
+#import "global.h"
 
 @implementation place_photo
 @synthesize photo;
@@ -18,7 +19,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
+
         self.photo=[[UIImageView alloc] initWithFrame:self.bounds];
         [self addSubview:self.photo];
         self.photo.contentMode= UIViewContentModeScaleAspectFit;
@@ -28,6 +29,13 @@
 
         HUD.mode = MBProgressHUDModeDeterminate;
         //HUD.labelText = @"图片加载中...";
+        
+        
+        //压标
+        UIImageView *logo= [self addImageViewWithCenter:self
+                                                  image:LogoFile
+                                               position:CGPointMake(self.frame.size.width/2, self.frame.size.height/2)];
+        logo.alpha=.2;
     }
     return self;
 }
@@ -38,8 +46,6 @@
     NSLog(@"loadPhoto:%@",url);
     
     [self.HUD show:YES];
-    
-    
     
     //弱引用
     __block place_photo *blockSelf = self;

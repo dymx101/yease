@@ -27,7 +27,7 @@
     UISegmentedControl *segmentedControl;
     int rating;
     BOOL waiting;
-    
+
 }
 @property (nonatomic,strong) id<CommentAddDelegate> delegate;
 -(void)setPlaceId:(int)pid;

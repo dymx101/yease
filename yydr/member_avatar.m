@@ -28,11 +28,17 @@
         // Custom initialization
         
         dh=[[dbHelper alloc] init];
-        
+ 
     }
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [uploadRequest clearDelegatesAndCancel];
+    uploadRequest = nil;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView*)scrollView {
@@ -79,6 +85,48 @@
                                      position:CGPointMake(0, 0)];
     mask.center=CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height/2);
     
+    
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    uploading=NO;
+    
+}
+
+
+//请求回调
+- (void)requestFailed:(ASIHTTPRequest *)r
+{
+    [HUD hide:YES];
+    
+    int statusCode=[r responseStatusCode];
+    
+    switch (statusCode) {
+        case 401:
+        {
+            [[NSUserDefaults standardUserDefaults] setObject:nil
+                                                      forKey:@"Value"];
+            
+            [self.navigationController popToRootViewControllerAnimated:NO];
+        }
+            break;
+            
+        default:
+        {
+            //网络不好跳出提示
+            MBProgressHUD *AlertHUD = [[MBProgressHUD alloc] initWithView:self.view];
+            [self.view addSubview:AlertHUD];
+            AlertHUD.labelText = ConnectionFailure;
+            AlertHUD.mode = MBProgressHUDModeCustomView;
+            AlertHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alert"]];
+            [AlertHUD show:YES];
+            [AlertHUD hide:YES afterDelay:1.5];
+        }
+            break;
+    }
+    
+    [r clearDelegatesAndCancel];
+    uploading=NO;
+    r=nil;
 }
 
 
@@ -93,7 +141,18 @@
     [dh updateAvatar:uid
               Avatar:[r responseString]];
     
-    [self dismissModalViewControllerAnimated:YES];
+    
+    NSLog(@"上传完成");
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    HUD.mode = MBProgressHUDModeCustomView;
+    HUD.labelText = @"头像上传成功";
+    HUD.delegate=self;
+    [HUD hide:YES afterDelay:1.5];
+    
+}
+
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+     [self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -101,7 +160,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
     
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onLDown:)
                                                               target:self];
@@ -121,6 +179,17 @@
 //保存头像
 -(void)onSave:(id)sender
 {
+    //防止连续上传
+    if(uploading==YES)
+    {
+        return;
+    }
+    
+    uploading=YES;
+    
+    
+    
+    
         
     UIImage* image = nil;
     
@@ -164,7 +233,23 @@
                     forKey:@"file"];
     
     [uploadRequest startAsynchronous];
+    
+    
+    
+    //进度条
+    HUD.mode = MBProgressHUDModeDeterminate;
+    HUD.labelText = @"正在上传，请稍等...";
+    [HUD show:YES];
+    
 
+}
+
+
+//进度条回调
+-(void)setProgress:(float)newProgress{
+    
+    NSLog(@"====%f",newProgress);
+    HUD.progress = newProgress;
 }
 
 
@@ -176,16 +261,6 @@
     UIGraphicsEndImageContext();
     return reSizeImage;
 }
-
-
-
-//进度条回调
--(void)setProgress:(float)newProgress{
-    
-    NSLog(@"====%f",newProgress);
-}
-
-
 
 
 - (void)didReceiveMemoryWarning

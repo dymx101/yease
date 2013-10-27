@@ -34,6 +34,8 @@
     [BPush setupChannel:launchOptions];
     [BPush setDelegate:self];
     
+    
+    
     [application setApplicationIconBadgeNumber:0];
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeAlert
@@ -55,6 +57,8 @@
 }
 
 - (void) onMethod:(NSString*)method response:(NSDictionary*)data {
+    
+    
     NSLog(@"On method:%@", method);
     NSLog(@"data:%@", [data description]);
     NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];

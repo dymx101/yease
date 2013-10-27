@@ -42,10 +42,28 @@
     // Override point for customization after application launch.
 
     
+    
+    //百度推送
+    [BPush setupChannel:launchOptions];
+    [BPush setDelegate:self];
+
+    
+    [application setApplicationIconBadgeNumber:0];
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeSound];
+
+    
+    
+    
+    
+    
+    
     //版本判断
     int ver=[[[NSUserDefaults standardUserDefaults] objectForKey:@"version"] integerValue];
     
-    if(ver!=3)
+    if(ver!=3) //3-1.5.0
     {
         [[NSUserDefaults standardUserDefaults] setValue:@"3"
                                                  forKey:@"version"];
@@ -178,19 +196,42 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
    
-    
+    /*
     NSString *tokenStr = [deviceToken description];
     NSString *pushToken = [[[tokenStr
                              stringByReplacingOccurrencesOfString:@"<" withString:@""]
                             stringByReplacingOccurrencesOfString:@">" withString:@""]
                            stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    NSLog(@"DeviceToken=%@",pushToken);
+    //NSLog(@"DeviceToken=%@",pushToken);
     
     //记录推送的Token
     [[NSUserDefaults standardUserDefaults] setObject:pushToken
                                               forKey:@"DeviceToken"];
+    */
+    
+    
+    [BPush registerDeviceToken:deviceToken];
+    // 必须。可以在其它时机调用,只有在该方法返回(通过 onMethod:response:回调)绑定成功时,app 才能接收到 Push 消息。一个 app 绑定成功至少一次即可(如 果 access token 变更请重新绑定)。
+    [BPush bindChannel];
+    
 }
+
+
+- (void) onMethod:(NSString*)method response:(NSDictionary*)data {
+    
+    if ([BPushRequestMethod_Bind isEqualToString:method]) {
+        NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
+        /*
+        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
+        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
+        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
+        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        NSString *requestid = [res valueForKey:BPushRequestRequestIdKey];
+        */
+    }
+}
+
 
 #pragma mark -------------
 - (void)applicationWillResignActive:(UIApplication *)application

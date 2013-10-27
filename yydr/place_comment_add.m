@@ -26,7 +26,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        self.tableView.separatorStyle = NO;
+        //self.tableView.separatorStyle = NO;
         
         HUD = [[MBProgressHUD alloc] initWithView:self.view];
         [self.view addSubview:HUD];
@@ -49,9 +49,9 @@
 #pragma mark 顶部按钮事件
 -(void)onRDown:(id*)sender
 {
+    
     if(waiting)
         return;
-    
     
     [HUD show:YES];
     
@@ -80,7 +80,7 @@
     
     if ([msg isEqualToString:@"ok"]) {
         
-        NSURL *url = [NSURL URLWithString:[NSString  stringWithFormat:@"%@PlaceComment?ver=1.5",ServerURL]];
+        NSURL *url = [NSURL URLWithString:[NSString  stringWithFormat:@"%@PlaceComment",ServerURL]];
         
         ASIFormDataRequest *request;
         request = nil;
@@ -186,9 +186,11 @@
                                                   cancelButtonTitle:@"确定"
                                                   otherButtonTitles:nil];
         [alertView show];
+        
+        waiting=NO;
     }
     
-    waiting=NO;
+    
 }
 
 
@@ -265,11 +267,11 @@
 -(void)onStarDown:(UIGestureRecognizer*)sender
 {
     
-    rating=sender.view.tag-2100;
+    //星数量要+1
+    rating=sender.view.tag-2100+1;
     
     for (int i=0;i<5;i++)
     {
-        
         UIImageView *bt=(UIImageView*)[self.view viewWithTag:2100+i];
         
         if(i>rating)

@@ -61,8 +61,7 @@
     
     self.navigationItem.leftBarButtonItem=[self.view add_back_button:@selector(onBack:)
                                                               target:self];
-    
-    
+
     self.tableView.separatorStyle=NO;
 }
 
@@ -84,16 +83,16 @@
 #pragma mark 加载数据
 - (void)load:(NSDictionary*)dic
 {
+    
     PlaceId= [[dic objectForKey:@"Id"] intValue];
     
     //场所详细信息
     pd=dic;
     
-    NSLog(@"%@",pd);
-    
     //照片
     FileName=[pd objectForKey:@"Path"];
-    manager_count=[[pd objectForKey:@"ManagerCount"] intValue];
+    
+    managerid=[[pd objectForKey:@"ManagerId"] integerValue];
     
     [self loadPlaceCommentList:PlaceId
                     page_index:PageIndex
@@ -144,19 +143,20 @@
     
     NSError *error = nil;
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
-    NSArray *items=(NSArray*)jsonObject;
+    NSDictionary *items=(NSDictionary*)jsonObject;
+    NSArray *pcl=[items objectForKey:@"Place_Comment_List"];
     
     switch (r.tag) {
         case 1010:
         {
             //刷新
-            [self addItemsOnTop:items];
+            [self addItemsOnTop:pcl];
         }
             break;
         case 1011:
         {
             //加载更多
-            [self addItemsOnBottom:items];
+            [self addItemsOnBottom:pcl];
         }
             break;
     }
@@ -174,6 +174,8 @@
 {
     if (![super refresh])
         return NO;
+    
+     PageIndex=1;
     
     [self loadPlaceCommentList:PlaceId
                     page_index:PageIndex
@@ -213,7 +215,7 @@
     //请求
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@PlaceCommentList?page=%d&pid=%d",ServerURL,PageIndex,PlaceId]];
     
-    NSLog(@"%@",url);
+    NSLog(@"place_detail:%@",url);
     
     placeCommentRequest = [ASIFormDataRequest requestWithURL:url];
     [placeCommentRequest setDelegate:self];
@@ -237,6 +239,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void) addItemsOnTop:(NSArray*)items
 {
+    NSLog(@"addItemsOnTop");
     
     //刷新
     commentList = nil;
@@ -246,15 +249,14 @@
     commentHightList = [NSMutableArray array];
     
     
-    if ([items count]!=0){
+    if ([items count]>0){
         [commentList addObjectsFromArray:items];
-        
         
         if(PageIndex==1)
         {
-            //第一次的时候才刷新
-            comment_count=[[pd objectForKey:@"CommentCount"] intValue];
-            star_count=[[pd objectForKey:@"Star"] intValue];
+            //第一次的时候才刷新,记住：从每次请求中来获得最新的数量
+            comment_count=[[[items objectAtIndex:0] objectForKey:@"CommentCount"] intValue];
+            star_count=[[[items objectAtIndex:0] objectForKey:@"CommentStar"] intValue];
         }
         
         //计算每行高度
@@ -263,7 +265,7 @@
             NSString *txt=[c objectForKey:@"Comment"];
             CGSize titleSize = [txt sizeWithFont:[UIFont systemFontOfSize:15.f]
                                constrainedToSize:CGSizeMake(300, MAXFLOAT)
-                                   lineBreakMode:UILineBreakModeWordWrap];
+                                   lineBreakMode:NSLineBreakByWordWrapping];
             
             [commentHightList addObject:[NSNumber numberWithFloat:(titleSize.height+90.f)]];
         }  
@@ -295,17 +297,17 @@
 - (void) addItemsOnBottom:(NSArray*)items
 {
     
-    if ([items count]!=0){
+    NSLog(@"addItemsOnBottom");
+    
+    if ([items count]>0){
         [commentList addObjectsFromArray:items];
-        
         
         
         if(PageIndex==1)
         {
-            
             NSDictionary *temp=[items objectAtIndex:0];
             comment_count=[[temp objectForKey:@"CommentCount"] intValue];
-            star_count=[[temp objectForKey:@"GoodCount"] intValue];
+            star_count=[[temp objectForKey:@"CommentStar"] intValue];
         }
         
         
@@ -316,7 +318,7 @@
             NSString *txt=[c objectForKey:@"Comment"];
             CGSize titleSize = [txt sizeWithFont:[UIFont systemFontOfSize:15.f]
                                constrainedToSize:CGSizeMake(300, MAXFLOAT)
-                                   lineBreakMode:UILineBreakModeWordWrap];
+                                   lineBreakMode:NSLineBreakByWordWrapping];
             
             [commentHightList addObject:[NSNumber numberWithFloat:(titleSize.height+90.f)]];
         }
@@ -434,6 +436,7 @@
             switch (indexPath.row) {
                 case 0://照片、星星
                 {
+                    
                     cell = [tableView dequeueReusableCellWithIdentifier:@"place_detail_cell_0"];
                     
                     if(cell==nil)
@@ -468,10 +471,11 @@
 
                     ((place_detail_cell0*)cell).placename.text=[pd objectForKey:@"Name"];
                    
-                    //星星数量
-                    ((place_detail_cell0*)cell).star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png",star_count]];
 
                     
+                    //星星数量
+                    ((place_detail_cell0*)cell).star.image=[UIImage imageNamed:[NSString stringWithFormat:@"star_%d.png", comment_count==0?0:star_count/comment_count]];
+       
                     ((place_detail_cell0*)cell).commentcount.text=[NSString stringWithFormat:@"%d人体验",comment_count];
 
                 }
@@ -479,10 +483,11 @@
                     
                 case 1://人均
                 {
+
+                    
                     cell = [tableView dequeueReusableCellWithIdentifier:@"place_detail_cell_5"];
                     
-                    int price=[[pd objectForKey:@"Price"] intValue];
-                    
+
                     if(cell==nil)
                     {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"place_detail_cell_5"];
@@ -512,14 +517,18 @@
                     
                     UILabel *l=(UILabel*)[cell viewWithTag:3000];
                     
-                    if(price>0)
+                    
+                    id price=[pd objectForKey:@"Price"];
+                    if(!price||[price isKindOfClass:[NSNull class]])
                     {
-                        l.text=[NSString stringWithFormat:@"人均：%d",price];
+                         l.text=@"人均：暂无";
                     }
                     else
                     {
-                        l.text=@"人均：暂无";
+                       l.text=[NSString stringWithFormat:@"人均：%d",[price integerValue]];
                     }
+                    
+                    
                 }
                     break;
                     
@@ -580,9 +589,16 @@
                     }
                     
                     
-                    int tel=[[pd objectForKey:@"Phone"] integerValue];
-                    
-                    ((place_detail_tel_cell*)cell).tel.text=tel>0?[NSString stringWithFormat:@"电话：%d",tel]:@"电话：暂无";
+                    id tel=[pd objectForKey:@"Phone"];
+                    if(!tel||[tel isKindOfClass:[NSNull class]])
+                    {
+                        ((place_detail_tel_cell*)cell).tel.text=@"电话：暂无";
+                    }
+                    else
+                    {
+                         ((place_detail_tel_cell*)cell).tel.text=[NSString stringWithFormat:@"电话：%@",tel];
+                    }
+
                     
                 }
                     break;
@@ -596,7 +612,9 @@
                         cell.selectionStyle=UITableViewCellSelectionStyleNone;
                     }
                     
-                    if (manager_count>0)
+                    
+                    /*
+                    if (managerid>0)
                     {
                          UILabel *off=((place_detail_manager_cell*)cell).off;
                          off.text=[pd objectForKey:@"ManagerOff"];
@@ -608,6 +626,7 @@
                         off.textColor=[UIColor grayColor];
                         off.text=@"经理加入";
                     }
+                     */
                     
                 }
                     break;
@@ -634,6 +653,7 @@
             
         case 1:
         {
+            //评论
             cell = [tableView dequeueReusableCellWithIdentifier:@"comment_list_cell"];
             
             if (cell == nil)
@@ -644,14 +664,16 @@
             
             NSDictionary *cd=[commentList objectAtIndex:indexPath.row];
             
+            
+            
+            
+            
             [(place_comment_list_cell*)cell loadCommentDetail:cd
-                                                       Height:[[commentHightList objectAtIndex:indexPath.row] integerValue]];
+                                                      Height:[[commentHightList objectAtIndex:indexPath.row] integerValue]];
         }
             break;
     }
-    
-    
-    
+
     return cell;
 }
 
@@ -776,7 +798,7 @@
 
 -(void)CommentAddFinished
 {
-    comment_count=comment_count+1;
+    //comment_count=comment_count+1;
     [self refresh];
 }
 

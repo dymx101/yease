@@ -30,11 +30,6 @@
         locManager.delegate = self;
         locManager.desiredAccuracy = kCLLocationAccuracyBest;
         
-
-        
-       
-
-        
     }
     return self;
 }
@@ -436,11 +431,9 @@
                  glng:(double)lng
                   tag:(int)t
 {
-    
-    //***************************************************************************************************************************************
+    /*
     //测试
-    
-     
+
     {
     NSString *url=@"http://channel.api.duapp.com/rest/2.0/channel/channel";
     NSString *apikey=@"2zzzSGCV51Hknp9BWEN8Paxi";
@@ -513,8 +506,8 @@
     return;
     
     }
-    
-    /*
+     */
+
     
     PageIndex=pid;
     category_id=cid;
@@ -526,18 +519,18 @@
     
     //请求
     
-    // NSLog(@"========================================%@",url);
+     NSLog(@"place_list:%@",sUrl);
     
     [PlaceRequest clearDelegatesAndCancel];
     PlaceRequest=nil;
-    PlaceRequest = [ASIFormDataRequest requestWithURL:urlEncode];
+    PlaceRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:sUrl]];
     PlaceRequest.tag=t;
     PlaceRequest.timeOutSeconds=TIMEOUT;
     [PlaceRequest setDelegate:self];
-    [PlaceRequest setRequestMethod:@"POST"];
+    [PlaceRequest setRequestMethod:@"GET"];
     [PlaceRequest startAsynchronous];
     
-    */
+   
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -552,12 +545,16 @@
     PlaceList = nil;
     PlaceList = [NSMutableArray array];
     
-    if ([items count]!=0){
+    if ([items count]>0){
         [PlaceList addObjectsFromArray:items];
     }
     
+    
+    
+    
     NSLog(@"items=%d",[items count]);
     
+
     if ([items count]>=10)
     {
         //返回有10条，可以继续加载
@@ -570,6 +567,7 @@
         [self setFooterViewVisibility:NO];
     }
 
+    
     [self.tableView reloadData];
     
     // Call this to indicate that we have finished "refreshing".
@@ -581,7 +579,7 @@
 - (void) addItemsOnBottom:(NSArray*)items
 {
     
-    if ([items count]!=0){
+    if ([items count]>0){
         [PlaceList addObjectsFromArray:items];
     }
     
@@ -808,6 +806,7 @@
         return cell;
     }
 
+    
     
     NSDictionary *PlaceDetail= [PlaceList objectAtIndex:indexPath.row];
     

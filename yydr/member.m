@@ -38,6 +38,8 @@
 #import "AppDelegate.h"
 #import "city_list.h"
 
+#import "place_photo_preview.h"
+
 @interface member ()
 
 @end
@@ -348,7 +350,6 @@
         
     }
 
-    
     
     return cell;
 }

@@ -133,8 +133,9 @@
 -(void)loadCommentDetail:(NSDictionary*)cd Height:(int)height
 {
     
-    NSLog(@"%@",cd);
+    NSLog(@"place_detail_comment_cell:%@",cd);
     
+
     line.center=CGPointMake(160, height);
     
     

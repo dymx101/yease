@@ -34,7 +34,6 @@
 //        
 
 
-        
         //头像
         self.Avatar =[self addImageView:self.contentView
                                  image:@"noAvatar.png"
@@ -59,16 +58,11 @@
                                    text:@""
                                   color:[UIColor blackColor]
                                     tag:0];
-         
-         
+        
         
         self.UserName.shadowColor=[UIColor whiteColor];
         self.UserName.shadowOffset=CGSizeMake(0,1);
 
-        
-        
-        
-        
         
         
         //性别
@@ -96,7 +90,7 @@
         
         //签名
         self.Signature = [self addLabel:self.contentView
-                                 frame:CGRectMake(85, 32, 200, 0)
+                                 frame:CGRectMake(85, 32, 250, 0)
                                   font:[UIFont systemFontOfSize:14]
                                   text:@"从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃从不放弃"
                                  color:[UIColor grayColor]

@@ -11,7 +11,10 @@
 #import "FDStatusBarNotifierView.h"
 #import "dbHelper.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,XMPPStreamDelegate,XMPPRosterDelegate,XMPPReconnectDelegate,FDStatusBarNotifierViewDelegate>
+//百度推送
+#import "BPush.h"
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate,XMPPStreamDelegate,XMPPRosterDelegate,XMPPReconnectDelegate,FDStatusBarNotifierViewDelegate,BPushDelegate>
 {
     UINavigationController *nav;
     

@@ -35,16 +35,10 @@
     if (self) {
         // Custom initialization
         
-        self.view.backgroundColor=[UIColor blackColor];
+        self.view.backgroundColor=[UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1];
     }
     return self;
 }
-
-
-
-
-
-
 
 
 -(void)setPlaceId:(int)pid
@@ -130,7 +124,16 @@
 
     photoCount=[photoList count];
     
-    sv.contentSize=CGSizeMake(sv.frame.size.width*photoCount, sv.frame.size.height);
+    
+    int off=0;
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+    {
+        off=20;
+    }
+
+    
+    sv.contentSize=CGSizeMake(sv.frame.size.width*photoCount, sv.frame.size.height-off);
     sTag=50000;
     
     self.title=[NSString stringWithFormat:@"1/%d",photoCount];

@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>5C221ACD-7EE0-4629-969B-9357AE7248AD</string>
+	<string>8BB34342-2155-402D-AB88-DD4CB43852D5</string>
 	<key>IDESourceControlProjectName</key>
 	<string>yydr</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -17,10 +17,10 @@
 	<string>yydr.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>62DCB5EE-AB09-45E3-A4A4-97F461613E98</key>
-		<string>../../../../../Desktop/夜色/yydr</string>
 		<key>B218AE1B-4580-4823-ADFD-18D9D1108BF2</key>
 		<string>../..</string>
+		<key>E7712EBC-4D6A-4CD8-9449-9FBF1A219F22</key>
+		<string>../../../../../Desktop/夜色/yydr</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/liyitc/yease.git</string>
@@ -42,7 +42,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>62DCB5EE-AB09-45E3-A4A4-97F461613E98</string>
+			<string>E7712EBC-4D6A-4CD8-9449-9FBF1A219F22</string>
 			<key>IDESourceControlWCCName</key>
 			<string>yydr</string>
 		</dict>

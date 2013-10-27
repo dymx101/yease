@@ -124,12 +124,33 @@
 //每行内容
 -(void)loadPlaceDetail:(NSDictionary*)pd
 {
-    int price=[[pd objectForKey:@"Price"] intValue];
-    int manager=[[pd objectForKey:@"ManagerCount"] intValue];
-    int starNum=[[pd objectForKey:@"Star"] intValue];
+
+    id price=[pd objectForKey:@"Price"];
+    
+    if( !price || [price isKindOfClass:[NSNull class]] )
+    {
+        price=@"0";
+    }
 
     
-    int status=[[pd objectForKey:@"AdvStatus"] intValue];
+    
+    id manager=[pd objectForKey:@"ManagerId"];
+    
+    if( !manager || [manager isKindOfClass:[NSNull class]] )
+    {
+        manager=@"0";
+    }
+
+    
+    
+    int CommentCount=[[pd objectForKey:@"CommentCount"] intValue];
+    int CommentStar=[[pd objectForKey:@"CommentStar"] intValue];
+    
+    
+    int starNum=CommentCount==0?0:CommentStar/CommentCount;
+
+    
+    int status= [[pd objectForKey:@"AdvStatus"] intValue];
     
     float ds=[[pd objectForKey:@"Distance"] floatValue];
     
@@ -169,7 +190,7 @@
         }
             break;
     }
-    
+
 
 
     
@@ -208,7 +229,7 @@
     
     if(price>0)
     {
-        self.placePrice.text=[NSString stringWithFormat:@"¥ %d",price];
+        self.placePrice.text=[NSString stringWithFormat:@"¥ %d",[price integerValue]];
         [self.placePrice sizeToFit];
     }
     else
@@ -220,7 +241,7 @@
     //===================================================================================================
     //经理
     
-    if(manager>0)
+    if([manager integerValue] >0)
     {
         //有客户经理
         self.ke.center=CGPointMake(self.placePrice.frame.origin.x+self.placePrice.frame.size.width+15,
@@ -243,6 +264,7 @@
     //相册
     
     NSString *FileName=[pd objectForKey:@"Path"];
+    
     int pid=[[pd objectForKey:@"Id"] integerValue];
     
     if(![FileName isEqual:[NSNull null]])

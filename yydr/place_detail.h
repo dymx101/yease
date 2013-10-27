@@ -50,19 +50,26 @@
     int comment_count;
     int star_count;
     
-    //经理总数
-    int manager_count;
+    //经理id
+    int managerid;
     
     //照片高度
     int photoHeight;
     
     //照片文件名
-    NSString *FileName;
+    id FileName;
     
 
+    UIImageView *StarImageView;
+    UILabel *CommentCountLable;
+    
+    
     BOOL canLoadMore;
     
     ASIHTTPRequest *placeCommentRequest;
+    
+    
+    
 }
 
 - (void)load:(NSDictionary*)dic;

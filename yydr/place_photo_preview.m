@@ -23,8 +23,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
-      
 
     }
     return self;
@@ -32,7 +30,6 @@
 
 -(void)loadImage:(UIImage*)im pid:(int)p
 {
-    
     img=im;
     PlaceId=p;
     
@@ -65,7 +62,9 @@
     self.navigationItem.leftBarButtonItem= [self.view add_back_button:@selector(onBack:)
                                                                target:self];
 
-    self.navigationItem.rightBarButtonItem=[self.view add_ok_button:@selector(onRDown:) target:self];
+    self.navigationItem.rightBarButtonItem=[self.view add_ok_button:@selector(onRDown:)
+                                                             target:self];
+    
 }
 
 
