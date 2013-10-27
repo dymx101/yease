@@ -11,6 +11,9 @@
 
 #import "UIView+iButtonManager.h"
 
+#import <CommonCrypto/CommonDigest.h>
+#import "NSObject+SBJson.h"
+
 @interface place_list ()
 
 @end
@@ -333,6 +336,9 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)r
 {
+    NSLog(@"%@",[r responseString]);
+    
+    
     NSData *jsonData = [r responseData];
     
     NSError *error = nil;
@@ -403,6 +409,22 @@
 }
 
 
+- (NSString *)convertIntoMD5:(NSString *) string{
+    const char *cStr = [string UTF8String];
+    unsigned char digest[16];
+    
+    CC_MD5( cStr, strlen(cStr), digest ); // This is the md5 call
+    
+    NSMutableString *resultString = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [resultString appendFormat:@"%02x", digest[i]];
+    return  resultString;
+}
+
+
+
+
 
 #pragma mark 添加更多 addItemsOnBottom
 - (void)loadPlaceList:(int)cid
@@ -414,6 +436,86 @@
                  glng:(double)lng
                   tag:(int)t
 {
+    
+    //***************************************************************************************************************************************
+    //测试
+    
+     
+    {
+    NSString *url=@"http://channel.api.duapp.com/rest/2.0/channel/channel";
+    NSString *apikey=@"2zzzSGCV51Hknp9BWEN8Paxi";
+    NSString *secretkey=@"BSSSf2IlwfKlwzAxkpPQCxF3houScs1G";
+    NSString *timestamp=[NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+    NSString *deploy_status=@"1";
+    NSString *message_type=@"1";
+    NSString *method=@"push_msg";
+    NSString *device_type=@"4";
+    NSString *push_type=@"3";
+    NSString *messages=@"{\"aps\":{\"alert\":\"夜色\"}}";
+
+    
+    //字母排序啊....
+    NSString *sign=[NSString stringWithFormat:@"POST%@apikey=%@"\
+                    "deploy_status=%@"\
+                    "device_type=%@"\
+                    "message_type=%@"\
+                    "messages=%@"\
+                    "method=%@"\
+                    "msg_keys=%@"\
+                    "push_type=%@"\
+                    "timestamp=%@%@",url,apikey,deploy_status,device_type,message_type,messages,method,timestamp,push_type,timestamp,secretkey];
+    
+
+    //encode一下
+    NSString * encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                   NULL,
+                                                                                   (CFStringRef)sign,
+                                                                                   NULL,
+                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                   kCFStringEncodingUTF8 ));
+    
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    [request setPostValue:apikey
+                   forKey:@"apikey"];
+    
+    [request setPostValue:deploy_status
+                  forKey:@"deploy_status"];
+    
+    [request setPostValue:device_type
+                   forKey:@"device_type"];
+    
+    [request setPostValue:message_type
+                   forKey:@"message_type"];
+
+    [request setPostValue:messages
+                   forKey:@"messages"];
+        
+    [request setPostValue:method
+                   forKey:@"method"];
+    
+    [request setPostValue:timestamp
+                   forKey:@"msg_keys"];
+
+    [request setPostValue:push_type
+                       forKey:@"push_type"];
+        
+    [request setPostValue:timestamp
+                   forKey:@"timestamp"];
+    
+    [request setPostValue:[self convertIntoMD5:encodedString]
+                   forKey:@"sign"];
+    
+    [request setDelegate:self];
+    [request setRequestMethod:@"POST"];
+    [request startAsynchronous];
+    
+    return;
+    
+    }
+    
+    /*
+    
     PageIndex=pid;
     category_id=cid;
     
@@ -421,18 +523,21 @@
     
     NSString *sUrl=[NSString stringWithFormat:@"%@placelist?page=%d&oid=%d&cid=%d&aid=%d&cityid=%d&glat=%f&glng=%f",ServerURL,pid,ob,cid,aid,cityid,lat,lng];
     
+    
     //请求
-    NSURL *url = [NSURL URLWithString:sUrl];
-    NSLog(@"%@",url);
+    
+    // NSLog(@"========================================%@",url);
     
     [PlaceRequest clearDelegatesAndCancel];
     PlaceRequest=nil;
-    PlaceRequest = [ASIFormDataRequest requestWithURL:url];
+    PlaceRequest = [ASIFormDataRequest requestWithURL:urlEncode];
     PlaceRequest.tag=t;
     PlaceRequest.timeOutSeconds=TIMEOUT;
     [PlaceRequest setDelegate:self];
-    [PlaceRequest setRequestMethod:@"GET"];
+    [PlaceRequest setRequestMethod:@"POST"];
     [PlaceRequest startAsynchronous];
+    
+    */
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
